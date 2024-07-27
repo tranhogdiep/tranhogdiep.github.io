@@ -1,35 +1,35 @@
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import * as THREE from 'three';
+import { AddObjectToScene, Init } from './THREESingleton.js';
 
 const loader = new GLTFLoader();
+Init();
 
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setAnimationLoop(animate);
-document.body.appendChild(renderer.domElement);
-
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
 
 // Load a glTF resource
 loader.load('assets/models/menu.glb', (gltf) => {
-    scene.add(gltf.scene);
+    let mat = new THREE.MeshStandardMaterial();
+    console.log("ssss",gltf.scene);
+    AddObjectToScene(gltf.scene)
+    gltf.scene.position.y=-0.4;
+    gltf.scene.traverse((child)=>{
+        if(child.type == "Mesh"){
+            child.castShadow = true;
+            child.receiveShadow = true;
+            // child.material = mat;
+            if(child.name=="Eff02"){
+                console.log(child.material);
+                // child.material.alphaTest = 0.01
+            child.castShadow = false;
+
+            }
+
+        }
+    })
 }
 );
-camera.position.z = 5;
 
 function animate() {
 
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-
-    renderer.render(scene, camera);
 
 }
