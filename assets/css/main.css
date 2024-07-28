@@ -3,25 +3,25 @@ body {
     overflow: hidden;
     font: 14px/2 "Open sans", sans-serif;
     letter-spacing: 0.05em;
+    display: flex;
 }
 
 
 
 .container {
     display: flex;
-    justify-content: flex-start;
-    background-color: #f5f5f5;
-    padding: 20px;
+    /* padding: 20px; */
     height: 100%;
     overflow-y: auto;
-    position: fixed;
+    /* position: fixed; */
     z-index: 3;
     -ms-overflow-style: none;
     scrollbar-width: none;
     /* Firefox */
-    background-color: #2929295c;
+    background-color: #292929;
     justify-content: center; /* Changed to justify-content: center */
     align-items: center; /* Added align-items: center */
+    width: 10%;
 }
 
 .container::-webkit-scrollbar {
@@ -68,6 +68,12 @@ body {
 }
 
 
+.main-content{
+    width: 90%;
+    /* align-content: end; */
+    margin-left: auto;
+    margin-right: 0;
+}
 .btn {
     display: inline-block;
     padding: 13px 20px;
@@ -225,7 +231,6 @@ body {
     font: 300 30px/1.2 "Oswald", sans-serif;
     letter-spacing: 0.35em;
     text-transform: uppercase;
-    padding-left: 80px;
     padding-top: 40px;
 }
 
