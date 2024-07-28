@@ -314,29 +314,31 @@ function HighlightBook(selectedObject) {
         if (currentHighlightBook)
             if (currentHighlightBook.name == selectedObject.parent.name)
                 return;
+
         RemoveSelectedObject();
 
         currentHighlightBook = selectedObject.parent;
-        if (effectStand)
+        if (effectStand){
             effectStand.visible = true;
+        }
         AddSelectedObject(selectedObject.parent)
         if (effectStandTween == null) {
             effectStand.traverse((child) => {
                 if (child.type == "Mesh") {
-                    child.material.emissiveIntensity = 0
+                    child.material.opacity = 0
                 }
             })
             effectStandBook.material.emissiveIntensity = 0
             effectStandTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 2000).start().onComplete(() => {
                 effectStandTween = null;
             }).onUpdate((value) => {
-                effectStandBook.material.emissiveIntensity = value.t*10
-                // effectStand.traverse((child) => {
-                //     if (child.type == "Mesh") {
-                //         child.material.opacity = value.t
-                //         // console.log(child.material.opacity);
-                //     }
-                // })
+                effectStandBook.material.emissiveIntensity = value.t*50
+                effectStand.traverse((child) => {
+                    if (child.type == "Mesh") {
+                        child.material.opacity = value.t
+                        // console.log(child.material.opacity);
+                    }
+                })
             })
         }
     }
@@ -405,13 +407,13 @@ function CreateLights() {
     // const helper = new THREE.CameraHelper(light.shadow.camera);
     // _scene.add(helper);
 
-    const spotLight = new THREE.SpotLight(0xffffff, 150);
+    const spotLight = new THREE.SpotLight(0xffffff, 250);
     spotLight.position.set(0, 5, 0);
     // spotLight.map = new THREE.TextureLoader().load( url );
     // spotLight.lookAt(new THREE.Vector3(0,0,1))
     spotLight.castShadow = true;
-    spotLight.angle = 0.13;
-    spotLight.penumbra = 0.9;
+    spotLight.angle = 0.2;
+    spotLight.penumbra = 0.4;
 
     spotLight.shadow.mapSize.width = 1024;
     spotLight.shadow.mapSize.height = 1024;
