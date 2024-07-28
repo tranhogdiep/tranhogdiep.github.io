@@ -208,6 +208,8 @@ export function Init() {
     _composer.addPass(_outputPass);
     // _composer.addPass(_fxaaPass);
 
+    //test
+    _renderer.domElement.style.display = "none"
 
     SetupRender();
 
@@ -295,7 +297,7 @@ function onDocumentMouseDown(event) {
                 _camera.lookAt(currentHighlightBook.position);
                 _camera.updateProjectionMatrix();
             }).start().onComplete(() => {
-
+                _renderer.domElement.style.display = "none"
             });
         } else {
 
