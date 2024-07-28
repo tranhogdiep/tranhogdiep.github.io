@@ -17,8 +17,16 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import * as TWEEN from 'three/addons/libs/tween.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-var mouseX = 0;
-var mouseY = 0;
+var _scrollYMaterials = [];
+var _scrollXMaterials = [];
+
+var effectOpen;
+var effectStand;
+
+var mousePos = new THREE.Vector2();
+var rayMousePos = new THREE.Vector2();
+var raycaster = new THREE.Raycaster();
+raycaster.layers.set( 1);
 
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
@@ -49,7 +57,9 @@ var _outlinePass;
 var _debugDiv;
 var controls;
 
-
+var renderSettings = {
+    fxaa: true
+}
 var aoParameters = {
     radius: 0.44,
     distanceExponent: 2.38,
@@ -107,19 +117,45 @@ export function Init() {
     _renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     console.log("777");
     CreateLights();
-    
-    controls = new OrbitControls( _camera, _renderer.domElement );
-    
+
+    // controls = new OrbitControls( _camera, _renderer.domElement );
+
     _renderer.setAnimationLoop(() => {
         _deltaTime = _clock.getDelta();
 
-        
-        // _camera.position.x += (mouseX - _camera.position.x) * .05;
-        // _camera.position.y += (- mouseY - _camera.position.y) * .05;
-        // if (_camera.position.y < 1) {
-        //     _camera.position.y = 1;
-        // }
-        // _camera.lookAt(_scene.position);
+        _scrollYMaterials.forEach(mat => {
+            mat.emissiveMap.offset.y += mat.userData.scrollY;
+        });
+        _scrollXMaterials.forEach(mat => {
+            mat.emissiveMap.offset.x += mat.userData.scrollX;
+        });
+
+        _camera.position.x += (((mousePos.x - windowHalfX) / 800) - _camera.position.x) * .05;
+        _camera.position.y += (-((mousePos.y - windowHalfY) / 200) - _camera.position.y) * .05;
+        if (_camera.position.y < 1) {
+            _camera.position.y = 1;
+        }
+        _camera.lookAt(_scene.position);
+
+        raycaster.setFromCamera(rayMousePos, _camera);
+        const intersects = raycaster.intersectObject(_scene, true);
+        if (intersects.length > 0) {
+            const selectedObject = intersects[0].object;
+            console.log(selectedObject);
+            if (selectedObject.parent.name == "BookOpen") {
+                AddSelectedObject(selectedObject.parent)
+                if (effectOpen)
+                    effectOpen.visible = true;
+            }
+            else if (selectedObject.parent.name == "BookStand") {
+                AddSelectedObject(selectedObject.parent)
+            }
+            else {
+                RemoveSelectedObject();
+            }
+        } else {
+            RemoveSelectedObject();
+        }
 
         _elapTime = _clock.getElapsedTime();
         if (!document.hidden)
@@ -155,20 +191,23 @@ export function Init() {
     // bloomPass.threshold = 0.5;
     // bloomPass.strength = 1;
     // bloomPass.radius = params.radius;
+    console.log("_bloomPass", _bloomPass);
 
     _outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), _scene, _camera);
-    _outlinePass.hiddenEdgeColor.set('#ffffff');
+    _outlinePass.hiddenEdgeColor.set('#1aff47');
+    _outlinePass.edgeStrength = 8;
+    _outlinePass.visibleEdgeColor.set('#1aff47');
     console.log("6666", outlineParams);
 
     _outputPass = new OutputPass();
-    _outputPass.enabled = false;
+    _outputPass.enabled = true;
 
     _composer.addPass(_renderPass);
     _composer.addPass(_outlinePass);
     _composer.addPass(_bloomPass);
-    _composer.addPass(_gtaoPass);
+    // _composer.addPass(_gtaoPass);
     _composer.addPass(_outputPass);
-    _composer.addPass(_fxaaPass);
+    // _composer.addPass(_fxaaPass);
 
 
     SetupRender();
@@ -185,6 +224,7 @@ export function Init() {
     document.addEventListener("blur", () => {
         console.log(blur);
     })
+    CreateGUI();
 }
 
 function onWindowResize() {
@@ -215,6 +255,9 @@ function AddUpdateFunction(func) {
 
 export function AddObjectToScene(object) {
     _scene.add(object);
+    if (object.name == "effectOpen") {
+        effectOpen = object;
+    }
 }
 
 function PrintStatus() {
@@ -225,21 +268,40 @@ function PrintStatus() {
 document.addEventListener('mousemove', onDocumentMouseMove);
 function onDocumentMouseMove(event) {
 
-    mouseX = (event.clientX - windowHalfX) / 800;
-    mouseY = (event.clientY - windowHalfY) / 200;
+    mousePos.x = event.clientX;
+    mousePos.y = event.clientY;
+
+    rayMousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
+    rayMousePos.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
 }
 
 function AddSelectedObject(object) {
     if (object)
-        _outlinePass.selectedObjects = [object];
+        _outlinePass.selectedObjects = object.children;
     else
         _outlinePass.selectedObjects = [];
-
+}
+function RemoveSelectedObject() {
+    if (effectOpen)
+        effectOpen.visible = false;
+    AddSelectedObject(null);
+}
+export function AddScrollYMat(mat) {
+    console.log(mat);
+    _scrollYMaterials.push(mat);
+}
+export function AddScrollXMat(newmat) {
+    if (!_scrollXMaterials.some(mat => mat.id === newmat.id)) {
+        console.log("add", newmat.id);
+        _scrollXMaterials.push(newmat);
+        return;
+    }
+    console.log("No add", newmat.id);
 }
 
 function CreateLights() {
-    const light = new THREE.DirectionalLight(0xffffff,3);
+    const light = new THREE.DirectionalLight(0xffffff, 3);
     light.position.set(4, 10, -6); //default; light shining from top
     light.castShadow = true; // default false
     light.shadow.mapSize.width = 4096; // default
@@ -250,7 +312,7 @@ function CreateLights() {
     light.shadow.camera.bottom = -3;
     light.shadow.camera.left = -3;
     light.shadow.camera.right = 3;
-    light.shadow.bias=-0.0002
+    light.shadow.bias = -0.0002
 
 
     // let directTarget = new THREE.Object3D();
@@ -259,8 +321,8 @@ function CreateLights() {
     // _scene.add(directTarget);
     _scene.add(light);
 
-    const helper = new THREE.CameraHelper(light.shadow.camera);
-    _scene.add(helper);
+    // const helper = new THREE.CameraHelper(light.shadow.camera);
+    // _scene.add(helper);
 
     const spotLight = new THREE.SpotLight(0xffffff, 150);
     spotLight.position.set(0, 5, 0);
@@ -281,12 +343,22 @@ function CreateLights() {
     _scene.add(spotLight);
 
     let _hdrEquirectangularMap = new RGBELoader()
-    .load('assets/images/shanghai_bund_1k.hdr', () => {
-        _hdrEquirectangularMap.mapping = THREE.EquirectangularReflectionMapping;
-        _hdrEquirectangularMap.minFilter = THREE.LinearFilter;
-        _hdrEquirectangularMap.magFilter = THREE.LinearFilter;
-        _hdrEquirectangularMap.needsUpdate = true;
-        _scene.environment = _hdrEquirectangularMap;
-        // THREESingleton.Ins().Scene.background = this._hdrEquirectangularMap;
+        .load('assets/images/shanghai_bund_1k.hdr', () => {
+            _hdrEquirectangularMap.mapping = THREE.EquirectangularReflectionMapping;
+            _hdrEquirectangularMap.minFilter = THREE.LinearFilter;
+            _hdrEquirectangularMap.magFilter = THREE.LinearFilter;
+            _hdrEquirectangularMap.needsUpdate = true;
+            _scene.environment = _hdrEquirectangularMap;
+            // THREESingleton.Ins().Scene.background = this._hdrEquirectangularMap;
+        });
+}
+
+function CreateGUI() {
+    _gui.add(renderSettings, 'fxaa').onChange((value) => {
+        if (value)
+            _composer.addPass(_fxaaPass);
+        else
+            _composer.removePass(_fxaaPass);
+
     });
 }
