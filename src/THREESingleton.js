@@ -329,7 +329,7 @@ function HighlightBook(selectedObject) {
                 }
             })
             effectStandBook.material.emissiveIntensity = 0
-            effectStandTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 2000).start().onComplete(() => {
+            effectStandTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 1000).start().onComplete(() => {
                 effectStandTween = null;
             }).onUpdate((value) => {
                 effectStandBook.material.emissiveIntensity = value.t*50
