@@ -10,6 +10,8 @@ LoadModels();
 function LoadModels(){
 // Load a glTF resource
 loader.load('assets/models/menu.glb', (gltf) => {
+    gltf.scene.name = "mainscene";
+
     AddObjectToScene(gltf.scene)
     gltf.scene.position.y = -0.4;
     gltf.scene.layers.enable( 1 );
@@ -33,8 +35,22 @@ loader.load('assets/models/menu.glb', (gltf) => {
 
 // Load a glTF resource
 loader.load('assets/models/effectOpen.glb', (gltf) => {
-    console.log("ssss", gltf.scene);
+    console.log("effectOpen", gltf.scene);
     gltf.scene.name = "effectOpen";
+    gltf.scene.layers.enable( 3 );
+    AddObjectToScene(gltf.scene)
+    gltf.scene.position.y = -0.4;
+    gltf.scene.traverse((child) => {
+        child.layers.enable( 3 );
+        console.log(child.layers);
+        if (child.type == "Mesh") {
+            CheckObjectsTpye(child)
+        }
+    })
+});
+loader.load('assets/models/effectStand.glb', (gltf) => {
+    console.log("ssss", gltf.scene);
+    gltf.scene.name = "effectStand";
     gltf.scene.layers.enable( 3 );
     AddObjectToScene(gltf.scene)
     gltf.scene.position.y = -0.4;

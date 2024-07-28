@@ -17,16 +17,20 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import * as TWEEN from 'three/addons/libs/tween.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+var currentHighlightBook;
 var _scrollYMaterials = [];
 var _scrollXMaterials = [];
 
 var effectOpen;
 var effectStand;
+var effectStandBook;
+var effectOpenTween;
+var effectStandTween;
 
 var mousePos = new THREE.Vector2();
 var rayMousePos = new THREE.Vector2();
 var raycaster = new THREE.Raycaster();
-raycaster.layers.set( 1);
+raycaster.layers.set(1);
 
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
@@ -141,19 +145,14 @@ export function Init() {
         const intersects = raycaster.intersectObject(_scene, true);
         if (intersects.length > 0) {
             const selectedObject = intersects[0].object;
-            console.log(selectedObject);
-            if (selectedObject.parent.name == "BookOpen") {
-                AddSelectedObject(selectedObject.parent)
-                if (effectOpen)
-                    effectOpen.visible = true;
-            }
-            else if (selectedObject.parent.name == "BookStand") {
-                AddSelectedObject(selectedObject.parent)
+            if (selectedObject.parent.name == "BookOpen" || selectedObject.parent.name == "BookStand") {
+                HighlightBook(selectedObject);
             }
             else {
                 RemoveSelectedObject();
             }
-        } else {
+        }
+        else {
             RemoveSelectedObject();
         }
 
@@ -188,10 +187,6 @@ export function Init() {
     _gtaoPass.enabled = false;
 
     _bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.3, 0.4, 0.95);
-    // bloomPass.threshold = 0.5;
-    // bloomPass.strength = 1;
-    // bloomPass.radius = params.radius;
-    console.log("_bloomPass", _bloomPass);
 
     _outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), _scene, _camera);
     _outlinePass.hiddenEdgeColor.set('#1aff47');
@@ -258,6 +253,16 @@ export function AddObjectToScene(object) {
     if (object.name == "effectOpen") {
         effectOpen = object;
     }
+    else if (object.name == "effectStand") {
+        effectStand = object;
+    }
+    else if(object.name == "mainscene"){
+        object.traverse((child) => {
+            if (child.name == "StandBook") {
+                effectStandBook = child;
+            }
+        })
+    }
 }
 
 function PrintStatus() {
@@ -275,7 +280,67 @@ function onDocumentMouseMove(event) {
     rayMousePos.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
 }
+function HighlightBook(selectedObject) {
+    if (selectedObject.parent.name == "BookOpen") {
+        if (currentHighlightBook)
+            if (currentHighlightBook.name == selectedObject.parent.name)
+                return;
+        RemoveSelectedObject();
+        console.log("highlight", selectedObject.parent.name);
+        currentHighlightBook = selectedObject.parent;
+        AddSelectedObject(selectedObject.parent)
+        if (effectOpen)
+            effectOpen.visible = true;
 
+        if (effectOpenTween == null) {
+            effectOpen.traverse((child) => {
+                if (child.type == "Mesh") {
+                    child.material.opacity = 0
+                }
+            })
+            effectOpenTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 2000).start().onComplete(() => {
+                effectOpenTween = null;
+            }).onUpdate((value) => {
+                effectOpen.traverse((child) => {
+                    if (child.type == "Mesh") {
+                        child.material.opacity = value.t
+                        // console.log(child.material.opacity);
+                    }
+                })
+            })
+        }
+    }
+    else if (selectedObject.parent.name == "BookStand") {
+        if (currentHighlightBook)
+            if (currentHighlightBook.name == selectedObject.parent.name)
+                return;
+        RemoveSelectedObject();
+
+        currentHighlightBook = selectedObject.parent;
+        if (effectStand)
+            effectStand.visible = true;
+        AddSelectedObject(selectedObject.parent)
+        if (effectStandTween == null) {
+            effectStand.traverse((child) => {
+                if (child.type == "Mesh") {
+                    child.material.emissiveIntensity = 0
+                }
+            })
+            effectStandBook.material.emissiveIntensity = 0
+            effectStandTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 2000).start().onComplete(() => {
+                effectStandTween = null;
+            }).onUpdate((value) => {
+                effectStandBook.material.emissiveIntensity = value.t*10
+                // effectStand.traverse((child) => {
+                //     if (child.type == "Mesh") {
+                //         child.material.opacity = value.t
+                //         // console.log(child.material.opacity);
+                //     }
+                // })
+            })
+        }
+    }
+}
 function AddSelectedObject(object) {
     if (object)
         _outlinePass.selectedObjects = object.children;
@@ -285,7 +350,23 @@ function AddSelectedObject(object) {
 function RemoveSelectedObject() {
     if (effectOpen)
         effectOpen.visible = false;
+    if (effectOpenTween) {
+        effectOpenTween.stop();
+        effectOpenTween = null;
+    }
+    if (effectStand){
+        effectStand.visible = false;
+    }
+    if(effectStandBook)
+        effectStandBook.material.emissiveIntensity = 0
+
+    if (effectStandTween) {
+        effectStandTween.stop();
+        effectStandTween = null;
+
+    }
     AddSelectedObject(null);
+    currentHighlightBook = null;
 }
 export function AddScrollYMat(mat) {
     console.log(mat);
