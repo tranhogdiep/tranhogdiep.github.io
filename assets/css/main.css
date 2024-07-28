@@ -1,15 +1,74 @@
-body{
+body {
     margin: 0px;
     overflow: hidden;
+    font: 14px/2 "Open sans", sans-serif;
+    letter-spacing: 0.05em;
 }
 
 
-body {
-    font: 14px/2 "Open sans", sans-serif;
-    letter-spacing: 0.05em;
-  }
-  
-  .btn {
+
+.container {
+    display: flex;
+    justify-content: flex-start;
+    background-color: #f5f5f5;
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+    position: fixed;
+    z-index: 3;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* Firefox */
+    background-color: #2929295c;
+    justify-content: center; /* Changed to justify-content: center */
+    align-items: center; /* Added align-items: center */
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
+.image-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 300px;
+    /* position: fixed;
+        z-index: 3; */
+}
+
+.image-button {
+    border: none;
+    background-color: transparent;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transform-origin: center center;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.image-button img {
+    max-width: 100px;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.image-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.image-button:hover img {
+    transform: scale(1.1);
+}
+
+
+.btn {
     display: inline-block;
     padding: 13px 20px;
     color: #fff;
@@ -23,9 +82,9 @@ body {
     text-indent: 2px;
     text-transform: uppercase;
     transition: color 0.1s linear 0.05s;
-  }
-  
-  .btn::before {
+}
+
+.btn::before {
     content: "";
     display: block;
     position: absolute;
@@ -37,60 +96,60 @@ body {
     z-index: 1;
     opacity: 0;
     transition: height 0.2s ease, top 0.2s ease, opacity 0s linear 0.2s;
-  }
-  
-  .btn::after {
+}
+
+.btn::after {
     transition: border 0.1s linear 0.05s;
-  }
-  
-  .btn .btn-inner {
+}
+
+.btn .btn-inner {
     position: relative;
     z-index: 2;
-  }
-  
-  .btn:hover {
+}
+
+.btn:hover {
     color: #373737;
     transition: color 0.1s linear 0s;
-  }
-  
-  .btn:hover::before {
+}
+
+.btn:hover::before {
     top: 0;
     height: 100%;
     opacity: 1;
     transition: height 0.2s ease, top 0.2s ease, opacity 0s linear 0s;
-  }
-  
-  .btn:hover::after {
+}
+
+.btn:hover::after {
     border-color: #373737;
     transition: border 0.1s linear 0s;
-  }
-  
-  .slideshow {
+}
+
+.slideshow {
     overflow: hidden;
     position: relative;
     width: 100%;
     height: 100vh;
     z-index: 1;
-  }
-  
-  .slideshow .slideshow-inner {
+}
+
+.slideshow .slideshow-inner {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-  }
-  
-  .slideshow .slides {
+}
+
+.slideshow .slides {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
-  }
-  
-  .slideshow .slide {
+}
+
+.slideshow .slide {
     display: none;
     overflow: hidden;
     position: absolute;
@@ -102,21 +161,21 @@ body {
     opacity: 0;
     transition: opacity 0.3s ease;
     background-color: #212121;
-  }
-  
-  .slideshow .slide.is-active {
+}
+
+.slideshow .slide.is-active {
     display: block;
-  }
-  
-  .slideshow .slide.is-loaded {
+}
+
+.slideshow .slide.is-loaded {
     opacity: 1;
-  }
-  
-  .slideshow .slide .caption {
+}
+
+.slideshow .slide .caption {
     padding: 0 100px;
-  }
-  
-  .slideshow .slide .image-container {
+}
+
+.slideshow .slide .image-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -126,9 +185,9 @@ body {
     z-index: 1;
     background-size: cover;
     image-rendering: optimizeQuality;
-  }
-  
-  .slideshow .slide .image-container::before {
+}
+
+.slideshow .slide .image-container::before {
     content: "";
     display: block;
     position: absolute;
@@ -137,16 +196,16 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-  }
-  
-  .slideshow .slide .image {
+}
+
+.slideshow .slide .image {
     width: 100%;
     width: 100%;
     object-fit: scale-down;
     height: 100%;
-  }
-  
-  .slideshow .slide-content {
+}
+
+.slideshow .slide-content {
     position: absolute;
     top: 10px;
     left: 0px;
@@ -158,33 +217,35 @@ body {
     display: flex;
     /* justify-content: center; */
     align-items: center;
-  }
-  
-  .slideshow .slide .title {
+}
+
+.slideshow .slide .title {
     margin: 0 auto 15px;
     max-width: 1000px;
     font: 300 30px/1.2 "Oswald", sans-serif;
     letter-spacing: 0.35em;
     text-transform: uppercase;
-  }
-  
-  .slideshow .slide .text {
+    padding-left: 80px;
+    padding-top: 40px;
+}
+
+.slideshow .slide .text {
     margin: 0 auto;
     max-width: 1000px;
     font-size: 18px;
     line-height: 1.4;
-  }
-  
-  .slideshow .slide .btn {
+}
+
+.slideshow .slide .btn {
     margin: 15px 0 0;
     border-color: #fff;
-  }
-  
-  .slideshow .slide .btn::before {
+}
+
+.slideshow .slide .btn::before {
     background: #fff;
-  }
-  
-  .slideshow .pagination {
+}
+
+.slideshow .pagination {
     position: absolute;
     bottom: 35px;
     left: 0;
@@ -193,9 +254,9 @@ body {
     cursor: default;
     z-index: 2;
     text-align: center;
-  }
-  
-  .slideshow .pagination .item {
+}
+
+.slideshow .pagination .item {
     display: inline-block;
     padding: 15px 5px;
     position: relative;
@@ -204,13 +265,13 @@ body {
     cursor: pointer;
     text-indent: -999em;
     z-index: 1;
-  }
-  
-  .slideshow .pagination .item + .page {
+}
+
+.slideshow .pagination .item+.page {
     margin-left: -2px;
-  }
-  
-  .slideshow .pagination .item::before {
+}
+
+.slideshow .pagination .item::before {
     content: "";
     display: block;
     position: absolute;
@@ -220,50 +281,50 @@ body {
     height: 2px;
     background: rgba(255, 255, 255, 0.5);
     transition: background 0.2s ease;
-  }
-  
-  .slideshow .pagination .item::after {
+}
+
+.slideshow .pagination .item::after {
     width: 0;
     background: #fff;
     z-index: 2;
     transition: width 0.2s ease;
-  }
-  
-  .slideshow .pagination .item:hover::before,
-  .slideshow .pagination .item.is-active::before {
+}
+
+.slideshow .pagination .item:hover::before,
+.slideshow .pagination .item.is-active::before {
     background-color: #fff;
-  }
-  
-  .slideshow .arrows .arrow {
+}
+
+.slideshow .arrows .arrow {
     margin: -33px 0 0;
     padding: 20px;
     position: absolute;
     top: 50%;
     cursor: pointer;
     z-index: 3;
-  }
-  
-  .slideshow .arrows .prev {
+}
+
+.slideshow .arrows .prev {
     left: 30px;
-  }
-  
-  .slideshow .arrows .prev:hover .svg {
+}
+
+.slideshow .arrows .prev:hover .svg {
     left: -10px;
-  }
-  
-  .slideshow .arrows .next {
+}
+
+.slideshow .arrows .next {
     right: 30px;
-  }
-  
-  .slideshow .arrows .next:hover .svg {
+}
+
+.slideshow .arrows .next:hover .svg {
     left: 10px;
-  }
-  
-  .slideshow .arrows .svg {
+}
+
+.slideshow .arrows .svg {
     position: relative;
     left: 0;
     width: 14px;
     height: 26px;
     fill: #fff;
     transition: left 0.2s ease;
-  }
+}

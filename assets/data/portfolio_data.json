@@ -1,0 +1,120 @@
+[
+    {
+        "name": "CSCĐ",
+        "thumbnail": "assets/images/portfolios/CSCD/1.jpg",
+        "contents":[
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/1.jpg"
+            },
+            {
+                "type": "youtube",
+                "source": "https://www.youtube.com/watch?list=PLICxGZNKAaRnsQQam8rw1D-P7PTfFM3F0&v=_8mEaJUv_sE"
+            },
+            {
+                "type": "youtube",
+                "source": "https://www.youtube.com/watch?list=PLICxGZNKAaRnsQQam8rw1D-P7PTfFM3F0&v=bYfSurDYGUA"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/2.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/3.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/4.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/5.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/6.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/7.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/8.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/CSCD/9.jpg"
+            }
+        ]
+    },
+    {
+        "name": "Wall-E",
+        "thumbnail": "assets/images/portfolios/Wall-E/1.jpg",
+        "contents":[
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/Wall-E/1.jpg"
+            },
+            {
+                "type": "youtube",
+                "source": "https://www.youtube.com/watch?v=BmjE_4wrrBY"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/Wall-E/2.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/Wall-E/3.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/Wall-E/4.jpg"
+            }
+        ]
+    },
+    {
+        "name": "DT-02",
+        "thumbnail": "assets/images/portfolios/DT-02/tran-hong-diep-1.jpg",
+        "contents":[
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/DT-02/tran-hong-diep-1.jpg"
+            },
+            {
+                "type": "youtube",
+                "source": "https://www.youtube.com/watch?v=3fisT2wBEdQ"
+            },
+            {
+                "type": "youtube",
+                "source": "https://www.youtube.com/watch?v=y8KyH5IKDpI"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/DT-02/tran-hong-diep-3.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/DT-02/tran-hong-diep-4.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/DT-02/tran-hong-diep-6.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/DT-02/tran-hong-diep-7.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/DT-02/tran-hong-diep-8.jpg"
+            },
+            {
+                "type": "img",
+                "source": "assets/images/portfolios/DT-02/tran-hong-diep-9.jpg"
+            }
+        ]
+    }
+]
