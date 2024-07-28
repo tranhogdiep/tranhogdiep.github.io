@@ -17,6 +17,8 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import * as TWEEN from 'three/addons/libs/tween.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+var isChangingMode = false;
+
 var currentHighlightBook;
 var _scrollYMaterials = [];
 var _scrollXMaterials = [];
@@ -134,26 +136,28 @@ export function Init() {
             mat.emissiveMap.offset.x += mat.userData.scrollX;
         });
 
-        _camera.position.x += (((mousePos.x - windowHalfX) / 800) - _camera.position.x) * .05;
-        _camera.position.y += (-((mousePos.y - windowHalfY) / 200) - _camera.position.y) * .05;
-        if (_camera.position.y < 1) {
-            _camera.position.y = 1;
-        }
-        _camera.lookAt(_scene.position);
+        if (isChangingMode == false) {
+            _camera.position.x += (((mousePos.x - windowHalfX) / 800) - _camera.position.x) * .05;
+            _camera.position.y += (-((mousePos.y - windowHalfY) / 200) - _camera.position.y) * .05;
+            if (_camera.position.y < 1) {
+                _camera.position.y = 1;
+            }
+            _camera.lookAt(_scene.position);
 
-        raycaster.setFromCamera(rayMousePos, _camera);
-        const intersects = raycaster.intersectObject(_scene, true);
-        if (intersects.length > 0) {
-            const selectedObject = intersects[0].object;
-            if (selectedObject.parent.name == "BookOpen" || selectedObject.parent.name == "BookStand") {
-                HighlightBook(selectedObject);
+            raycaster.setFromCamera(rayMousePos, _camera);
+            const intersects = raycaster.intersectObject(_scene, true);
+            if (intersects.length > 0) {
+                const selectedObject = intersects[0].object;
+                if (selectedObject.parent.name == "BookOpen" || selectedObject.parent.name == "BookStand") {
+                    HighlightBook(selectedObject);
+                }
+                else {
+                    RemoveSelectedObject();
+                }
             }
             else {
                 RemoveSelectedObject();
             }
-        }
-        else {
-            RemoveSelectedObject();
         }
 
         _elapTime = _clock.getElapsedTime();
@@ -256,7 +260,7 @@ export function AddObjectToScene(object) {
     else if (object.name == "effectStand") {
         effectStand = object;
     }
-    else if(object.name == "mainscene"){
+    else if (object.name == "mainscene") {
         object.traverse((child) => {
             if (child.name == "StandBook") {
                 effectStandBook = child;
@@ -270,7 +274,8 @@ function PrintStatus() {
     _renderer.info.reset();
 }
 
-document.addEventListener('mousemove', onDocumentMouseMove);
+document.addEventListener('pointermove', onDocumentMouseMove);
+document.addEventListener('pointerdown', onDocumentMouseDown);
 function onDocumentMouseMove(event) {
 
     mousePos.x = event.clientX;
@@ -279,6 +284,23 @@ function onDocumentMouseMove(event) {
     rayMousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
     rayMousePos.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
+}
+function onDocumentMouseDown(event) {
+    if (currentHighlightBook) {
+        if (currentHighlightBook.name == "BookOpen") {
+            isChangingMode = true;
+
+            new TWEEN.Tween({ t: 30 }).to({ t: 0 }, 2000).easing(TWEEN.Easing.Back.In).onUpdate((value) => {
+                _camera.fov = value.t;
+                _camera.lookAt(currentHighlightBook.position);
+                _camera.updateProjectionMatrix();
+            }).start().onComplete(() => {
+
+            });
+        } else {
+
+        }
+    }
 }
 function HighlightBook(selectedObject) {
     if (selectedObject.parent.name == "BookOpen") {
@@ -318,7 +340,7 @@ function HighlightBook(selectedObject) {
         RemoveSelectedObject();
 
         currentHighlightBook = selectedObject.parent;
-        if (effectStand){
+        if (effectStand) {
             effectStand.visible = true;
         }
         AddSelectedObject(selectedObject.parent)
@@ -332,7 +354,7 @@ function HighlightBook(selectedObject) {
             effectStandTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 1000).start().onComplete(() => {
                 effectStandTween = null;
             }).onUpdate((value) => {
-                effectStandBook.material.emissiveIntensity = value.t*50
+                effectStandBook.material.emissiveIntensity = value.t * 50
                 effectStand.traverse((child) => {
                     if (child.type == "Mesh") {
                         child.material.opacity = value.t
@@ -356,10 +378,10 @@ function RemoveSelectedObject() {
         effectOpenTween.stop();
         effectOpenTween = null;
     }
-    if (effectStand){
+    if (effectStand) {
         effectStand.visible = false;
     }
-    if(effectStandBook)
+    if (effectStandBook)
         effectStandBook.material.emissiveIntensity = 0
 
     if (effectStandTween) {
@@ -444,4 +466,7 @@ function CreateGUI() {
             _composer.removePass(_fxaaPass);
 
     });
+    // _gui.add(_camera,"fov",0,500).onChange((value)=>{
+    //     _camera.updateProjectionMatrix();
+    // });
 }
