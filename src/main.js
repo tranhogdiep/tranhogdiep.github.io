@@ -62,20 +62,20 @@ loader.load('assets/models/effectStand.glb', (gltf) => {
         }
     })
 });
-loader.load('assets/models/RunEffect.glb', (gltf) => {
-    console.log("ssss", gltf.scene);
-    gltf.scene.name = "RunEffect";
-    gltf.scene.layers.enable( 3 );
-    AddObjectToScene(gltf.scene)
-    gltf.scene.position.y = -0.4;
-    gltf.scene.traverse((child) => {
-        child.layers.enable( 3 );
-        console.log(child.layers);
-        if (child.type == "Mesh") {
-            CheckObjectsTpye(child)
-        }
-    })
-});
+// loader.load('assets/models/RunEffect.glb', (gltf) => {
+//     console.log("ssss", gltf.scene);
+//     gltf.scene.name = "RunEffect";
+//     gltf.scene.layers.enable( 3 );
+//     AddObjectToScene(gltf.scene)
+//     gltf.scene.position.y = -0.4;
+//     gltf.scene.traverse((child) => {
+//         child.layers.enable( 3 );
+//         console.log(child.layers);
+//         if (child.type == "Mesh") {
+//             CheckObjectsTpye(child)
+//         }
+//     })
+// });
 }
 function CheckObjectsTpye(child) {
     if ((child).material.userData.scrollY) {

@@ -18,6 +18,7 @@ import * as TWEEN from 'three/addons/libs/tween.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 var isChangingMode = false;
+var hiding = false;
 
 var currentHighlightBook;
 var _scrollYMaterials = [];
@@ -126,52 +127,7 @@ export function Init() {
 
     // controls = new OrbitControls( _camera, _renderer.domElement );
 
-    _renderer.setAnimationLoop(() => {
-        _deltaTime = _clock.getDelta();
-
-        _scrollYMaterials.forEach(mat => {
-            mat.emissiveMap.offset.y += mat.userData.scrollY;
-        });
-        _scrollXMaterials.forEach(mat => {
-            mat.emissiveMap.offset.x += mat.userData.scrollX;
-        });
-
-        if (isChangingMode == false) {
-            _camera.position.x += (((mousePos.x - windowHalfX) / 800) - _camera.position.x) * .05;
-            _camera.position.y += (-((mousePos.y - windowHalfY) / 200) - _camera.position.y) * .05;
-            if (_camera.position.y < 1) {
-                _camera.position.y = 1;
-            }
-            _camera.lookAt(_scene.position);
-
-            raycaster.setFromCamera(rayMousePos, _camera);
-            const intersects = raycaster.intersectObject(_scene, true);
-            if (intersects.length > 0) {
-                const selectedObject = intersects[0].object;
-                if (selectedObject.parent.name == "BookOpen" || selectedObject.parent.name == "BookStand") {
-                    HighlightBook(selectedObject);
-                }
-                else {
-                    RemoveSelectedObject();
-                }
-            }
-            else {
-                RemoveSelectedObject();
-            }
-        }
-
-        _elapTime = _clock.getElapsedTime();
-        if (!document.hidden)
-            TWEEN.update();
-        _updateFunctions.forEach(element => {
-            element(_deltaTime, _elapTime);
-        });
-
-        // NodeToyMaterial.tick();
-        Render();
-        _stats.update();
-        // PrintStatus();
-    });
+    _renderer.setAnimationLoop(Update);
     document.body.appendChild(_renderer.domElement)
 
 
@@ -208,9 +164,6 @@ export function Init() {
     _composer.addPass(_outputPass);
     // _composer.addPass(_fxaaPass);
 
-    //test
-    _renderer.domElement.style.display = "none"
-
     SetupRender();
 
     _debugDiv = document.createElement('div');
@@ -226,6 +179,54 @@ export function Init() {
         console.log(blur);
     })
     CreateGUI();
+}
+
+function Update(){
+    if(hiding) return;
+    _deltaTime = _clock.getDelta();
+
+    _scrollYMaterials.forEach(mat => {
+        mat.emissiveMap.offset.y += mat.userData.scrollY;
+    });
+    _scrollXMaterials.forEach(mat => {
+        mat.emissiveMap.offset.x += mat.userData.scrollX;
+    });
+
+    if (isChangingMode == false) {
+        _camera.position.x += (((mousePos.x - windowHalfX) / 800) - _camera.position.x) * .05;
+        _camera.position.y += (-((mousePos.y - windowHalfY) / 200) - _camera.position.y) * .05;
+        if (_camera.position.y < 1) {
+            _camera.position.y = 1;
+        }
+        _camera.lookAt(_scene.position);
+
+        raycaster.setFromCamera(rayMousePos, _camera);
+        const intersects = raycaster.intersectObject(_scene, true);
+        if (intersects.length > 0) {
+            const selectedObject = intersects[0].object;
+            if (selectedObject.parent.name == "BookOpen" || selectedObject.parent.name == "BookStand") {
+                HighlightBook(selectedObject);
+            }
+            else {
+                RemoveSelectedObject();
+            }
+        }
+        else {
+            RemoveSelectedObject();
+        }
+    }
+
+    _elapTime = _clock.getElapsedTime();
+    if (!document.hidden)
+        TWEEN.update();
+    _updateFunctions.forEach(element => {
+        element(_deltaTime, _elapTime);
+    });
+
+    // NodeToyMaterial.tick();
+    Render();
+    _stats.update();
+    // PrintStatus();
 }
 
 function onWindowResize() {
@@ -297,7 +298,9 @@ function onDocumentMouseDown(event) {
                 _camera.lookAt(currentHighlightBook.position);
                 _camera.updateProjectionMatrix();
             }).start().onComplete(() => {
-                _renderer.domElement.style.display = "none"
+                hiding = true;
+                _renderer.domElement.style.display = "none";
+                GetPortfolioData();
             });
         } else {
 

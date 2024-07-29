@@ -2,7 +2,7 @@ var slideshowDuration = 1;
 var slideshow = $('.main-content .slideshow');
 
 var portfolio_data;
-$(document).ready(() => {
+function GetPortfolioData() {
     fetch("assets/data/portfolio_data.json")
         .then(res => res.json())
         .then((out) => {
@@ -12,7 +12,7 @@ $(document).ready(() => {
             Init();
         })
         .catch(err => { throw err });
-});
+};
 
 
 function CreateProjectList() {
