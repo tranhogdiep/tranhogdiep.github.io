@@ -23,7 +23,10 @@ function CreateProjectList() {
 }
 function CreateProjectButton(project) {
     let projectDiv = document.getElementById("projectlist")
-    let btn = document.createElement("button")
+    let btn = document.createElement("li")
+    btn.addEventListener("click",()=>{
+        ActiveProject(project);
+    })
     btn.project_data = project
     btn.classList.add("image-button")
     let img = document.createElement("img")
@@ -33,6 +36,7 @@ function CreateProjectButton(project) {
 }
 
 function ActiveProject(project) {
+    ClearContent();
     for (let i = 0; i < project.contents.length; i++) {
         if (i == 0) {
             CreateImage(project.contents[i], project.name, true)
@@ -46,6 +50,8 @@ function ActiveProject(project) {
         }
 
     }
+    Init();
+
 }
 
 function CreateImage(content, name, isActive = false) {
@@ -81,12 +87,12 @@ function CreateImage(content, name, isActive = false) {
 
 
 
-    if (content.type == "youtube") {
+    if (content.includes("youtube")) {
         // Create the iframe element
         const youtubeIframe = document.createElement('iframe');
         // youtubeIframe.width = '100%';
         // youtubeIframe.height = '100%';
-        youtubeIframe.src = content.source;
+        youtubeIframe.src = content;
         youtubeIframe.title = 'YouTube video player';
         youtubeIframe.frameborder = '0';
         youtubeIframe.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
@@ -100,7 +106,7 @@ function CreateImage(content, name, isActive = false) {
     // Create the image element
     const imageElement = document.createElement('img');
     imageElement.classList.add('image');
-    imageElement.src = content.source;
+    imageElement.src = content;
     imageElement.alt = '';
     imageContainerDiv.appendChild(imageElement);
     }
@@ -130,6 +136,20 @@ function CreatePagination(index, isActive = false) {
     document.getElementById("pagination").appendChild(itemDiv);
 }
 
+function ClearContent(){
+    RemoveAllChildren(document.getElementById("pagination"));
+    RemoveAllChildren(document.getElementById("slides"));
+}
+function RemoveAllChildren(element){
+    if (!(element instanceof Element)) {
+        throw new Error('clearChildren() requires an Element object as the argument');
+      }
+    
+      // Remove all child nodes from the element
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
+}
 
 
 function slideshowSwitch(slideshow, index, auto) {
@@ -351,7 +371,7 @@ function Init() {
     //     slideshowNext(slideshow, false, false);
     // }, slideshowDuration);
 
-    slideshow.data('timeout', timeout);
+    // slideshow.data('timeout', timeout);
 };
 
 if ($('.main-content .slideshow').length > 1) {

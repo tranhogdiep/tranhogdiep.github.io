@@ -2,119 +2,203 @@
     {
         "name": "CSCĐ",
         "thumbnail": "assets/images/portfolios/CSCD/1.jpg",
-        "contents":[
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/1.jpg"
-            },
-            {
-                "type": "youtube",
-                "source": "https://www.youtube.com/embed?list=PLICxGZNKAaRnsQQam8rw1D-P7PTfFM3F0&v=_8mEaJUv_sE"
-            },
-            {
-                "type": "youtube",
-                "source": "https://www.youtube.com/embed?list=PLICxGZNKAaRnsQQam8rw1D-P7PTfFM3F0&v=bYfSurDYGUA"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/2.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/3.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/4.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/5.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/6.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/7.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/8.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/CSCD/9.jpg"
-            }
+        "contents": [
+            "assets/images/portfolios/CSCD/1.jpg",
+            "https://www.youtube.com/embed/_8mEaJUv_sE?si=FMBItXyW3JBna56N",
+            "https://www.youtube.com/embed/bYfSurDYGUA?si=ZQwPDOTbGrfjd8se",
+            "assets/images/portfolios/CSCD/2.jpg",
+            "assets/images/portfolios/CSCD/3.jpg",
+            "assets/images/portfolios/CSCD/4.jpg",
+            "assets/images/portfolios/CSCD/5.jpg",
+            "assets/images/portfolios/CSCD/6.jpg",
+            "assets/images/portfolios/CSCD/7.jpg",
+            "assets/images/portfolios/CSCD/8.jpg",
+            "assets/images/portfolios/CSCD/9.jpg"
         ]
     },
     {
         "name": "Wall-E",
         "thumbnail": "assets/images/portfolios/Wall-E/1.jpg",
-        "contents":[
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/Wall-E/1.jpg"
-            },
-            {
-                "type": "youtube",
-                "source": "https://www.youtube.com/watch?v=BmjE_4wrrBY"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/Wall-E/2.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/Wall-E/3.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/Wall-E/4.jpg"
-            }
+        "contents": [
+            "assets/images/portfolios/Wall-E/1.jpg",
+            "https://www.youtube.com/embed/BmjE_4wrrBY?si=_IPzjpbBoHK2q-jC",
+            "assets/images/portfolios/Wall-E/2.jpg",
+            "assets/images/portfolios/Wall-E/3.jpg",
+            "assets/images/portfolios/Wall-E/4.jpg"
+        ]
+    },
+    {
+        "name": "Witch's desk",
+        "thumbnail": "assets/images/portfolios/Witchs-desk/2.gif",
+        "contents": [
+            "assets/images/portfolios/Witchs-desk/1.jpg",
+            "assets/images/portfolios/Witchs-desk/2.gif",
+            "assets/images/portfolios/Witchs-desk/3.jpg"
         ]
     },
     {
         "name": "DT-02",
         "thumbnail": "assets/images/portfolios/DT-02/tran-hong-diep-1.jpg",
-        "contents":[
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/DT-02/tran-hong-diep-1.jpg"
-            },
-            {
-                "type": "youtube",
-                "source": "https://www.youtube.com/watch?v=3fisT2wBEdQ"
-            },
-            {
-                "type": "youtube",
-                "source": "https://www.youtube.com/watch?v=y8KyH5IKDpI"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/DT-02/tran-hong-diep-3.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/DT-02/tran-hong-diep-4.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/DT-02/tran-hong-diep-6.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/DT-02/tran-hong-diep-7.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/DT-02/tran-hong-diep-8.jpg"
-            },
-            {
-                "type": "img",
-                "source": "assets/images/portfolios/DT-02/tran-hong-diep-9.jpg"
-            }
+        "contents": [
+            "assets/images/portfolios/DT-02/tran-hong-diep-1.jpg",
+            "https://www.youtube.com/embed/y8KyH5IKDpI?si=doxcZ-lumkvXchut",
+            "https://www.youtube.com/embed/y8KyH5IKDpI?si=QGxFbKHsexpW4GvE",
+            "assets/images/portfolios/DT-02/tran-hong-diep-3.jpg",
+            "assets/images/portfolios/DT-02/tran-hong-diep-4.jpg",
+            "assets/images/portfolios/DT-02/tran-hong-diep-6.jpg",
+            "assets/images/portfolios/DT-02/tran-hong-diep-7.jpg",
+            "assets/images/portfolios/DT-02/tran-hong-diep-8.jpg",
+            "assets/images/portfolios/DT-02/tran-hong-diep-9.jpg"
+        ]
+    },
+    {
+        "name": "CG-01",
+        "thumbnail": "assets/images/portfolios/CG-01/1.jpg",
+        "contents": [
+            "assets/images/portfolios/CG-01/1.jpg",
+            "assets/images/portfolios/CG-01/2.jpg",
+            "assets/images/portfolios/CG-01/3.jpg",
+            "assets/images/portfolios/CG-01/4.jpg",
+            "assets/images/portfolios/CG-01/5.jpg",
+            "assets/images/portfolios/CG-01/6.jpg"
+        ]
+    },
+    {
+        "name": "A-19",
+        "thumbnail": "assets/images/portfolios/A-19/1.jpg",
+        "contents": [
+            "assets/images/portfolios/A-19/1.jpg",
+            "https://www.youtube.com/embed/5VpSrGbjtLo?si=_2ZRrySvqJUrYQWx",
+            "assets/images/portfolios/A-19/2.jpg",
+            "assets/images/portfolios/A-19/3.jpg",
+            "assets/images/portfolios/A-19/4.jpg"
+        ]
+    },
+    {
+        "name": "Louis Moinet “Meteoris",
+        "thumbnail": "assets/images/portfolios/Meteoris/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Meteoris/1.jpg",
+            "assets/images/portfolios/Meteoris/2.jpg",
+            "assets/images/portfolios/Meteoris/3.jpg"
+        ]
+    },
+    {
+        "name": "Not Akali",
+        "thumbnail": "assets/images/portfolios/Not-Akali/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Not-Akali/1.jpg",
+            "https://www.youtube.com/embed/396vg4hLuzs?si=l9LAEJ4ySOr4RwUc",
+            "assets/images/portfolios/Not-Akali/2.jpg",
+            "assets/images/portfolios/Not-Akali/3.jpg",
+            "assets/images/portfolios/Not-Akali/4.jpg"
+        ]
+    },
+    {
+        "name": "Karl Ruprect Kroenen",
+        "thumbnail": "assets/images/portfolios/Kroenen/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Kroenen/1.jpg",
+            "assets/images/portfolios/Kroenen/2.jpg",
+            "assets/images/portfolios/Kroenen/3.jpg",
+            "assets/images/portfolios/Kroenen/4.jpg",
+            "assets/images/portfolios/Kroenen/5.jpg",
+            "assets/images/portfolios/Kroenen/6.jpg",
+            "assets/images/portfolios/Kroenen/7.jpg",
+            "assets/images/portfolios/Kroenen/8.jpg",
+            "assets/images/portfolios/Kroenen/9.jpg",
+            "assets/images/portfolios/Kroenen/10.jpg",
+            "assets/images/portfolios/Kroenen/11.jpg",
+            "assets/images/portfolios/Kroenen/12.jpg"
+        ]
+    },
+    {
+        "name": "!Real Face - Real Thug Life",
+        "thumbnail": "assets/images/portfolios/Real-Thug-Life/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Real-Thug-Life/1.jpg",
+            "assets/images/portfolios/Real-Thug-Life/2.jpg",
+            "assets/images/portfolios/Real-Thug-Life/3.jpg",
+            "https://www.youtube.com/embed/iTqtUqUFFB4?si=V-9T9F1DFG0ukdyx",
+            "assets/images/portfolios/Real-Thug-Life/4.jpg",
+            "assets/images/portfolios/Real-Thug-Life/5.jpg",
+            "assets/images/portfolios/Real-Thug-Life/6.jpg"
+        ]
+    },
+    {
+        "name": "Old Cistern",
+        "thumbnail": "assets/images/portfolios/Old-Cistern/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Old-Cistern/1.jpg",
+            "https://www.youtube.com/embed/4tMqcynygpU?si=52i3BjDZ_E_ilTq6",
+            "assets/images/portfolios/Old-Cistern/2.jpg",
+            "assets/images/portfolios/Old-Cistern/3.jpg",
+            "assets/images/portfolios/Old-Cistern/4.jpg"
+        ]
+    },
+    {
+        "name": "Corn and Childhoods",
+        "thumbnail": "assets/images/portfolios/Corn-and-childhoods/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Corn-and-childhoods/1.jpg",
+            "assets/images/portfolios/Corn-and-childhoods/2.jpg",
+            "assets/images/portfolios/Corn-and-childhoods/3.jpg",
+            "https://www.youtube.com/embed/zTHEfQ416MQ?si=IlbDVP6UDt7EnAdH",
+            "assets/images/portfolios/Corn-and-childhoods/4.jpg",
+            "assets/images/portfolios/Corn-and-childhoods/5.jpg",
+            "assets/images/portfolios/Corn-and-childhoods/6.jpg",
+            "assets/images/portfolios/Corn-and-childhoods/7.gif",
+            "assets/images/portfolios/Corn-and-childhoods/8.jpg",
+            "assets/images/portfolios/Corn-and-childhoods/9.jpg"
+        ]
+    },
+    {
+        "name": "Soldier RedX",
+        "thumbnail": "assets/images/portfolios/Soldier-RedX/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Soldier-RedX/1.jpg",
+            "assets/images/portfolios/Soldier-RedX/2.jpg"
+        ]
+    },
+    {
+        "name": "Pearl Silver Armor",
+        "thumbnail": "assets/images/portfolios/Pearl-Silver-Armor/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Pearl-Silver-Armor/1.jpg",
+            "assets/images/portfolios/Pearl-Silver-Armor/2.jpg",
+            "assets/images/portfolios/Pearl-Silver-Armor/3.jpg",
+            "assets/images/portfolios/Pearl-Silver-Armor/4.jpg",
+            "assets/images/portfolios/Pearl-Silver-Armor/5.jpg",
+            "assets/images/portfolios/Pearl-Silver-Armor/6.jpg",
+            "assets/images/portfolios/Pearl-Silver-Armor/7.jpg",
+            "assets/images/portfolios/Pearl-Silver-Armor/8.jpg"
+        ]
+    },
+    {
+        "name": "Gloves Infinity",
+        "thumbnail": "assets/images/portfolios/Gloves-Infinity/1.jpg",
+        "contents": [
+            "assets/images/portfolios/Gloves-Infinity/1.jpg"
+        ]
+    },
+    {
+        "name": "Cyberpunk lass 2 cover",
+        "thumbnail": "assets/images/portfolios/Cyberpunk-lass/3.jpg",
+        "contents": [
+            "assets/images/portfolios/Cyberpunk-lass/1.jpg",
+            "assets/images/portfolios/Cyberpunk-lass/2.jpg",
+            "assets/images/portfolios/Cyberpunk-lass/3.jpg",
+            "assets/images/portfolios/Cyberpunk-lass/4.jpg"
+        ]
+    },
+    {
+        "name": "After the city",
+        "thumbnail": "assets/images/portfolios/After-the-city/2.gif",
+        "contents": [
+"assets/images/portfolios/After-the-city/1.jpg",
+"assets/images/portfolios/After-the-city/2.gif",
+"assets/images/portfolios/After-the-city/3.jpg",
+"assets/images/portfolios/After-the-city/4.jpg"
         ]
     }
 ]
