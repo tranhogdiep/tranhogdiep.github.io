@@ -4,41 +4,41 @@ body {
     font: 14px/2 "Open sans", sans-serif;
     letter-spacing: 0.05em;
     display: flex;
+    background-color: #292929;
 }
 
 
 
 .container {
-    display: flex;
-    /* padding: 20px; */
-    height: 100%;
-    overflow-y: auto;
-    /* position: fixed; */
-    z-index: 3;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    /* Firefox */
-    background-color: #292929;
-    justify-content: center;
-    /* Changed to justify-content: center */
-    align-items: center;
-    /* Added align-items: center */
     width: 10%;
-}
+    height: 100vh;
+    overflow: auto;
+    /* Hide scrollbar */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+    scrollbar-width: none; /* Firefox */
+    margin: auto;
+    border: none;
+  }
 
-.container::-webkit-scrollbar {
-    display: none;
-    /* Safari and Chrome */
-}
 
-.image-button-container {
+  .container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+
+.button-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .button-list li {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: 300px;
-    /* position: fixed;
-        z-index: 3; */
-}
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+  }
+
 
 .image-button {
     border: none;
@@ -47,8 +47,8 @@ body {
     cursor: pointer;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     transform-origin: center center;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
     width: 100%;
 }
 
@@ -57,7 +57,7 @@ body {
     height: auto;
     transition: transform 0.3s ease-in-out;
     border-radius: 10px;
-    width: 100%;
+    width: 80%;
 }
 
 .image-button:hover {
@@ -65,9 +65,9 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.image-button:hover img {
+/* .image-button:hover img {
     transform: scale(1.1);
-}
+} */
 
 
 .main-content {
