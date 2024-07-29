@@ -18,7 +18,7 @@
     },
     {
         "name": "Wall-E",
-        "thumbnail": "assets/images/portfolios/Wall-E/1.jpg",
+        "thumbnail": "assets/images/portfolios/Wall-E/1t.jpg",
         "contents": [
             "assets/images/portfolios/Wall-E/1.jpg",
             "https://www.youtube.com/embed/BmjE_4wrrBY?si=_IPzjpbBoHK2q-jC",
@@ -29,7 +29,7 @@
     },
     {
         "name": "Witch's desk",
-        "thumbnail": "assets/images/portfolios/Witchs-desk/2.gif",
+        "thumbnail": "assets/images/portfolios/Witchs-desk/2t.gif",
         "contents": [
             "assets/images/portfolios/Witchs-desk/1.jpg",
             "assets/images/portfolios/Witchs-desk/2.gif",
@@ -38,7 +38,7 @@
     },
     {
         "name": "DT-02",
-        "thumbnail": "assets/images/portfolios/DT-02/tran-hong-diep-1.jpg",
+        "thumbnail": "assets/images/portfolios/DT-02/tran-hong-diep-1 _t.jpg",
         "contents": [
             "assets/images/portfolios/DT-02/tran-hong-diep-1.jpg",
             "https://www.youtube.com/embed/y8KyH5IKDpI?si=doxcZ-lumkvXchut",
@@ -53,7 +53,7 @@
     },
     {
         "name": "CG-01",
-        "thumbnail": "assets/images/portfolios/CG-01/1.jpg",
+        "thumbnail": "assets/images/portfolios/CG-01/1_t.jpg",
         "contents": [
             "assets/images/portfolios/CG-01/1.jpg",
             "assets/images/portfolios/CG-01/2.jpg",
@@ -65,7 +65,7 @@
     },
     {
         "name": "A-19",
-        "thumbnail": "assets/images/portfolios/A-19/1.jpg",
+        "thumbnail": "assets/images/portfolios/A-19/1_t.jpg",
         "contents": [
             "assets/images/portfolios/A-19/1.jpg",
             "https://www.youtube.com/embed/5VpSrGbjtLo?si=_2ZRrySvqJUrYQWx",
@@ -76,7 +76,7 @@
     },
     {
         "name": "Louis Moinet “Meteoris",
-        "thumbnail": "assets/images/portfolios/Meteoris/1.jpg",
+        "thumbnail": "assets/images/portfolios/Meteoris/1t.jpg",
         "contents": [
             "assets/images/portfolios/Meteoris/1.jpg",
             "assets/images/portfolios/Meteoris/2.jpg",
@@ -85,7 +85,7 @@
     },
     {
         "name": "Not Akali",
-        "thumbnail": "assets/images/portfolios/Not-Akali/1.jpg",
+        "thumbnail": "assets/images/portfolios/Not-Akali/1t.jpg",
         "contents": [
             "assets/images/portfolios/Not-Akali/1.jpg",
             "https://www.youtube.com/embed/396vg4hLuzs?si=l9LAEJ4ySOr4RwUc",
@@ -96,7 +96,7 @@
     },
     {
         "name": "Karl Ruprect Kroenen",
-        "thumbnail": "assets/images/portfolios/Kroenen/1.jpg",
+        "thumbnail": "assets/images/portfolios/Kroenen/1t.jpg",
         "contents": [
             "assets/images/portfolios/Kroenen/1.jpg",
             "assets/images/portfolios/Kroenen/2.jpg",
@@ -114,7 +114,7 @@
     },
     {
         "name": "!Real Face - Real Thug Life",
-        "thumbnail": "assets/images/portfolios/Real-Thug-Life/1.jpg",
+        "thumbnail": "assets/images/portfolios/Real-Thug-Life/1t.jpg",
         "contents": [
             "assets/images/portfolios/Real-Thug-Life/1.jpg",
             "assets/images/portfolios/Real-Thug-Life/2.jpg",
@@ -138,7 +138,7 @@
     },
     {
         "name": "Corn and Childhoods",
-        "thumbnail": "assets/images/portfolios/Corn-and-childhoods/1.jpg",
+        "thumbnail": "assets/images/portfolios/Corn-and-childhoods/1_t.jpg",
         "contents": [
             "assets/images/portfolios/Corn-and-childhoods/1.jpg",
             "assets/images/portfolios/Corn-and-childhoods/2.jpg",
@@ -154,7 +154,7 @@
     },
     {
         "name": "Soldier RedX",
-        "thumbnail": "assets/images/portfolios/Soldier-RedX/1.jpg",
+        "thumbnail": "assets/images/portfolios/Soldier-RedX/1t.jpg",
         "contents": [
             "assets/images/portfolios/Soldier-RedX/1.jpg",
             "assets/images/portfolios/Soldier-RedX/2.jpg"
@@ -162,7 +162,7 @@
     },
     {
         "name": "Pearl Silver Armor",
-        "thumbnail": "assets/images/portfolios/Pearl-Silver-Armor/1.jpg",
+        "thumbnail": "assets/images/portfolios/Pearl-Silver-Armor/1t.jpg",
         "contents": [
             "assets/images/portfolios/Pearl-Silver-Armor/1.jpg",
             "assets/images/portfolios/Pearl-Silver-Armor/2.jpg",
@@ -176,14 +176,14 @@
     },
     {
         "name": "Gloves Infinity",
-        "thumbnail": "assets/images/portfolios/Gloves-Infinity/1.jpg",
+        "thumbnail": "assets/images/portfolios/Gloves-Infinity/1t.jpg",
         "contents": [
             "assets/images/portfolios/Gloves-Infinity/1.jpg"
         ]
     },
     {
         "name": "Cyberpunk lass 2 cover",
-        "thumbnail": "assets/images/portfolios/Cyberpunk-lass/3.jpg",
+        "thumbnail": "assets/images/portfolios/Cyberpunk-lass/3_t.jpg",
         "contents": [
             "assets/images/portfolios/Cyberpunk-lass/1.jpg",
             "assets/images/portfolios/Cyberpunk-lass/2.jpg",
@@ -193,12 +193,12 @@
     },
     {
         "name": "After the city",
-        "thumbnail": "assets/images/portfolios/After-the-city/2.gif",
+        "thumbnail": "assets/images/portfolios/After-the-city/2t.gif",
         "contents": [
-"assets/images/portfolios/After-the-city/1.jpg",
-"assets/images/portfolios/After-the-city/2.gif",
-"assets/images/portfolios/After-the-city/3.jpg",
-"assets/images/portfolios/After-the-city/4.jpg"
+            "assets/images/portfolios/After-the-city/1.jpg",
+            "assets/images/portfolios/After-the-city/2.gif",
+            "assets/images/portfolios/After-the-city/3.jpg",
+            "assets/images/portfolios/After-the-city/4.jpg"
         ]
     }
 ]
