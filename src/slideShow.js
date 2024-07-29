@@ -1,18 +1,17 @@
 var slideshowDuration = 1;
 var slideshow = $('.main-content .slideshow');
-var slides = $("#slides");
-var pages = slideshow.find(".pagination");
+
 var portfolio_data;
-$(document).ready(()=> {
+$(document).ready(() => {
     fetch("assets/data/portfolio_data.json")
-    .then(res => res.json())
-    .then((out) => {
-        portfolio_data = out;
-        console.log(portfolio_data);
-        CreateProjectList();
-        Init();
-    })
-    .catch(err => { throw err });
+        .then(res => res.json())
+        .then((out) => {
+            portfolio_data = out;
+            console.log(portfolio_data);
+            CreateProjectList();
+            Init();
+        })
+        .catch(err => { throw err });
 });
 
 
@@ -35,7 +34,6 @@ function CreateProjectButton(project) {
 
 function ActiveProject(project) {
     for (let i = 0; i < project.contents.length; i++) {
-        if(project.contents[i].type == "youtube") continue;
         if (i == 0) {
             CreateImage(project.contents[i], project.name, true)
             CreatePagination(i, true);
@@ -81,13 +79,32 @@ function CreateImage(content, name, isActive = false) {
     imageContainerDiv.classList.add('image-container');
     slideDiv.appendChild(imageContainerDiv);
 
+
+
+    if (content.type == "youtube") {
+        // Create the iframe element
+        const youtubeIframe = document.createElement('iframe');
+        // youtubeIframe.width = '100%';
+        // youtubeIframe.height = '100%';
+        youtubeIframe.src = content.source;
+        youtubeIframe.title = 'YouTube video player';
+        youtubeIframe.frameborder = '0';
+        youtubeIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        youtubeIframe.referrerPolicy = 'strict-origin-when-cross-origin';
+        youtubeIframe.allowFullscreen = true;
+        youtubeIframe.classList.add("iframe");
+        imageContainerDiv.appendChild(youtubeIframe);
+    }
+    else{
     // Create the image element
     const imageElement = document.createElement('img');
     imageElement.classList.add('image');
     imageElement.src = content.source;
     imageElement.alt = '';
     imageContainerDiv.appendChild(imageElement);
-    slides.append(slideDiv);
+    }
+    document.getElementById("slides").appendChild(slideDiv);
+
 }
 function CreatePagination(index, isActive = false) {
     // Create the item div
@@ -109,7 +126,7 @@ function CreatePagination(index, isActive = false) {
     // Append the icon span to the item div
     itemDiv.appendChild(iconSpan);
 
-    pages.append(itemDiv);
+    document.getElementById("pagination").appendChild(itemDiv);
 }
 
 
@@ -117,6 +134,8 @@ function CreatePagination(index, isActive = false) {
 function slideshowSwitch(slideshow, index, auto) {
     if (slideshow.data('wait')) return;
 
+    var slides = slideshow.find('.slide');
+    var pages = slideshow.find('.pagination');
     var activeSlide = slides.filter('.is-active');
     var activeSlideImage = activeSlide.find('.image-container');
     var newSlide = slides.eq(index);
@@ -262,6 +281,7 @@ function slideshowSwitch(slideshow, index, auto) {
 }
 
 function slideshowNext(slideshow, previous, auto) {
+    var slides = slideshow.find('.slide');
     var activeSlide = slides.filter('.is-active');
     var newSlide = null;
     if (previous) {
@@ -320,9 +340,9 @@ function Init() {
       });
     */
 
-    var timeout = setTimeout(function () {
-        slideshowNext(slideshow, false, true);
-    }, slideshowDuration);
+    // var timeout = setTimeout(function () {
+    //     slideshowNext(slideshow, false, false);
+    // }, slideshowDuration);
 
     slideshow.data('timeout', timeout);
 };
