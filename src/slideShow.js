@@ -89,9 +89,10 @@ function CreateImage(content, name, isActive = false) {
         youtubeIframe.src = content.source;
         youtubeIframe.title = 'YouTube video player';
         youtubeIframe.frameborder = '0';
-        youtubeIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        youtubeIframe.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
         youtubeIframe.referrerPolicy = 'strict-origin-when-cross-origin';
         youtubeIframe.allowFullscreen = true;
+        youtubeIframe.allowscriptaccess ="always"
         youtubeIframe.classList.add("iframe");
         imageContainerDiv.appendChild(youtubeIframe);
     }
@@ -283,6 +284,12 @@ function slideshowSwitch(slideshow, index, auto) {
 function slideshowNext(slideshow, previous, auto) {
     var slides = slideshow.find('.slide');
     var activeSlide = slides.filter('.is-active');
+    if(activeSlide.length>0){
+        let youtube = activeSlide.find(".iframe")
+        if(youtube.length>0){
+            pauseYoutubeIframe(youtube[0])
+        }
+    }
     var newSlide = null;
     if (previous) {
         newSlide = activeSlide.prev('.slide');
@@ -350,3 +357,13 @@ function Init() {
 if ($('.main-content .slideshow').length > 1) {
     $(window).on('scroll', homeSlideshowParallax);
 }
+function pauseYoutubeIframe(iframe) {
+    // // Get the YouTube player instance
+    // const player = new YT.Player(iframe);
+  
+    // // Pause the video
+    // player.pauseVideo();
+
+    // iframe.contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+    iframe.src = iframe.src;
+  }
