@@ -5,6 +5,8 @@
     <title>Page Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/libs/TweenMax.min.js"></script>
+    <script type="text/javascript" id="www-widgetapi-script" src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflS50iB-/www-widgetapi.js" async=""></script>
+    <script src="https://www.youtube.com/player_api"></script>
     <link rel="stylesheet" href="assets/css/main.css">
     <script type="importmap">
     {
@@ -18,70 +20,17 @@
 
 <body>
     <script type="module" src="src/main.js"></script>
-    <script src="src/slideShow.js"></script>
     <div class="container">
       <div id="projectlist" class="image-button-container">
       </div>
     </div>
 
     <main class="main-content">
-      <section class="slideshow">
+      <section id="slideshow" class="slideshow">
         <div class="slideshow-inner">
-          <div class="slides">
-            <div class="slide is-active ">
-              <div class="slide-content">
-                <div class="caption">
-                  <div class="title">Slide title 1</div>
-                </div>
-              </div>
-              <div class="image-container"> 
-                <img src="assets/images/portfolios/DT-02/tran-hong-diep-1.jpg" alt="" class="image" />
-              </div>
-            </div>
-            <div class="slide">
-              <div class="slide-content">
-                <div class="caption">
-                  <div class="title">Slide title 2</div>
-                </div>
-              </div>
-              <div class="image-container">
-                <img src="assets/images/portfolios/DT-02/tran-hong-diep-3.jpg" alt="" class="image" />
-              </div>
-            </div>
-            <div class="slide">
-              <div class="slide-content">
-                <div class="caption">
-                  <div class="title">Slide title 3</div>
-                </div>
-              </div>
-              <div class="image-container">
-                <img src="assets/images/portfolios/DT-02/tran-hong-diep-4.jpg" alt="" class="image" />
-              </div>
-            </div>
-            <div class="slide">
-              <div class="slide-content">
-                <div class="caption">
-                  <div class="title">Slide title 4</div>
-                </div>
-              </div>
-              <div class="image-container"> 
-                <img src="assets/images/portfolios/DT-02/tran-hong-diep-6.jpg" alt="" class="image" />
-              </div>
-            </div>
+          <div id="slides" class="slides">
           </div>
-          <div class="pagination">
-            <div class="item is-active"> 
-              <span class="icon">1</span>
-            </div>
-            <div class="item">
-              <span class="icon">2</span>
-            </div>
-            <div class="item">
-              <span class="icon">3</span>
-            </div>
-            <div class="item">
-              <span class="icon">4</span>
-            </div>
+          <div id="pagination" class="pagination">
           </div>
           <div class="arrows">
             <div class="arrow prev">
@@ -100,6 +49,8 @@
         </div> 
       </section>
     </main>
+    <script src="src/slideShow.js"></script>
+
 </body>
 
 </html>

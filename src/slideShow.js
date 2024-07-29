@@ -2,33 +2,135 @@ var slideshowDuration = 1;
 var slideshow = $('.main-content .slideshow');
 
 var portfolio_data;
+$(document).ready(() => {
+    fetch("assets/data/portfolio_data.json")
+        .then(res => res.json())
+        .then((out) => {
+            portfolio_data = out;
+            console.log(portfolio_data);
+            CreateProjectList();
+            Init();
+        })
+        .catch(err => { throw err });
+});
 
-fetch("assets/data/portfolio_data.json")
-.then(res => res.json())
-.then((out) => {
-    portfolio_data = out;
-    console.log(portfolio_data);
-    CreateProjectList();
-})
-.catch(err => { throw err });
 
-function CreateProjectList(){
+function CreateProjectList() {
     portfolio_data.forEach(project => {
         CreateProjectButton(project);
-        CreateProjectButton(project);
-        CreateProjectButton(project);
     });
+    ActiveProject(portfolio_data[0]);
 }
-function CreateProjectButton(project){
+function CreateProjectButton(project) {
     let projectDiv = document.getElementById("projectlist")
     let btn = document.createElement("button")
-    btn.project_data=project
+    btn.project_data = project
     btn.classList.add("image-button")
     let img = document.createElement("img")
     img.src = project.thumbnail;
     btn.appendChild(img)
     projectDiv.appendChild(btn)
 }
+
+function ActiveProject(project) {
+    for (let i = 0; i < project.contents.length; i++) {
+        if (i == 0) {
+            CreateImage(project.contents[i], project.name, true)
+            CreatePagination(i, true);
+
+        }
+        else {
+            CreateImage(project.contents[i], project.name)
+            CreatePagination(i);
+
+        }
+
+    }
+}
+
+function CreateImage(content, name, isActive = false) {
+    // Create the slide div
+    const slideDiv = document.createElement('div');
+    if (isActive) {
+        slideDiv.classList.add('slide');
+        slideDiv.classList.add('is-active');
+    } else {
+        slideDiv.classList.add('slide');
+    }
+
+    // Create the slide-content div
+    const slideContentDiv = document.createElement('div');
+    slideContentDiv.classList.add('slide-content');
+    slideDiv.appendChild(slideContentDiv);
+
+    // Create the caption div
+    const captionDiv = document.createElement('div');
+    captionDiv.classList.add('caption');
+    slideContentDiv.appendChild(captionDiv);
+
+    // Create the title div
+    const titleDiv = document.createElement('div');
+    titleDiv.classList.add('title');
+    titleDiv.textContent = name;
+    captionDiv.appendChild(titleDiv);
+
+    // Create the image-container div
+    const imageContainerDiv = document.createElement('div');
+    imageContainerDiv.classList.add('image-container');
+    slideDiv.appendChild(imageContainerDiv);
+
+
+
+    if (content.type == "youtube") {
+        // Create the iframe element
+        const youtubeIframe = document.createElement('iframe');
+        // youtubeIframe.width = '100%';
+        // youtubeIframe.height = '100%';
+        youtubeIframe.src = content.source;
+        youtubeIframe.title = 'YouTube video player';
+        youtubeIframe.frameborder = '0';
+        youtubeIframe.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        youtubeIframe.referrerPolicy = 'strict-origin-when-cross-origin';
+        youtubeIframe.allowFullscreen = true;
+        youtubeIframe.allowscriptaccess ="always"
+        youtubeIframe.classList.add("iframe");
+        imageContainerDiv.appendChild(youtubeIframe);
+    }
+    else{
+    // Create the image element
+    const imageElement = document.createElement('img');
+    imageElement.classList.add('image');
+    imageElement.src = content.source;
+    imageElement.alt = '';
+    imageContainerDiv.appendChild(imageElement);
+    }
+    document.getElementById("slides").appendChild(slideDiv);
+
+}
+function CreatePagination(index, isActive = false) {
+    // Create the item div
+    const itemDiv = document.createElement('div');
+    if (isActive) {
+        itemDiv.classList.add('item');
+        itemDiv.classList.add('is-active');
+    }
+    else {
+        itemDiv.classList.add('item');
+
+    }
+
+    // Create the icon span
+    const iconSpan = document.createElement('span');
+    iconSpan.classList.add('icon');
+    iconSpan.textContent = index;
+
+    // Append the icon span to the item div
+    itemDiv.appendChild(iconSpan);
+
+    document.getElementById("pagination").appendChild(itemDiv);
+}
+
+
 
 function slideshowSwitch(slideshow, index, auto) {
     if (slideshow.data('wait')) return;
@@ -182,6 +284,12 @@ function slideshowSwitch(slideshow, index, auto) {
 function slideshowNext(slideshow, previous, auto) {
     var slides = slideshow.find('.slide');
     var activeSlide = slides.filter('.is-active');
+    if(activeSlide.length>0){
+        let youtube = activeSlide.find(".iframe")
+        if(youtube.length>0){
+            pauseYoutubeIframe(youtube[0])
+        }
+    }
     var newSlide = null;
     if (previous) {
         newSlide = activeSlide.prev('.slide');
@@ -209,7 +317,7 @@ function homeSlideshowParallax() {
     });
 }
 
-$(document).ready(function () {
+function Init() {
     $('.slide').addClass('is-loaded');
 
     $('.slideshow .arrows .arrow').on('click', function () {
@@ -239,13 +347,23 @@ $(document).ready(function () {
       });
     */
 
-    var timeout = setTimeout(function () {
-        slideshowNext(slideshow, false, true);
-    }, slideshowDuration);
+    // var timeout = setTimeout(function () {
+    //     slideshowNext(slideshow, false, false);
+    // }, slideshowDuration);
 
     slideshow.data('timeout', timeout);
-});
+};
 
 if ($('.main-content .slideshow').length > 1) {
     $(window).on('scroll', homeSlideshowParallax);
 }
+function pauseYoutubeIframe(iframe) {
+    // // Get the YouTube player instance
+    // const player = new YT.Player(iframe);
+  
+    // // Pause the video
+    // player.pauseVideo();
+
+    // iframe.contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+    iframe.src = iframe.src;
+  }
