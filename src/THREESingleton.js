@@ -31,7 +31,16 @@ var effectStandBook;
 var effectOpenTween;
 var effectStandTween;
 
+var openPorTween;
+var openPorTweenUI;
+var openMenuTween;
+var openMenuTweenUI;
+
 var openPos;
+
+var cameraTermPos = new THREE.Vector3();
+var cameraTermRot = new THREE.Quaternion();
+var cameraOldRot = new THREE.Quaternion();
 
 var mousePos = new THREE.Vector2();
 var rayMousePos = new THREE.Vector2();
@@ -119,6 +128,7 @@ export function Init() {
     _camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 10000)
     _camera.rotation.set(-0.27, 0, 0);
     _camera.position.set(0, 0.91, 2.07);
+    cameraTermPos.copy(_camera.position);
     _scene.add(_camera);
     console.log(_camera);
 
@@ -129,6 +139,7 @@ export function Init() {
     _renderer.setSize(window.innerWidth, window.innerHeight);
     _renderer.shadowMap.enabled = true;
     _renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    _renderer.domElement.style.zIndex = 3;
     _renderer.domElement.addEventListener('pointermove', onDocumentMouseMove);
     _renderer.domElement.addEventListener('pointerdown', onDocumentMouseDown);
     console.log("777");
@@ -180,12 +191,20 @@ function Update() {
     });
 
     if (isChangingMode == false) {
-        _camera.position.x += (((mousePos.x - windowHalfX) / 800) - _camera.position.x) * .05;
-        _camera.position.y += (-((mousePos.y - windowHalfY) / 200) - _camera.position.y) * .05;
+        cameraTermPos.x += (((mousePos.x - windowHalfX) / 800) - cameraTermPos.x) * .05;
+        cameraTermPos.y += (-((mousePos.y - windowHalfY) / 200) - cameraTermPos.y) * .05;
+        cameraTermPos.z = _camera.position.z;
+        _camera.position.lerp(cameraTermPos, 0.1);
         if (_camera.position.y < 0.6) {
             _camera.position.y = 0.6;
         }
+        cameraOldRot.copy(_camera.quaternion);
         _camera.lookAt(_scene.position);
+        _camera.updateProjectionMatrix();
+
+        cameraTermRot.copy(_camera.quaternion);
+        _camera.quaternion.copy(cameraOldRot);
+        _camera.quaternion.slerp(cameraTermRot,0.1);
 
         raycaster.setFromCamera(rayMousePos, _camera);
         const intersects = raycaster.intersectObject(_scene, true);
@@ -213,7 +232,7 @@ function Update() {
     _composer.render();
 
     _stats.update();
-    PrintStatus();
+    // PrintStatus();
 }
 
 function onWindowResize() {
@@ -224,8 +243,7 @@ function onWindowResize() {
 
     // _bloomPass.setSize(window.innerWidth, window.innerHeight);
     _renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-    Render()
+    _composer.setSize(window.innerWidth, window.innerHeight);
 }
 function SetupRender() {
     window.addEventListener('resize', () => { onWindowResize() }, false)
@@ -265,16 +283,23 @@ function onDocumentMouseMove(event) {
     rayMousePos.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
 }
+function StopAllTween() {
+    openMenuTween?.stop();
+    openMenuTweenUI?.stop();
+    openPorTween?.stop();
+    openPorTweenUI?.stop();
+}
 function onDocumentMouseDown(event) {
     if (currentHighlightBook) {
         if (currentHighlightBook.name == "BookOpen") {
+            StopAllTween();
             isChangingMode = true;
             let oldRot = _camera.quaternion.clone();
             _camera.lookAt(openPos);
             _camera.updateProjectionMatrix();
             let newRot = _camera.quaternion.clone();
             _camera.quaternion.copy(oldRot);
-            new TWEEN.Tween({ t: 30 }).to({ t: 0 }, 2000).easing(TWEEN.Easing.Back.In).onUpdate((value) => {
+            openPorTween = new TWEEN.Tween({ t: 30 }).to({ t: 0 }, 2000).easing(TWEEN.Easing.Back.In).onUpdate((value) => {
                 _camera.fov = value.t;
                 _camera.quaternion.slerp(newRot, 0.1);
                 _camera.updateProjectionMatrix();
@@ -283,9 +308,10 @@ function onDocumentMouseDown(event) {
                 _renderer.domElement.style.display = "none";
                 loading.style.display = "block";
                 loading.style.backgroundColor = 'rgba(30, 30, 30, 1)';
-                new TWEEN.Tween({ x: 1 }).to({ x: 0 }, 2000).onUpdate((value) => {
+                openPorTweenUI = new TWEEN.Tween({ x: 1 }).to({ x: 0 }, 2000).onUpdate((value) => {
                     loading.style.backgroundColor = 'rgba(30, 30, 30, ' + value.x + ')';
                 }).start().onComplete(() => {
+                    console.log("gggggg openPorTweenUI finish");
                     hiding = true;
                     loading.style.display = "none";
                 });
@@ -297,19 +323,25 @@ function onDocumentMouseDown(event) {
     }
 }
 function ShowMenu() {
+    console.log("gggggg Show Menu");
+
+    StopAllTween();
     hiding = false;
 
     loading.style.display = "block";
     loading.style.backgroundColor = 'rgba(30, 30, 30, 0)';
-    new TWEEN.Tween({ x: 0 }).to({ x: 1 }, 500).onUpdate((value) => {
+    openMenuTween = new TWEEN.Tween({ x: 0 }).to({ x: 1 }, 500).onUpdate((value) => {
         loading.style.backgroundColor = 'rgba(30, 30, 30, ' + value.x + ')';
     }).start().onComplete(() => {
+        if (openMenuTweenUI) {
+            openMenuTweenUI.stop();
+        }
         _renderer.domElement.style.display = "block";
 
-        new TWEEN.Tween({ t: 0 }).to({ t: 30 }, 2000).easing(TWEEN.Easing.Back.In).onUpdate((value) => {
+        openMenuTweenUI = new TWEEN.Tween({ t: 0 }).to({ t: 30 }, 2000).easing(TWEEN.Easing.Back.Out).onUpdate((value) => {
             _camera.fov = value.t;
             _camera.updateProjectionMatrix();
-            loading.style.backgroundColor = 'rgba(30, 30, 30, ' + (1-(value.t/30)) + ')';
+            loading.style.backgroundColor = 'rgba(30, 30, 30, ' + (1 - (value.t / 30)) + ')';
 
         }).start().onComplete(() => {
             loading.style.display = "none";
