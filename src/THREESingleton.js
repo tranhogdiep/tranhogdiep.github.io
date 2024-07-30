@@ -16,6 +16,7 @@ import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import * as TWEEN from 'three/addons/libs/tween.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { ShowInfoPopup } from './info.js';
 
 var isChangingMode = false;
 var hiding = false;
@@ -317,8 +318,8 @@ function onDocumentMouseDown(event) {
                 });
 
             });
-        } else {
-
+        } else if (currentHighlightBook.name == "BookStand") {
+            ShowInfoPopup();
         }
     }
 }
