@@ -30,6 +30,8 @@ var effectStandBook;
 var effectOpenTween;
 var effectStandTween;
 
+var openPos;
+
 var mousePos = new THREE.Vector2();
 var rayMousePos = new THREE.Vector2();
 var raycaster = new THREE.Raycaster();
@@ -116,8 +118,7 @@ export function Init() {
 
     _renderer = new THREE.WebGLRenderer({ antialias: false });
     _renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    _renderer.toneMappingExposure = 0.5;
-    _renderer.setPixelRatio(window.devicePixelRatio * 1);
+    _renderer.toneMappingExposure = 1;
     _renderer.info.autoReset = false;
     _renderer.setSize(window.innerWidth, window.innerHeight);
     _renderer.shadowMap.enabled = true;
@@ -134,18 +135,6 @@ export function Init() {
     _composer = new EffectComposer(_renderer);
     _renderPass = new RenderPass(_scene, _camera);
 
-    _fxaaPass = new ShaderPass(FXAAShader);
-    const pixelRatio = _renderer.getPixelRatio();
-
-    _fxaaPass.material.uniforms['resolution'].value.x = 1 / (_renderer.domElement.offsetWidth * pixelRatio);
-    _fxaaPass.material.uniforms['resolution'].value.y = 1 / (_renderer.domElement.offsetHeight * pixelRatio);
-    _fxaaPass.enabled = false;
-
-    _gtaoPass = new GTAOPass(_scene, _camera, window.innerWidth, window.innerHeight);
-    _gtaoPass.output = GTAOPass.OUTPUT.Default;
-    _gtaoPass.updateGtaoMaterial(aoParameters);
-    _gtaoPass.enabled = false;
-
     _bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.3, 0.4, 0.95);
 
     _outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), _scene, _camera);
@@ -160,9 +149,7 @@ export function Init() {
     _composer.addPass(_renderPass);
     _composer.addPass(_outlinePass);
     _composer.addPass(_bloomPass);
-    // _composer.addPass(_gtaoPass);
     _composer.addPass(_outputPass);
-    // _composer.addPass(_fxaaPass);
 
     SetupRender();
 
@@ -170,19 +157,11 @@ export function Init() {
     _debugDiv.style.position = "fixed";
     document.body.appendChild(_debugDiv);
 
-
-
-    document.addEventListener("focus", () => {
-        console.log(focus);
-    })
-    document.addEventListener("blur", () => {
-        console.log(blur);
-    })
     CreateGUI();
 }
 
-function Update(){
-    if(hiding) return;
+function Update() {
+    if (hiding) return;
     _deltaTime = _clock.getDelta();
 
     _scrollYMaterials.forEach(mat => {
@@ -195,8 +174,8 @@ function Update(){
     if (isChangingMode == false) {
         _camera.position.x += (((mousePos.x - windowHalfX) / 800) - _camera.position.x) * .05;
         _camera.position.y += (-((mousePos.y - windowHalfY) / 200) - _camera.position.y) * .05;
-        if (_camera.position.y < 1) {
-            _camera.position.y = 1;
+        if (_camera.position.y < 0.6) {
+            _camera.position.y = 0.6;
         }
         _camera.lookAt(_scene.position);
 
@@ -223,10 +202,10 @@ function Update(){
         element(_deltaTime, _elapTime);
     });
 
-    // NodeToyMaterial.tick();
-    Render();
+    _composer.render();
+
     _stats.update();
-    // PrintStatus();
+    PrintStatus();
 }
 
 function onWindowResize() {
@@ -234,25 +213,14 @@ function onWindowResize() {
     windowHalfY = window.innerHeight / 2;
     _camera.aspect = window.innerWidth / window.innerHeight
     _camera.updateProjectionMatrix()
-    _renderer.setSize(window.innerWidth, window.innerHeight)
+
+    // _bloomPass.setSize(window.innerWidth, window.innerHeight);
+    _renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
     Render()
 }
 function SetupRender() {
     window.addEventListener('resize', () => { onWindowResize() }, false)
-}
-
-function Render() {
-    // _renderer.render(_scene, _camera);
-    _composer.render();
-}
-
-function SetGAOBox(box3) {
-    // _gtaoPass.setSceneClipBox(box3);
-}
-
-
-function AddUpdateFunction(func) {
-    _updateFunctions.push(func);
 }
 
 export function AddObjectToScene(object) {
@@ -267,6 +235,9 @@ export function AddObjectToScene(object) {
         object.traverse((child) => {
             if (child.name == "StandBook") {
                 effectStandBook = child;
+            } else if (child.name == "BookOpen") {
+                openPos = new THREE.Vector3();
+                child.getWorldPosition(openPos);
             }
         })
     }
@@ -291,16 +262,29 @@ function onDocumentMouseMove(event) {
 function onDocumentMouseDown(event) {
     if (currentHighlightBook) {
         if (currentHighlightBook.name == "BookOpen") {
+            let loading = document.getElementById("loading");
             isChangingMode = true;
-
+            let oldRot = _camera.quaternion.clone();
+            _camera.lookAt(openPos);
+            _camera.updateProjectionMatrix();
+            let newRot = _camera.quaternion.clone();
+            _camera.quaternion.copy(oldRot);
             new TWEEN.Tween({ t: 30 }).to({ t: 0 }, 2000).easing(TWEEN.Easing.Back.In).onUpdate((value) => {
                 _camera.fov = value.t;
-                _camera.lookAt(currentHighlightBook.position);
+                _camera.quaternion.slerp(newRot, 0.1);
                 _camera.updateProjectionMatrix();
             }).start().onComplete(() => {
-                hiding = true;
-                _renderer.domElement.style.display = "none";
                 GetPortfolioData();
+                _renderer.domElement.style.display = "none";
+                loading.style.display = "block";
+                loading.style.backgroundColor = 'rgba(30, 30, 30, 1)';
+                new TWEEN.Tween({ x: 1 }).to({ x: 0 }, 2000).onUpdate((value) => {
+                    loading.style.backgroundColor = 'rgba(30, 30, 30, ' + value.x + ')';
+                }).start().onComplete(() => {
+                    hiding = true;
+                    loading.style.display = "none";
+                });
+
             });
         } else {
 
@@ -331,7 +315,6 @@ function HighlightBook(selectedObject) {
                 effectOpen.traverse((child) => {
                     if (child.type == "Mesh") {
                         child.material.opacity = value.t
-                        // console.log(child.material.opacity);
                     }
                 })
             })
@@ -411,11 +394,11 @@ export function AddScrollXMat(newmat) {
 }
 
 function CreateLights() {
-    const light = new THREE.DirectionalLight(0xffffff, 3);
+    const light = new THREE.DirectionalLight(0xffffff, 2);
     light.position.set(4, 10, -6); //default; light shining from top
     light.castShadow = true; // default false
-    light.shadow.mapSize.width = 4096; // default
-    light.shadow.mapSize.height = 4096; // default
+    light.shadow.mapSize.width = 2048; // default
+    light.shadow.mapSize.height = 2048; // default
     light.shadow.camera.near = 0.0001; // default
     light.shadow.camera.far = 20; // default
     light.shadow.camera.top = 3;
@@ -424,17 +407,12 @@ function CreateLights() {
     light.shadow.camera.right = 3;
     light.shadow.bias = -0.0002
 
-
-    // let directTarget = new THREE.Object3D();
-    // directTarget.position.set(3, 0, 3);
-    // light.target = directTarget;
-    // _scene.add(directTarget);
     _scene.add(light);
 
     // const helper = new THREE.CameraHelper(light.shadow.camera);
     // _scene.add(helper);
 
-    const spotLight = new THREE.SpotLight(0xffffff, 250);
+    const spotLight = new THREE.SpotLight(0xffffff, 150);
     spotLight.position.set(0, 5, 0);
     // spotLight.map = new THREE.TextureLoader().load( url );
     // spotLight.lookAt(new THREE.Vector3(0,0,1))
@@ -447,7 +425,6 @@ function CreateLights() {
 
     spotLight.shadow.camera.near = 5;
     spotLight.shadow.camera.far = 10;
-    // spotLight.shadow.camera.fov = 30;
     spotLight.shadow.bias = -0.0005;
 
     _scene.add(spotLight);
@@ -459,7 +436,6 @@ function CreateLights() {
             _hdrEquirectangularMap.magFilter = THREE.LinearFilter;
             _hdrEquirectangularMap.needsUpdate = true;
             _scene.environment = _hdrEquirectangularMap;
-            // THREESingleton.Ins().Scene.background = this._hdrEquirectangularMap;
         });
 }
 
