@@ -2,6 +2,9 @@ var slideshowDuration = 1;
 var slideshow = $('.main-content .slideshow');
 
 var portfolio_data;
+
+
+
 function GetPortfolioData() {
     fetch("assets/data/portfolio_data.json")
         .then(res => res.json())

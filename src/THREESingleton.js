@@ -20,6 +20,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 var isChangingMode = false;
 var hiding = false;
 
+var loadingDiv;
 var currentHighlightBook;
 var _scrollYMaterials = [];
 var _scrollXMaterials = [];
@@ -97,6 +98,11 @@ var outlineParams = {
 };
 
 export function Init() {
+    loadingDiv = document.getElementById("loading");
+
+    document.getElementById("backbutton").addEventListener("click", (e) => {
+        ShowMenu()
+    })
     _stats = new Stats()
     document.body.appendChild(_stats.dom)
 
@@ -123,6 +129,8 @@ export function Init() {
     _renderer.setSize(window.innerWidth, window.innerHeight);
     _renderer.shadowMap.enabled = true;
     _renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    _renderer.domElement.addEventListener('pointermove', onDocumentMouseMove);
+    _renderer.domElement.addEventListener('pointerdown', onDocumentMouseDown);
     console.log("777");
     CreateLights();
 
@@ -248,8 +256,6 @@ function PrintStatus() {
     _renderer.info.reset();
 }
 
-document.addEventListener('pointermove', onDocumentMouseMove);
-document.addEventListener('pointerdown', onDocumentMouseDown);
 function onDocumentMouseMove(event) {
 
     mousePos.x = event.clientX;
@@ -262,7 +268,6 @@ function onDocumentMouseMove(event) {
 function onDocumentMouseDown(event) {
     if (currentHighlightBook) {
         if (currentHighlightBook.name == "BookOpen") {
-            let loading = document.getElementById("loading");
             isChangingMode = true;
             let oldRot = _camera.quaternion.clone();
             _camera.lookAt(openPos);
@@ -290,6 +295,29 @@ function onDocumentMouseDown(event) {
 
         }
     }
+}
+function ShowMenu() {
+    hiding = false;
+
+    loading.style.display = "block";
+    loading.style.backgroundColor = 'rgba(30, 30, 30, 0)';
+    new TWEEN.Tween({ x: 0 }).to({ x: 1 }, 500).onUpdate((value) => {
+        loading.style.backgroundColor = 'rgba(30, 30, 30, ' + value.x + ')';
+    }).start().onComplete(() => {
+        _renderer.domElement.style.display = "block";
+
+        new TWEEN.Tween({ t: 0 }).to({ t: 30 }, 2000).easing(TWEEN.Easing.Back.In).onUpdate((value) => {
+            _camera.fov = value.t;
+            _camera.updateProjectionMatrix();
+            loading.style.backgroundColor = 'rgba(30, 30, 30, ' + (1-(value.t/30)) + ')';
+
+        }).start().onComplete(() => {
+            loading.style.display = "none";
+            isChangingMode = false
+
+        });
+    });
+
 }
 function HighlightBook(selectedObject) {
     if (selectedObject.parent.name == "BookOpen") {
