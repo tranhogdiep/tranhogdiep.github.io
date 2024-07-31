@@ -31,20 +31,15 @@ function CreatePopup() {
 
     // Create the image element
     const popupImage = document.createElement('img');
-    popupImage.src = 'https://via.placeholder.com/300x200';
+    popupImage.src = 'assets/images/info.png';
     popupImage.alt = 'Popup Image';
+    popupImage.classList.add("popupimage");
 
-    // Create the title and paragraph elements
-    const popupTitle = document.createElement('h3');
-    popupTitle.textContent = 'Popup Title';
-    const popupText = document.createElement('p');
-    popupText.textContent = 'This is some information about the popup.';
 
     // Append the elements to the DOM
     popupContent.appendChild(closeButton);
     popupContent.appendChild(popupImage);
-    popupContent.appendChild(popupTitle);
-    popupContent.appendChild(popupText);
+
     popupDiv.appendChild(popupContent);
 
     // Append the popup to the body
