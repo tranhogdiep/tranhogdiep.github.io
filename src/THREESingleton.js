@@ -1,9 +1,6 @@
 import * as THREE from 'three'
-import Stats from 'three/addons/libs/stats.module.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
-import { FXAAShader } from 'three/addons/shaders/FXAAShader.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 // import { NodeToyMaterial } from "@nodetoy/three-nodetoy";
@@ -12,11 +9,11 @@ import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
-import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import * as TWEEN from 'three/addons/libs/tween.module.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { ShowInfoPopup } from './info.js';
+
+var ismouseDown = false;
+var isDrag = false;
 
 var isChangingMode = false;
 var hiding = false;
@@ -51,12 +48,10 @@ raycaster.layers.set(1);
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 
-var _stats;
 var _clock;
 var _deltaTime;
 var _elapTime;
 
-var _gui;
 
 var _scene;
 var _camera;
@@ -64,48 +59,13 @@ var _renderer;
 
 var _updateFunctions = [];
 
-var _contentData;
 
 var _composer;
-var _gtaoPass;
 var _outputPass;
 var _renderPass;
-var _fxaaPass;
 var _bloomPass;
 var _outlinePass;
 
-var _debugDiv;
-var controls;
-
-var renderSettings = {
-    fxaa: true
-}
-var aoParameters = {
-    radius: 0.44,
-    distanceExponent: 2.38,
-    thickness: 6,
-    scale: 10,
-    samples: 16,
-    distanceFallOff: 0.1,
-    screenSpaceRadius: true,
-};
-var pdParameters = {
-    lumaPhi: 10.,
-    depthPhi: 2.,
-    normalPhi: 3.,
-    radius: 4.,
-    radiusExponent: 1.,
-    rings: 2.,
-    samples: 16,
-};
-var outlineParams = {
-    edgeStrength: 3.0,
-    edgeGlow: 0.0,
-    edgeThickness: 3.0,
-    pulsePeriod: 0,
-    rotate: false,
-    usePatternTexture: false
-};
 
 export function Init() {
     loadingDiv = document.getElementById("loading");
@@ -113,10 +73,7 @@ export function Init() {
     document.getElementById("backbutton").addEventListener("click", (e) => {
         ShowMenu()
     })
-    _stats = new Stats()
-    document.body.appendChild(_stats.dom)
 
-    _gui = new GUI();
 
     _clock = new THREE.Clock(true);
     _deltaTime = _clock.getDelta();
@@ -142,10 +99,25 @@ export function Init() {
     _renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     _renderer.domElement.style.zIndex = 3;
     _renderer.domElement.style.position = "fixed";
-    _renderer.domElement.addEventListener('pointermove', onDocumentMouseMove);
-    _renderer.domElement.addEventListener('pointerdown', onDocumentMouseDown);
-    console.log("777");
+    // if (!isTouchDevice) {
+
+    // } else {
+
+    // }
     CreateLights();
+
+    if(window.matchMedia("(pointer: coarse)").matches) {
+        console.log("touchscreen")
+        _renderer.domElement.addEventListener('touchstart', onTouchStart);
+        _renderer.domElement.addEventListener('touchmove', onTouchMove);
+        _renderer.domElement.addEventListener('touchend', onTouchEnd);
+    }
+    else{
+        console.log("mousescreeen")
+        _renderer.domElement.addEventListener('pointermove', onDocumentMouseMove);
+        _renderer.domElement.addEventListener('pointerdown', onDocumentMouseDown);
+        _renderer.domElement.addEventListener('pointerup', onDocumentMouseUp);
+    }
 
     // controls = new OrbitControls( _camera, _renderer.domElement );
 
@@ -162,7 +134,6 @@ export function Init() {
     _outlinePass.hiddenEdgeColor.set('#1aff47');
     _outlinePass.edgeStrength = 8;
     _outlinePass.visibleEdgeColor.set('#1aff47');
-    console.log("6666", outlineParams);
 
     _outputPass = new OutputPass();
     _outputPass.enabled = true;
@@ -174,11 +145,7 @@ export function Init() {
 
     SetupRender();
 
-    _debugDiv = document.createElement('div');
-    _debugDiv.style.position = "fixed";
-    document.body.appendChild(_debugDiv);
 
-    CreateGUI();
 }
 
 function Update() {
@@ -206,7 +173,7 @@ function Update() {
 
         cameraTermRot.copy(_camera.quaternion);
         _camera.quaternion.copy(cameraOldRot);
-        _camera.quaternion.slerp(cameraTermRot,0.1);
+        _camera.quaternion.slerp(cameraTermRot, 0.1);
 
         raycaster.setFromCamera(rayMousePos, _camera);
         const intersects = raycaster.intersectObject(_scene, true);
@@ -233,7 +200,6 @@ function Update() {
 
     _composer.render();
 
-    _stats.update();
     // PrintStatus();
 }
 
@@ -275,8 +241,36 @@ function PrintStatus() {
     console.log("Calls: " + _renderer.info.render.calls + " " + _renderer.info.render.triangles);
     _renderer.info.reset();
 }
+function StopAllTween() {
+    openMenuTween?.stop();
+    openMenuTweenUI?.stop();
+    openPorTween?.stop();
+    openPorTweenUI?.stop();
+}
 
+
+function onTouchStart(event) {
+    console.log("onTouchStart");
+    ismouseDown = true;
+
+}
+function onTouchMove(event) {
+    console.log("onTouchMove",event);
+    mousePos.x = event.changedTouches[0].clientX;
+    mousePos.y = event.changedTouches[0].clientY;
+
+    rayMousePos.x = (event.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
+    rayMousePos.y = - (event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
+}
+function onTouchEnd(event) {
+    console.log("onTouchEnd");
+    ismouseDown = false;
+    rayMousePos.x = (event.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
+    rayMousePos.y = - (event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
+    CheckSelectBook();
+}
 function onDocumentMouseMove(event) {
+    console.log("mouse move", event);
 
     mousePos.x = event.clientX;
     mousePos.y = event.clientY;
@@ -285,15 +279,21 @@ function onDocumentMouseMove(event) {
     rayMousePos.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
 }
-function StopAllTween() {
-    openMenuTween?.stop();
-    openMenuTweenUI?.stop();
-    openPorTween?.stop();
-    openPorTweenUI?.stop();
+function onDocumentMouseUp(event) {
+    console.log("mouse down");
+    rayMousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
+    rayMousePos.y = - (event.clientY / window.innerHeight) * 2 + 1;
+    CheckSelectBook();
+    ismouseDown = false;
+    isDrag = false;
 }
-function onDocumentMouseDown(event) {
-    if (currentHighlightBook) {
-        if (currentHighlightBook.name == "BookOpen") {
+
+function CheckSelectBook(){
+    raycaster.setFromCamera(rayMousePos, _camera);
+    const intersects = raycaster.intersectObject(_scene, true);
+    if (intersects.length > 0) {
+        const selectedObject = intersects[0].object;
+        if (selectedObject.parent.name == "BookOpen") {
             StopAllTween();
             isChangingMode = true;
             let oldRot = _camera.quaternion.clone();
@@ -319,10 +319,17 @@ function onDocumentMouseDown(event) {
                 });
 
             });
-        } else if (currentHighlightBook.name == "BookStand") {
+        }
+        else if (selectedObject.parent.name == "BookStand") {
             ShowInfoPopup();
+
         }
     }
+}
+
+function onDocumentMouseDown(event) {
+    console.log("mouse down");
+
 }
 function ShowMenu() {
     console.log("gggggg Show Menu");
@@ -499,17 +506,4 @@ function CreateLights() {
             _hdrEquirectangularMap.needsUpdate = true;
             _scene.environment = _hdrEquirectangularMap;
         });
-}
-
-function CreateGUI() {
-    _gui.add(renderSettings, 'fxaa').onChange((value) => {
-        if (value)
-            _composer.addPass(_fxaaPass);
-        else
-            _composer.removePass(_fxaaPass);
-
-    });
-    // _gui.add(_camera,"fov",0,500).onChange((value)=>{
-    //     _camera.updateProjectionMatrix();
-    // });
 }
