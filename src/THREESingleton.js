@@ -141,6 +141,7 @@ export function Init() {
     _renderer.shadowMap.enabled = true;
     _renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     _renderer.domElement.style.zIndex = 3;
+    _renderer.domElement.style.position = "fixed";
     _renderer.domElement.addEventListener('pointermove', onDocumentMouseMove);
     _renderer.domElement.addEventListener('pointerdown', onDocumentMouseDown);
     console.log("777");
@@ -306,7 +307,7 @@ function onDocumentMouseDown(event) {
                 _camera.updateProjectionMatrix();
             }).start().onComplete(() => {
                 GetPortfolioData();
-                _renderer.domElement.style.display = "none";
+                document.getElementById("portfolio").style.display = "block";
                 loading.style.display = "block";
                 loading.style.backgroundColor = 'rgba(30, 30, 30, 1)';
                 openPorTweenUI = new TWEEN.Tween({ x: 1 }).to({ x: 0 }, 2000).onUpdate((value) => {
@@ -337,7 +338,7 @@ function ShowMenu() {
         if (openMenuTweenUI) {
             openMenuTweenUI.stop();
         }
-        _renderer.domElement.style.display = "block";
+        document.getElementById("portfolio").style.display = "none";
 
         openMenuTweenUI = new TWEEN.Tween({ t: 0 }).to({ t: 30 }, 2000).easing(TWEEN.Easing.Back.Out).onUpdate((value) => {
             _camera.fov = value.t;

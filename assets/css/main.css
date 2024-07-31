@@ -3,7 +3,7 @@ body {
     overflow: hidden;
     font: 14px/2 "Open sans", sans-serif;
     letter-spacing: 0.05em;
-    display: flex;
+    /* display: flex; */
     background-color: #292929;
 }
 
@@ -97,8 +97,21 @@ body {
     display: none;
 }
 
+
+/* ------------------Portfolio */
+.portfolio{
+    z-index: 4;
+    display: none;
+}
+.portfolio:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 .container {
+    float: left;
     width: 10%;
+    /* width: 10vw; */
     height: 100vh;
     overflow: auto;
     /* Hide scrollbar */
@@ -162,6 +175,7 @@ body {
 
 
 .main-content {
+    float: left;
     width: 90%;
     /* align-content: end; */
     margin-left: auto;
