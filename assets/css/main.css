@@ -27,12 +27,13 @@ body {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 80%;
     transform-style: preserve-3d;
     animation: split-effect 0.5s forwards;
 }
 
-@keyframes split-effect {
+@keyframes 
+-effect {
     0% {
         transform: translateZ(200px) rotateX(45deg);
     }
@@ -54,6 +55,9 @@ body {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+.popupimage{
+    width: 100%;
 }
 
 
