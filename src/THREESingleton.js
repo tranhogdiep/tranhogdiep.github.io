@@ -391,26 +391,27 @@ function HighlightBook(selectedObject) {
         currentHighlightBook = selectedObject.parent;
         if (effectStand) {
             effectStand.visible = true;
-        }
-        AddSelectedObject(selectedObject.parent)
-        if (effectStandTween == null) {
-            effectStand.traverse((child) => {
-                if (child.type == "Mesh") {
-                    child.material.opacity = 0
-                }
-            })
-            effectStandBook.material.emissiveIntensity = 0
-            effectStandTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 1000).start().onComplete(() => {
-                effectStandTween = null;
-            }).onUpdate((value) => {
-                effectStandBook.material.emissiveIntensity = value.t * 50
+            if (effectStandTween == null) {
                 effectStand.traverse((child) => {
                     if (child.type == "Mesh") {
-                        child.material.opacity = value.t
+                        child.material.opacity = 0
                     }
                 })
-            })
+                effectStandBook.material.emissiveIntensity = 0
+                effectStandTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 1000).start().onComplete(() => {
+                    effectStandTween = null;
+                }).onUpdate((value) => {
+                    effectStandBook.material.emissiveIntensity = value.t * 50
+                    effectStand.traverse((child) => {
+                        if (child.type == "Mesh") {
+                            child.material.opacity = value.t
+                        }
+                    })
+                })
+            }
         }
+        AddSelectedObject(selectedObject.parent)
+
     }
 }
 function AddSelectedObject(object) {
