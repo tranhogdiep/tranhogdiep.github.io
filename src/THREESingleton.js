@@ -127,7 +127,7 @@ export function Init() {
     _composer = new EffectComposer(_renderer);
     _renderPass = new RenderPass(_scene, _camera);
 
-    _bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.3, 0.4, 0.95);
+    _bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.2, 0.3, 0.9);
 
     _outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), _scene, _camera);
     _outlinePass.hiddenEdgeColor.set('#1aff47');
