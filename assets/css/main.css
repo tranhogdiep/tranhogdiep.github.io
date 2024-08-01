@@ -157,7 +157,6 @@ body {
 }
 
 .image-button img {
-    max-width: 100px;
     height: auto;
     transition: transform 0.3s ease-in-out;
     border-radius: 10px;

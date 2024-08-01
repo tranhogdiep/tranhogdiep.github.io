@@ -1,20 +1,45 @@
+
 var slideshowDuration = 1;
 var slideshow = $('.main-content .slideshow');
 
 var portfolio_data;
 
 
-
+function CheckRatio() {
+    if (window.innerWidth < window.innerHeight) {
+        document.getElementById("projectlist").parentElement.style.width = "20%"
+        document.getElementById("slideContent").style.width = "80%"
+        document.getElementById("backbutton").style.width = "100px"
+        document.getElementById("backbutton").style.height = "100px"
+    }
+    else {
+        document.getElementById("projectlist").parentElement.style.width = "10%"
+        document.getElementById("slideContent").style.width = "90%"
+        document.getElementById("backbutton").style.width = "50px"
+        document.getElementById("backbutton").style.height = "50px"
+    }
+}
 function GetPortfolioData() {
-    fetch("assets/data/portfolio_data.json")
-        .then(res => res.json())
-        .then((out) => {
-            portfolio_data = out;
-            console.log(portfolio_data);
-            CreateProjectList();
-            Init();
-        })
-        .catch(err => { throw err });
+    CheckRatio();
+    if (portfolio_data == null) {
+        window.addEventListener('resize', () => {
+            CheckRatio()
+        }, false)
+        fetch("assets/data/portfolio_data.json")
+            .then(res => res.json())
+            .then((out) => {
+                portfolio_data = out;
+                console.log(portfolio_data);
+                CreateProjectList();
+                Init();
+            })
+            .catch(err => {
+                console.log("Get project data error!!!")
+            });
+    }
+    else {
+        ActiveProject(portfolio_data[0]);
+    }
 };
 
 
@@ -27,7 +52,7 @@ function CreateProjectList() {
 function CreateProjectButton(project) {
     let projectDiv = document.getElementById("projectlist")
     let btn = document.createElement("li")
-    btn.addEventListener("click",()=>{
+    btn.addEventListener("click", () => {
         ActiveProject(project);
     })
     btn.project_data = project
@@ -101,17 +126,17 @@ function CreateImage(content, name, isActive = false) {
         youtubeIframe.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
         youtubeIframe.referrerPolicy = 'strict-origin-when-cross-origin';
         youtubeIframe.allowFullscreen = true;
-        youtubeIframe.allowscriptaccess ="always"
+        youtubeIframe.allowscriptaccess = "always"
         youtubeIframe.classList.add("iframe");
         imageContainerDiv.appendChild(youtubeIframe);
     }
-    else{
-    // Create the image element
-    const imageElement = document.createElement('img');
-    imageElement.classList.add('image');
-    imageElement.src = content;
-    imageElement.alt = '';
-    imageContainerDiv.appendChild(imageElement);
+    else {
+        // Create the image element
+        const imageElement = document.createElement('img');
+        imageElement.classList.add('image');
+        imageElement.src = content;
+        imageElement.alt = '';
+        imageContainerDiv.appendChild(imageElement);
     }
     document.getElementById("slides").appendChild(slideDiv);
 
@@ -139,19 +164,19 @@ function CreatePagination(index, isActive = false) {
     document.getElementById("pagination").appendChild(itemDiv);
 }
 
-function ClearContent(){
+function ClearContent() {
     RemoveAllChildren(document.getElementById("pagination"));
     RemoveAllChildren(document.getElementById("slides"));
 }
-function RemoveAllChildren(element){
+function RemoveAllChildren(element) {
     if (!(element instanceof Element)) {
         throw new Error('clearChildren() requires an Element object as the argument');
-      }
-    
-      // Remove all child nodes from the element
-      while (element.firstChild) {
+    }
+
+    // Remove all child nodes from the element
+    while (element.firstChild) {
         element.removeChild(element.firstChild);
-      }
+    }
 }
 
 
@@ -307,9 +332,9 @@ function slideshowSwitch(slideshow, index, auto) {
 function slideshowNext(slideshow, previous, auto) {
     var slides = slideshow.find('.slide');
     var activeSlide = slides.filter('.is-active');
-    if(activeSlide.length>0){
+    if (activeSlide.length > 0) {
         let youtube = activeSlide.find(".iframe")
-        if(youtube.length>0){
+        if (youtube.length > 0) {
             pauseYoutubeIframe(youtube[0])
         }
     }
@@ -383,10 +408,10 @@ if ($('.main-content .slideshow').length > 1) {
 function pauseYoutubeIframe(iframe) {
     // // Get the YouTube player instance
     // const player = new YT.Player(iframe);
-  
+
     // // Pause the video
     // player.pauseVideo();
 
     // iframe.contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
     iframe.src = iframe.src;
-  }
+}

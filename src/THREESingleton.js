@@ -85,8 +85,9 @@ export function Init() {
 
     _camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 10000)
     _camera.rotation.set(-0.27, 0, 0);
-    _camera.position.set(0, 0.91, 2.07);
+    _camera.position.set(0, 0.6, 2.07);
     cameraTermPos.copy(_camera.position);
+    _camera.lookAt(_scene.position)
     _scene.add(_camera);
     console.log(_camera);
 
@@ -294,6 +295,7 @@ function CheckSelectBook(){
     if (intersects.length > 0) {
         const selectedObject = intersects[0].object;
         if (selectedObject.parent.name == "BookOpen") {
+            HighlightBook(selectedObject);
             StopAllTween();
             isChangingMode = true;
             let oldRot = _camera.quaternion.clone();
@@ -331,7 +333,7 @@ function onDocumentMouseDown(event) {
     console.log("mouse down");
 
 }
-function ShowMenu() {
+export function ShowMenu() {
     console.log("gggggg Show Menu");
 
     StopAllTween();

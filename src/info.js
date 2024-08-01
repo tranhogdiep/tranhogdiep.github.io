@@ -9,7 +9,7 @@ export function ShowInfoPopup() {
                 popupDiv.style.animationName = "split-effect-hide";
                 setTimeout(()=>{
                     popupDiv.style.display = "none";
-                },800)
+                },400)
             }
         })
     }
