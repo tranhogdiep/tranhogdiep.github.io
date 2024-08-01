@@ -41,7 +41,7 @@ var cameraTermPos = new THREE.Vector3();
 var cameraTermRot = new THREE.Quaternion();
 var cameraOldRot = new THREE.Quaternion();
 
-var mousePos = new THREE.Vector2();
+var mousePos = new THREE.Vector2(0,window.innerWidth);
 var rayMousePos = new THREE.Vector2();
 var raycaster = new THREE.Raycaster();
 raycaster.layers.set(1);
