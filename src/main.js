@@ -1,8 +1,12 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import * as THREE from 'three';
 import { AddObjectToScene, Init, AddScrollYMat, AddScrollXMat } from './THREESingleton.js';
 
 const loader = new GLTFLoader();
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath( 'assets/libs/gltf/' );
+loader.setDRACOLoader( dracoLoader );
 Init();
 LoadModels();
 
@@ -23,7 +27,6 @@ loader.load('assets/models/menu.glb', (gltf) => {
             child.receiveShadow = true;
             // child.material = mat;
             if (child.name == "Eff02") {
-                console.log(child.material);
                 // child.material.alphaTest = 0.01
                 child.castShadow = false;
 
@@ -35,47 +38,29 @@ loader.load('assets/models/menu.glb', (gltf) => {
 
 // Load a glTF resource
 loader.load('assets/models/effectOpen.glb', (gltf) => {
-    console.log("effectOpen", gltf.scene);
     gltf.scene.name = "effectOpen";
     gltf.scene.layers.enable( 3 );
     AddObjectToScene(gltf.scene)
     gltf.scene.position.y = -0.4;
     gltf.scene.traverse((child) => {
         child.layers.enable( 3 );
-        console.log(child.layers);
         if (child.type == "Mesh") {
             CheckObjectsTpye(child)
         }
     })
 });
 loader.load('assets/models/effectStand.glb', (gltf) => {
-    console.log("ssss", gltf.scene);
     gltf.scene.name = "effectStand";
     gltf.scene.layers.enable( 3 );
     AddObjectToScene(gltf.scene)
     gltf.scene.position.y = -0.4;
     gltf.scene.traverse((child) => {
         child.layers.enable( 3 );
-        console.log(child.layers);
         if (child.type == "Mesh") {
             CheckObjectsTpye(child)
         }
     })
 });
-// loader.load('assets/models/RunEffect.glb', (gltf) => {
-//     console.log("ssss", gltf.scene);
-//     gltf.scene.name = "RunEffect";
-//     gltf.scene.layers.enable( 3 );
-//     AddObjectToScene(gltf.scene)
-//     gltf.scene.position.y = -0.4;
-//     gltf.scene.traverse((child) => {
-//         child.layers.enable( 3 );
-//         console.log(child.layers);
-//         if (child.type == "Mesh") {
-//             CheckObjectsTpye(child)
-//         }
-//     })
-// });
 }
 function CheckObjectsTpye(child) {
     if ((child).material.userData.scrollY) {
@@ -85,11 +70,9 @@ function CheckObjectsTpye(child) {
         AddScrollXMat((child).material);
     }
     if (child.userData.renderOrder) {
-        console.log('set render order ', child.userData.renderOrder);
         child.renderOrder = child.userData.renderOrder;
     }
     if (child.material.userData.addBlend) {
-        console.log('set addBlend ', child.userData.renderOrder);
         child.material.blending = THREE.AdditiveBlending;
     }
 }

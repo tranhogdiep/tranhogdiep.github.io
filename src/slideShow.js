@@ -9,8 +9,8 @@ function CheckRatio() {
     if (window.innerWidth < window.innerHeight) {
         document.getElementById("projectlist").parentElement.style.width = "20%"
         document.getElementById("slideContent").style.width = "80%"
-        document.getElementById("backbutton").style.width = "100px"
-        document.getElementById("backbutton").style.height = "100px"
+        document.getElementById("backbutton").style.width = "80px"
+        document.getElementById("backbutton").style.height = "80px"
     }
     else {
         document.getElementById("projectlist").parentElement.style.width = "10%"
@@ -29,12 +29,11 @@ function GetPortfolioData() {
             .then(res => res.json())
             .then((out) => {
                 portfolio_data = out;
-                console.log(portfolio_data);
                 CreateProjectList();
                 Init();
             })
             .catch(err => {
-                console.log("Get project data error!!!")
+                console.error("Get project data error!!!")
             });
     }
     else {

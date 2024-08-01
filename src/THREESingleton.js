@@ -89,7 +89,6 @@ export function Init() {
     cameraTermPos.copy(_camera.position);
     _camera.lookAt(_scene.position)
     _scene.add(_camera);
-    console.log(_camera);
 
     _renderer = new THREE.WebGLRenderer({ antialias: false });
     _renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -107,14 +106,12 @@ export function Init() {
     // }
     CreateLights();
 
-    if(window.matchMedia("(pointer: coarse)").matches) {
-        console.log("touchscreen")
+    if (window.matchMedia("(pointer: coarse)").matches) {
         _renderer.domElement.addEventListener('touchstart', onTouchStart);
         _renderer.domElement.addEventListener('touchmove', onTouchMove);
         _renderer.domElement.addEventListener('touchend', onTouchEnd);
     }
-    else{
-        console.log("mousescreeen")
+    else {
         _renderer.domElement.addEventListener('pointermove', onDocumentMouseMove);
         _renderer.domElement.addEventListener('pointerdown', onDocumentMouseDown);
         _renderer.domElement.addEventListener('pointerup', onDocumentMouseUp);
@@ -251,12 +248,10 @@ function StopAllTween() {
 
 
 function onTouchStart(event) {
-    console.log("onTouchStart");
     ismouseDown = true;
 
 }
 function onTouchMove(event) {
-    console.log("onTouchMove",event);
     mousePos.x = event.changedTouches[0].clientX;
     mousePos.y = event.changedTouches[0].clientY;
 
@@ -264,14 +259,12 @@ function onTouchMove(event) {
     rayMousePos.y = - (event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
 }
 function onTouchEnd(event) {
-    console.log("onTouchEnd");
     ismouseDown = false;
     rayMousePos.x = (event.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
     rayMousePos.y = - (event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
     CheckSelectBook();
 }
 function onDocumentMouseMove(event) {
-    console.log("mouse move", event);
 
     mousePos.x = event.clientX;
     mousePos.y = event.clientY;
@@ -281,7 +274,6 @@ function onDocumentMouseMove(event) {
 
 }
 function onDocumentMouseUp(event) {
-    console.log("mouse down");
     rayMousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
     rayMousePos.y = - (event.clientY / window.innerHeight) * 2 + 1;
     CheckSelectBook();
@@ -289,7 +281,7 @@ function onDocumentMouseUp(event) {
     isDrag = false;
 }
 
-function CheckSelectBook(){
+function CheckSelectBook() {
     raycaster.setFromCamera(rayMousePos, _camera);
     const intersects = raycaster.intersectObject(_scene, true);
     if (intersects.length > 0) {
@@ -315,7 +307,6 @@ function CheckSelectBook(){
                 openPorTweenUI = new TWEEN.Tween({ x: 1 }).to({ x: 0 }, 2000).onUpdate((value) => {
                     loading.style.backgroundColor = 'rgba(30, 30, 30, ' + value.x + ')';
                 }).start().onComplete(() => {
-                    console.log("gggggg openPorTweenUI finish");
                     hiding = true;
                     loading.style.display = "none";
                 });
@@ -330,11 +321,10 @@ function CheckSelectBook(){
 }
 
 function onDocumentMouseDown(event) {
-    console.log("mouse down");
+    // console.log("mouse down");
 
 }
 export function ShowMenu() {
-    console.log("gggggg Show Menu");
 
     StopAllTween();
     hiding = false;
@@ -368,27 +358,27 @@ function HighlightBook(selectedObject) {
             if (currentHighlightBook.name == selectedObject.parent.name)
                 return;
         RemoveSelectedObject();
-        console.log("highlight", selectedObject.parent.name);
         currentHighlightBook = selectedObject.parent;
         AddSelectedObject(selectedObject.parent)
-        if (effectOpen)
+        if (effectOpen) {
             effectOpen.visible = true;
 
-        if (effectOpenTween == null) {
-            effectOpen.traverse((child) => {
-                if (child.type == "Mesh") {
-                    child.material.opacity = 0
-                }
-            })
-            effectOpenTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 2000).start().onComplete(() => {
-                effectOpenTween = null;
-            }).onUpdate((value) => {
+            if (effectOpenTween == null) {
                 effectOpen.traverse((child) => {
                     if (child.type == "Mesh") {
-                        child.material.opacity = value.t
+                        child.material.opacity = 0
                     }
                 })
-            })
+                effectOpenTween = new TWEEN.Tween({ t: 0 }).to({ t: 1 }, 2000).start().onComplete(() => {
+                    effectOpenTween = null;
+                }).onUpdate((value) => {
+                    effectOpen.traverse((child) => {
+                        if (child.type == "Mesh") {
+                            child.material.opacity = value.t
+                        }
+                    })
+                })
+            }
         }
     }
     else if (selectedObject.parent.name == "BookStand") {
@@ -417,7 +407,6 @@ function HighlightBook(selectedObject) {
                 effectStand.traverse((child) => {
                     if (child.type == "Mesh") {
                         child.material.opacity = value.t
-                        // console.log(child.material.opacity);
                     }
                 })
             })
@@ -452,16 +441,13 @@ function RemoveSelectedObject() {
     currentHighlightBook = null;
 }
 export function AddScrollYMat(mat) {
-    console.log(mat);
     _scrollYMaterials.push(mat);
 }
 export function AddScrollXMat(newmat) {
     if (!_scrollXMaterials.some(mat => mat.id === newmat.id)) {
-        console.log("add", newmat.id);
         _scrollXMaterials.push(newmat);
         return;
     }
-    console.log("No add", newmat.id);
 }
 
 function CreateLights() {
