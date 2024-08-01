@@ -23,6 +23,7 @@ var currentHighlightBook;
 var _scrollYMaterials = [];
 var _scrollXMaterials = [];
 
+var mainScene;
 var effectOpen;
 var effectStand;
 var effectStandBook;
@@ -224,6 +225,7 @@ export function AddObjectToScene(object) {
         effectStand = object;
     }
     else if (object.name == "mainscene") {
+        mainScene = object;
         object.traverse((child) => {
             if (child.name == "StandBook") {
                 effectStandBook = child;
@@ -232,6 +234,14 @@ export function AddObjectToScene(object) {
                 child.getWorldPosition(openPos);
             }
         })
+    }
+
+    if(effectOpen != null && effectStand != null && mainScene != null){
+        document.getElementById("loading-progress").style.animationName = "split-effect-hide";
+
+        setTimeout(()=>{
+            document.getElementById("loading-progress").style.display = "none";
+        },400)
     }
 }
 
