@@ -122,7 +122,7 @@
 }
 
 .profile-card__cnt {
-    margin-top: -35px;
+    margin-top: -105px;
     text-align: center;
     padding: 0 20px;
     padding-bottom: 40px;
@@ -166,7 +166,6 @@
     justify-content: center;
     flex-wrap: wrap;
     align-items: flex-start;
-    margin-top: 35px;
 }
 
 .profile-card-inf__item {
@@ -249,6 +248,14 @@
 .profile-card-social__item.behance {
     background: linear-gradient(45deg, #17f7ff, #08d486);
     box-shadow: 0px 4px 30px rgba(27, 86, 231, 0.7);
+}
+.profile-card-social__item.sketfab {
+    background: linear-gradient(45deg, #17b6ff, #0838d4);
+    box-shadow: 0px 4px 30px rgba(80, 152, 194, 0.7);
+}
+.profile-card-social__item.gumroad {
+    background: linear-gradient(45deg, #ffb617, #c5e608);
+    box-shadow: 0px 4px 30px rgba(240, 12, 221, 0.7);
 }
 
 .profile-card-social__item.github {
