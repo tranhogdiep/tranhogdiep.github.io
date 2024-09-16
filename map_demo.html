@@ -4,7 +4,7 @@
 		<title>three.js webgl - GLTFloader</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="main.css">
+		<link type="text/css" rel="stylesheet" href="assets/css/map_3d_main.css">
 		<script type="importmap">
 			{
 			  "imports": {
@@ -38,7 +38,7 @@
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 2000 );
-				camera.position.set( - 1.8, 0.6, 2.7 );
+				camera.position.set( - 150, 120, 150 );
 
 				scene = new THREE.Scene();
 				const light = new THREE.AmbientLight( 0x404040 ); // soft white light
