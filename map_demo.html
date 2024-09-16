@@ -17,7 +17,7 @@
 
 	<body>
 		<div id="info">
-			<a href="demo" target="_blank" rel="noopener">demo</a> - web3d<br />
+			<p href="demo" target="_blank" rel="noopener">demo web3d</p> <br />
 		</div>
 
 		<script type="module">
@@ -27,7 +27,11 @@
 			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 			import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 			import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+			import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
+
+			const dracoLoader = new DRACOLoader();
+			dracoLoader.setDecoderPath( 'assets/libs/gltf/' );
 			let camera, scene, renderer;
 
 			init();
@@ -42,7 +46,7 @@
 
 				scene = new THREE.Scene();
 				const light = new THREE.AmbientLight( 0x404040 ); // soft white light
-scene.add( light );
+				scene.add( light );
 				new RGBELoader()
 					.setPath( 'assets/images/' )
 					.load( 'blouberg_sunrise_2_1k.hdr', function ( texture ) {
@@ -55,9 +59,11 @@ scene.add( light );
 						render();
 
 						// model
+						let gltfLoader = new GLTFLoader();
+						gltfLoader.setPath( './assets/map3d/' );
+						gltfLoader.setDRACOLoader( dracoLoader );
 
-						const loader = new GLTFLoader().setPath( './assets/map3d/' );
-						loader.load( 'mapdemo.glb', async function ( gltf ) {
+						gltfLoader.load( 'mapdemo.glb', async function ( gltf ) {
 
 							const model = gltf.scene;
 
