@@ -7,8 +7,20 @@ const loader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath( 'assets/libs/gltf/' );
 loader.setDRACOLoader( dracoLoader );
-Init();
-LoadModels();
+
+if(window.location.href.includes("portfolio")){
+    GetPortfolioData();
+    document.getElementById("portfolio").style.display = "block";
+    loading.style.display = "none";
+    loading.style.backgroundColor = 'rgba(30, 30, 30, 1)';
+    console.log("portfolio mode");
+}else{
+    Init();
+    LoadModels();
+    console.log("not portfolio mode");
+}
+
+
 
 
 function LoadModels(){

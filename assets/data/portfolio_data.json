@@ -17,6 +17,15 @@
         ]
     },
     {
+        "name": "BarrettM99",
+        "thumbnail": "assets/images/portfolios/barret/1t.png",
+        "contents": [
+            "assets/images/portfolios/barret/1.png",
+            "assets/images/portfolios/barret/2.PNG",
+            "assets/images/portfolios/barret/2.PNG"
+        ]
+    },
+    {
         "name": "Wall-E",
         "thumbnail": "assets/images/portfolios/Wall-E/1t.jpg",
         "contents": [
