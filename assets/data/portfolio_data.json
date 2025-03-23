@@ -1,5 +1,19 @@
 [
     {
+        "name": "The hole",
+        "thumbnail": "assets/images/portfolios/thehole/1_t.png",
+        "contents": [
+            "assets/images/portfolios/thehole/1.jpg",
+            "https://www.youtube.com/embed/qnN3xsg39Tw?si=P-yPUVoVr7RTn5c7",
+            "assets/images/portfolios/thehole/2.jpg",
+            "assets/images/portfolios/thehole/3.jpg",
+            "assets/images/portfolios/thehole/4.jpg",
+            "assets/images/portfolios/thehole/5.jpg",
+            "assets/images/portfolios/thehole/6.jpg",
+            "assets/images/portfolios/thehole/7.jpg"
+        ]
+    },
+    {
         "name": "CSCĐ",
         "thumbnail": "assets/images/portfolios/CSCD/1.jpg",
         "contents": [
