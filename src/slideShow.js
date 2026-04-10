@@ -37,16 +37,37 @@ function GetPortfolioData() {
             });
     }
     else {
-        ActiveProject(portfolio_data[0]);
+        ActiveProject(getProjectFromURL());
     }
 };
+
+function getProjectFromURL() {
+    try {
+        const urlParams = new URL(window.location.href).searchParams;
+        const artwork = urlParams.get('artwork');
+        if (artwork) {
+            const index = portfolio_data.findIndex(p => 
+                p.name === artwork || 
+                p.name.replace(/\s+/g, '-').toLowerCase() === artwork.replace(/\s+/g, '-').toLowerCase() || 
+                encodeURIComponent(p.name) === artwork
+            );
+            if (index !== -1) {
+                return portfolio_data[index];
+            }
+        }
+    } catch (e) {
+        console.error("URL parsing error:", e);
+    }
+    return portfolio_data[0];
+}
+
 
 
 function CreateProjectList() {
     portfolio_data.forEach(project => {
         CreateProjectButton(project);
     });
-    ActiveProject(portfolio_data[0]);
+    ActiveProject(getProjectFromURL());
 }
 function CreateProjectButton(project) {
     let projectDiv = document.getElementById("projectlist")
@@ -63,6 +84,14 @@ function CreateProjectButton(project) {
 }
 
 function ActiveProject(project) {
+    if (window.history && window.history.replaceState) {
+        try {
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('artwork', project.name);
+            window.history.replaceState({}, '', newUrl);
+        } catch (e) {}
+    }
+
     ClearContent();
     for (let i = 0; i < project.contents.length; i++) {
         if (i == 0) {

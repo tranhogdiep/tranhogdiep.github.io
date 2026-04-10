@@ -8,7 +8,7 @@ const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath( 'assets/libs/gltf/' );
 loader.setDRACOLoader( dracoLoader );
 
-if(window.location.href.includes("portfolio")){
+if(window.location.href.includes("portfolio") || window.location.href.includes("artwork=")){
     GetPortfolioData();
     document.getElementById("portfolio").style.display = "block";
     loading.style.display = "none";
