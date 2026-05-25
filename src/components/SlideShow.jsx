@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
 import portfolioData from '../../public/assets/data/portfolio_data.json';
 import './SlideShow.css';
 
@@ -8,9 +7,75 @@ export default function SlideShow({ onClose }) {
     const [currentProject, setCurrentProject] = useState(null);
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [videoPlaying, setVideoPlaying] = useState(false);
+
+    // Reset video playing state when switching slides
+    useEffect(() => {
+        setVideoPlaying(false);
+    }, [currentSlideIndex]);
 
     const slidesContainerRef = useRef(null);
     const paginationRef = useRef(null);
+
+    const touchStartX = useRef(0);
+    const touchEndX = useRef(0);
+
+    const isDragging = useRef(false);
+    const dragStartX = useRef(0);
+    const dragEndX = useRef(0);
+
+    const handleTouchStart = (e) => {
+        touchStartX.current = e.targetTouches[0].clientX;
+        touchEndX.current = e.targetTouches[0].clientX;
+    };
+
+    const handleTouchMove = (e) => {
+        touchEndX.current = e.targetTouches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+        const threshold = 50;
+        const diffX = touchStartX.current - touchEndX.current;
+
+        if (Math.abs(diffX) > threshold) {
+            if (diffX > 0) {
+                handleNextSlide();
+            } else {
+                handlePrevSlide();
+            }
+        }
+    };
+
+    const handleMouseDown = (e) => {
+        isDragging.current = true;
+        dragStartX.current = e.clientX;
+        dragEndX.current = e.clientX;
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging.current) return;
+        dragEndX.current = e.clientX;
+    };
+
+    const handleMouseUp = () => {
+        if (!isDragging.current) return;
+        isDragging.current = false;
+
+        const threshold = 80;
+        const diffX = dragStartX.current - dragEndX.current;
+
+        if (Math.abs(diffX) > threshold) {
+            if (diffX > 0) {
+                handleNextSlide();
+            } else {
+                handlePrevSlide();
+            }
+        }
+    };
+
+    const handleMouseLeave = () => {
+        isDragging.current = false;
+    };
 
     // Parse URL parameter 'artwork' if exists, otherwise load first project
     useEffect(() => {
@@ -45,110 +110,61 @@ export default function SlideShow({ onClose }) {
         }
     };
 
+    const getYouTubeVideoId = (url) => {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    };
+
+    const getSlideOffset = (idx) => {
+        if (!currentProject) return 0;
+        const total = currentProject.contents.length;
+        let offset = idx - currentSlideIndex;
+
+        // Circular math for carousel offset wrapping
+        if (offset < -total / 2) offset += total;
+        if (offset > total / 2) offset -= total;
+
+        return offset;
+    };
+
     const handlePrevSlide = () => {
         if (isTransitioning || !currentProject) return;
         const nextIndex = currentSlideIndex === 0 ? currentProject.contents.length - 1 : currentSlideIndex - 1;
-        switchSlide(nextIndex, 'prev');
+        switchSlide(nextIndex);
     };
 
     const handleNextSlide = () => {
         if (isTransitioning || !currentProject) return;
         const nextIndex = currentSlideIndex === currentProject.contents.length - 1 ? 0 : currentSlideIndex + 1;
-        switchSlide(nextIndex, 'next');
+        switchSlide(nextIndex);
     };
 
-    const switchSlide = (targetIndex, direction = null) => {
+    const switchSlide = (targetIndex) => {
         if (targetIndex === currentSlideIndex || isTransitioning) return;
 
         setIsTransitioning(true);
-        const containerWidth = slidesContainerRef.current.clientWidth;
+        setCurrentSlideIndex(targetIndex);
 
-        const slides = slidesContainerRef.current.querySelectorAll('.slide');
-        const activeSlide = slides[currentSlideIndex];
-        const newSlide = slides[targetIndex];
-
-        const activeImageContainer = activeSlide.querySelector('.image-container');
-        const newImageContainer = newSlide.querySelector('.image-container');
-        const newCaptionElements = newSlide.querySelectorAll('.caption > *');
-
-        // Determine direction if not specified
-        const isNext = direction ? direction === 'next' : targetIndex > currentSlideIndex;
-
-        // Reset and prepare new slide style before animation
-        gsap.set(newSlide, {
-            display: 'block',
-            width: 0,
-            left: isNext ? 'auto' : 0,
-            right: isNext ? 0 : 'auto',
-            zIndex: 2
-        });
-
-        gsap.set(newImageContainer, {
-            width: containerWidth,
-            left: isNext ? 'auto' : -containerWidth / 8,
-            right: isNext ? -containerWidth / 8 : 'auto'
-        });
-
-        gsap.set(newSlide.querySelector('.slide-content'), {
-            width: containerWidth,
-            left: isNext ? 'auto' : 0,
-            right: isNext ? 0 : 'auto'
-        });
-
-        gsap.set(newCaptionElements, { y: 20, opacity: 0 });
-
-        // Timeline for transition
-        const tl = gsap.timeline({
-            onComplete: () => {
-                // Set final classes and clean up styles
-                setCurrentSlideIndex(targetIndex);
-                setIsTransitioning(false);
-
-                // Reset styles to default CSS state
-                gsap.set([newSlide, activeSlide, newImageContainer, activeImageContainer, newSlide.querySelector('.slide-content')], {
-                    clearProps: 'all'
-                });
-            }
-        });
-
-        // 1. Move active slide image
-        tl.to(activeImageContainer, {
-            left: isNext ? -containerWidth / 4 : containerWidth / 4,
-            duration: 1,
-            ease: 'power3.inOut'
-        }, 0);
-
-        // 2. Expand new slide width (reveal effect)
-        tl.to(newSlide, {
-            width: containerWidth,
-            duration: 1,
-            ease: 'power3.inOut'
-        }, 0);
-
-        // 3. Move new slide image
-        tl.to(newImageContainer, {
-            left: isNext ? 0 : 0,
-            right: isNext ? 0 : 0,
-            duration: 1,
-            ease: 'power3.inOut'
-        }, 0);
-
-        // 4. Stagger caption elements in new slide
-        tl.to(newCaptionElements, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: 'power3.out'
-        }, 0.1);
+        // Throttle rapid switching to match CSS transition duration
+        setTimeout(() => {
+            setIsTransitioning(false);
+        }, 300);
     };
 
     if (!currentProject) return null;
 
     return (
-        <div id="portfolio" className="portfolio" style={{ display: 'block' }}>
-            <div id="backbutton" className="back-button" onClick={onClose}>
-                X
+        <div id="portfolio" className="portfolio">
+            <div id="backbutton" className="back-button" onClick={onClose} aria-label="Close">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+
+            <div className="portfolio-title">
+                {currentProject.name}
             </div>
 
             <div className="container">
@@ -165,37 +181,84 @@ export default function SlideShow({ onClose }) {
                 </div>
             </div>
 
-            <main id="slideContent" className="main-content">
+            <main
+                id="slideContent"
+                className="main-content"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+            >
                 <section id="slideshow" className="slideshow" ref={slidesContainerRef}>
                     <div className="slideshow-inner">
                         <div id="slides" className="slides">
                             {currentProject.contents.map((content, idx) => {
-                                const isActive = idx === currentSlideIndex;
+                                const offset = getSlideOffset(idx);
+                                const isActive = offset === 0;
+
+                                let cardClass = '';
+                                if (offset === 0) cardClass = 'is-active';
+                                else if (offset === -1) cardClass = 'is-left';
+                                else if (offset === 1) cardClass = 'is-right';
+                                else if (offset < -1) cardClass = 'is-far-left';
+                                else if (offset > 1) cardClass = 'is-far-right';
+
                                 return (
                                     <div
                                         key={idx}
-                                        className={`slide is-loaded ${isActive ? 'is-active' : ''}`}
-                                        style={{ display: isActive ? 'block' : 'none' }}
+                                        className={`slide is-loaded ${cardClass}`}
+                                        onClick={() => {
+                                            const totalDrag = Math.abs(dragStartX.current - dragEndX.current);
+                                            if (totalDrag < 10) {
+                                                if (!isActive) switchSlide(idx);
+                                            }
+                                        }}
+                                        style={{ cursor: isActive ? 'default' : 'pointer' }}
                                     >
-                                        <div className="slide-content">
-                                            <div className="caption">
-                                                <div className="title">{currentProject.name}</div>
-                                            </div>
-                                        </div>
                                         <div className="image-container">
-                                            {content.includes('youtube') ? (
-                                                <iframe
-                                                    className="iframe"
-                                                    src={content}
-                                                    title="YouTube video player"
-                                                    frameBorder="0"
-                                                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                    referrerPolicy="strict-origin-when-cross-origin"
-                                                    allowFullScreen
-                                                />
-                                            ) : (
-                                                <img className="image" src={`/${content}`} alt="" />
-                                            )}
+                                            <div className="artwork-wrapper">
+                                                 {content.includes('youtube') ? (
+                                                     (isActive && videoPlaying) ? (
+                                                         <iframe
+                                                             className="iframe"
+                                                             src={`${content}&autoplay=1`}
+                                                             title="YouTube video player"
+                                                             frameBorder="0"
+                                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                             referrerPolicy="strict-origin-when-cross-origin"
+                                                             allowFullScreen
+                                                         />
+                                                     ) : (
+                                                         <div
+                                                             className="video-placeholder"
+                                                             onClick={(e) => {
+                                                                 const totalDrag = Math.abs(dragStartX.current - dragEndX.current);
+                                                                 if (totalDrag < 10 && isActive) {
+                                                                     e.stopPropagation();
+                                                                     setVideoPlaying(true);
+                                                                 }
+                                                             }}
+                                                         >
+                                                             <img
+                                                                 className="image"
+                                                                 src={`https://img.youtube.com/vi/${getYouTubeVideoId(content)}/hqdefault.jpg`}
+                                                                 alt="Video thumbnail"
+                                                                 draggable="false"
+                                                             />
+                                                             <div className="play-button">
+                                                                 <svg viewBox="0 0 24 24" width="26" height="26">
+                                                                     <polygon points="5 3 19 12 5 21 5 3" />
+                                                                 </svg>
+                                                             </div>
+                                                         </div>
+                                                     )
+                                                 ) : (
+                                                    <img className="image" src={`/${content}`} alt="" draggable="false" />
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 );
