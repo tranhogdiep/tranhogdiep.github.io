@@ -2,6 +2,31 @@ import React, { useState, useEffect, useRef } from 'react';
 import portfolioData from '../../public/assets/data/portfolio_data.json';
 import './SlideShow.css';
 
+function ImageWithLoader({ src, alt, className, ...props }) {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const imgRef = useRef(null);
+
+    useEffect(() => {
+        if (imgRef.current && imgRef.current.complete) {
+            setIsLoaded(true);
+        }
+    }, [src]);
+
+    return (
+        <div className="image-loader-container">
+            {!isLoaded && <div className="image-spinner" />}
+            <img
+                ref={imgRef}
+                src={src}
+                alt={alt}
+                className={`${className} ${isLoaded ? 'loaded' : 'loading'}`}
+                onLoad={() => setIsLoaded(true)}
+                {...props}
+            />
+        </div>
+    );
+}
+
 export default function SlideShow({ onClose }) {
     const [projects, setProjects] = useState(portfolioData);
     const [currentProject, setCurrentProject] = useState(null);
@@ -242,7 +267,8 @@ export default function SlideShow({ onClose }) {
                                                                  }
                                                              }}
                                                          >
-                                                             <img
+                                                             <ImageWithLoader
+                                                                 key={content}
                                                                  className="image"
                                                                  src={`https://img.youtube.com/vi/${getYouTubeVideoId(content)}/hqdefault.jpg`}
                                                                  alt="Video thumbnail"
@@ -256,7 +282,13 @@ export default function SlideShow({ onClose }) {
                                                          </div>
                                                      )
                                                  ) : (
-                                                    <img className="image" src={`/${content}`} alt="" draggable="false" />
+                                                    <ImageWithLoader
+                                                        key={content}
+                                                        className="image"
+                                                        src={`/${content}`}
+                                                        alt=""
+                                                        draggable="false"
+                                                    />
                                                 )}
                                             </div>
                                         </div>
