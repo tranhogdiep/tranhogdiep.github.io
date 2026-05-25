@@ -108,7 +108,7 @@ export class MainSceneManager {
         // Postprocessing
         this._composer = new EffectComposer(this._renderer);
         this._renderPass = new RenderPass(this._scene, this._camera);
-        this._bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.2, 0.3, 0.9);
+        this._bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.05, 0.3, 0.9);
 
         this._outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this._scene, this._camera);
         this._outlinePass.hiddenEdgeColor.set('#1aff47');
