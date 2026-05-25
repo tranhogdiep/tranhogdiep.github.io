@@ -215,10 +215,10 @@ export class MainSceneManager {
         });
 
         if (this.isChangingMode === false) {
-            this.cameraTermPos.x += (((this.mousePos.x - this.windowHalfX) / 800) - this.cameraTermPos.x) * .05;
-            this.cameraTermPos.y += (-((this.mousePos.y - this.windowHalfY) / 200) - this.cameraTermPos.y) * .05;
+            this.cameraTermPos.x += (((this.mousePos.x - this.windowHalfX) / 800) - this.cameraTermPos.x) * 0.003;
+            this.cameraTermPos.y += (-((this.mousePos.y - this.windowHalfY) / 200) - this.cameraTermPos.y) * 0.003;
             this.cameraTermPos.z = this._camera.position.z;
-            this._camera.position.lerp(this.cameraTermPos, 0.1);
+            this._camera.position.lerp(this.cameraTermPos, 0.005);
             if (this._camera.position.y < 0.6) {
                 this._camera.position.y = 0.6;
             }
@@ -228,7 +228,7 @@ export class MainSceneManager {
 
             this.cameraTermRot.copy(this._camera.quaternion);
             this._camera.quaternion.copy(this.cameraOldRot);
-            this._camera.quaternion.slerp(this.cameraTermRot, 0.1);
+            this._camera.quaternion.slerp(this.cameraTermRot, 0.005);
 
             this.raycaster.setFromCamera(this.rayMousePos, this._camera);
             const intersects = this.raycaster.intersectObject(this._scene, true);
@@ -308,31 +308,46 @@ export class MainSceneManager {
             const selectedObject = intersects[0].object;
             if (selectedObject.parent.name === "BookOpen") {
                 this.highlightBook(selectedObject);
-                this.stopAllTween();
-                this.isChangingMode = true;
-                let oldRot = this._camera.quaternion.clone();
-                this._camera.lookAt(this.openPos);
-                this._camera.updateProjectionMatrix();
-                let newRot = this._camera.quaternion.clone();
-                this._camera.quaternion.copy(oldRot);
-
-                // Start transition zoom in to portfolio
-                this.openPorTween = new TWEEN.Tween({ t: 30 }).to({ t: 0 }, 2000).easing(TWEEN.Easing.Back.In).onUpdate((value) => {
-                    this._camera.fov = value.t;
-                    this._camera.quaternion.slerp(newRot, 0.1);
-                    this._camera.updateProjectionMatrix();
-                }).start().onComplete(() => {
-                    if (this.callbacks.onOpenPortfolio) {
-                        this.callbacks.onOpenPortfolio(); // Báo React mở Portfolio
-                    }
-                    this.hiding = true; // Stop rendering three scene to save CPU/GPU while in Portfolio
-                });
+                this.zoomToPortfolio(2000);
             } else if (selectedObject.parent.name === "BookStand") {
                 if (this.callbacks.onOpenProfile) {
                     this.callbacks.onOpenProfile(); // Báo React mở Profile
                 }
             }
         }
+    }
+
+    zoomToPortfolio(duration = 2000) {
+        this.stopAllTween();
+        this.isChangingMode = true;
+        let oldRot = this._camera.quaternion.clone();
+        this._camera.lookAt(this.openPos);
+        this._camera.updateProjectionMatrix();
+        let newRot = this._camera.quaternion.clone();
+        this._camera.quaternion.copy(oldRot);
+
+        if (duration === 0) {
+            this._camera.fov = 0;
+            this._camera.quaternion.copy(newRot);
+            this._camera.updateProjectionMatrix();
+            if (this.callbacks.onOpenPortfolio) {
+                this.callbacks.onOpenPortfolio();
+            }
+            this.hiding = true;
+            return;
+        }
+
+        // Start transition zoom in to portfolio
+        this.openPorTween = new TWEEN.Tween({ t: 30 }).to({ t: 0 }, duration).easing(TWEEN.Easing.Back.In).onUpdate((value) => {
+            this._camera.fov = value.t;
+            this._camera.quaternion.slerp(newRot, 0.1);
+            this._camera.updateProjectionMatrix();
+        }).start().onComplete(() => {
+            if (this.callbacks.onOpenPortfolio) {
+                this.callbacks.onOpenPortfolio(); // Báo React mở Portfolio
+            }
+            this.hiding = true; // Stop rendering three scene to save CPU/GPU while in Portfolio
+        });
     }
 
     showMenu() {

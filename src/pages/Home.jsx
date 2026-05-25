@@ -10,12 +10,19 @@ import ProfileCard from '../components/ProfileCard';
 export default function Home() {
     const canvasRef = useRef(null);
     const [sceneManager, setSceneManager] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+
+    // Check URL parameter on mount
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasArtworkParam = urlParams.has('artwork');
+
+    const [init3D, setInit3D] = useState(!hasArtworkParam);
+    const [isLoading, setIsLoading] = useState(!hasArtworkParam);
     const [loadProgress, setLoadProgress] = useState(0);
-    const [showPortfolio, setShowPortfolio] = useState(false);
+    const [showPortfolio, setShowPortfolio] = useState(hasArtworkParam);
     const [showProfile, setShowProfile] = useState(false);
 
     useEffect(() => {
+        if (!init3D) return;
         if (!canvasRef.current) return;
 
         // Progress tracker for loading models
@@ -29,6 +36,10 @@ export default function Home() {
         const manager = new MainSceneManager(canvasRef.current, {
             onLoaded: () => {
                 setIsLoading(false);
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('artwork')) {
+                    manager.zoomToPortfolio(2000);
+                }
             },
             onOpenPortfolio: () => {
                 setShowPortfolio(true);
@@ -145,12 +156,23 @@ export default function Home() {
             manager.destroy();
             dracoLoader.dispose();
         };
-    }, []);
+    }, [init3D]);
 
     const handleClosePortfolio = () => {
         setShowPortfolio(false);
+        try {
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.delete('artwork');
+            window.history.replaceState({}, '', newUrl);
+        } catch (e) {
+            console.error(e);
+        }
+
         if (sceneManager) {
             sceneManager.showMenu(); // Zoom out camera back to menu
+        } else {
+            setIsLoading(true);
+            setInit3D(true);
         }
     };
 
