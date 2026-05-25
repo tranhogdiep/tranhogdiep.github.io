@@ -34,11 +34,11 @@
         "name": "Magic World",
         "thumbnail": "assets/images/portfolios/MagicWorld/1_t.png",
         "contents": [
-            "assets/images/portfolios/MagicWorld/1.png",
-            "assets/images/portfolios/MagicWorld/2.png",
-            "assets/images/portfolios/MagicWorld/3.png",
-            "assets/images/portfolios/MagicWorld/4.png",
-            "assets/images/portfolios/MagicWorld/5.png",
+            "assets/images/portfolios/MagicWorld/1.jpg",
+            "assets/images/portfolios/MagicWorld/2.jpg",
+            "assets/images/portfolios/MagicWorld/3.jpg",
+            "assets/images/portfolios/MagicWorld/4.jpg",
+            "assets/images/portfolios/MagicWorld/5.jpg",
             "https://www.youtube.com/embed/1jNwbUyrxeE?si=m-Vq7aDTBBbqGncb"
         ]
     },
@@ -46,9 +46,9 @@
         "name": "BarrettM99",
         "thumbnail": "assets/images/portfolios/barret/1t.png",
         "contents": [
-            "assets/images/portfolios/barret/1.png",
-            "assets/images/portfolios/barret/2.PNG",
-            "assets/images/portfolios/barret/2.PNG"
+            "assets/images/portfolios/barret/1.jpg",
+            "assets/images/portfolios/barret/2.jpg",
+            "assets/images/portfolios/barret/3.PNG"
         ]
     },
     {
