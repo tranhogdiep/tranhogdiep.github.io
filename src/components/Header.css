@@ -1,0 +1,245 @@
+/* Site Header Styles */
+.site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 150;
+    pointer-events: none; /* Let clicks pass through default spaces to the 3D scene */
+    box-sizing: border-box;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 40px;
+    height: 120px;
+    box-sizing: border-box;
+}
+
+/* Nav Link Sections */
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    pointer-events: auto; /* Re-enable pointer events for links */
+}
+
+.left-nav {
+    justify-content: flex-end;
+    flex: 1;
+    margin-right: 40px;
+}
+
+.right-nav {
+    justify-content: flex-start;
+    flex: 1;
+    margin-left: 40px;
+}
+
+.nav-link {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    padding: 8px 12px;
+    position: relative;
+    transition: color 0.3s, transform 0.3s;
+    outline: none;
+}
+
+.nav-link:hover, 
+.nav-link.active {
+    color: #f1c40f;
+    transform: scale(1.05);
+}
+
+/* Nav separator dots */
+.nav-separator {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8rem;
+    user-select: none;
+}
+
+/* Brand Identity Center */
+.brand-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    pointer-events: auto;
+    text-align: center;
+    position: relative;
+    user-select: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.brand-center:hover {
+    transform: scale(1.05);
+}
+
+.brand-logo-container {
+    color: #fff;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.brand-center:hover .brand-logo-container {
+    color: #f1c40f;
+    filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.5));
+}
+
+.brand-logo-svg {
+    display: block;
+}
+
+.brand-name {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 5px 0 6px 0;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+.brand-center:hover .brand-name {
+    color: #f1c40f;
+}
+
+/* Brand Underline gold bar */
+.brand-underline {
+    width: 65px;
+    height: 2px;
+    background: #f1c40f;
+    box-shadow: 0 0 8px rgba(241, 196, 15, 0.7);
+    transition: width 0.3s ease;
+}
+
+.brand-center:hover .brand-underline {
+    width: 100px;
+}
+
+/* Mobile Hamburger Menu */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 160;
+    pointer-events: auto;
+}
+
+.hamburger-bar {
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.open .hamburger-bar:nth-child(1) {
+    transform: translateY(9.5px) rotate(45deg);
+    background-color: #f1c40f;
+}
+
+.mobile-menu-toggle.open .hamburger-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.open .hamburger-bar:nth-child(3) {
+    transform: translateY(-9.5px) rotate(-45deg);
+    background-color: #f1c40f;
+}
+
+/* Mobile Dropdown Overlay */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 155;
+}
+
+.mobile-nav-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.mobile-nav-link {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    color: #f1c40f;
+    transform: scale(1.1);
+}
+
+/* Media Queries for Mobile Responsive */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 15px 25px;
+        height: 90px;
+    }
+    
+    .desktop-nav {
+        display: none;
+    }
+    
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    .brand-center {
+        transform: scale(0.95);
+    }
+    
+    .brand-center:hover {
+        transform: scale(0.95);
+    }
+}

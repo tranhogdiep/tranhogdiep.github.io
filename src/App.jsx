@@ -1,12 +1,14 @@
 import React, { Suspense, lazy } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import Header from './components/Header';
 
 // Lazy load larger components to optimize initial bundle size
 const ChickenAR = lazy(() => import('./pages/ChickenAR'));
 const DragonAR = lazy(() => import('./pages/DragonAR'));
 const Panorama = lazy(() => import('./pages/Panorama'));
 const MapDemo = lazy(() => import('./pages/MapDemo'));
+const Blog = lazy(() => import('./pages/Blog'));
 
 const LoadingFallback = () => (
   <div style={{
@@ -38,9 +40,11 @@ const LoadingFallback = () => (
 export default function App() {
   return (
     <HashRouter>
+      <Header />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/chicken-ar" element={<ChickenAR />} />
           <Route path="/dragon-ar" element={<DragonAR />} />
           <Route path="/panorama" element={<Panorama />} />

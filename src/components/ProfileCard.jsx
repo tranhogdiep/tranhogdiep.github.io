@@ -11,6 +11,10 @@ export default function ProfileCard({ onClose }) {
     return (
         <div id="infopopup" className="wrapper" onClick={handleOutsideClick}>
             <div className="profile-card js-profile-card">
+                <button className="profile-card-close" onClick={onClose} aria-label="Close card">
+                    &times;
+                </button>
+
                 <div className="profile-card__img">
                     <img src="/assets/images/avatar.jpg" alt="profile card" />
                 </div>
