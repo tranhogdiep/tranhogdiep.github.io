@@ -38,7 +38,9 @@ export class MainSceneManager {
         this.cameraTermRot = new THREE.Quaternion();
         this.cameraOldRot = new THREE.Quaternion();
 
-        this.mousePos = new THREE.Vector2(0, window.innerWidth);
+        this.mousePos = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
+        this.uiHoverIntensity = 1;
+        this.targetUIHoverIntensity = 1;
         this.rayMousePos = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
         this.raycaster.layers.set(1);
@@ -100,9 +102,12 @@ export class MainSceneManager {
             this.canvas.addEventListener('touchmove', this.onTouchMoveBound, { passive: true });
             this.canvas.addEventListener('touchend', this.onTouchEndBound, { passive: true });
         } else {
-            this.canvas.addEventListener('pointermove', this.onDocumentMouseMoveBound, false);
+            window.addEventListener('pointermove', this.onDocumentMouseMoveBound, false);
             this.canvas.addEventListener('pointerdown', this.onDocumentMouseDownBound, false);
             this.canvas.addEventListener('pointerup', this.onDocumentMouseUpBound, false);
+            
+            this.onDocumentMouseLeaveBound = this.onDocumentMouseLeave.bind(this);
+            document.addEventListener('pointerleave', this.onDocumentMouseLeaveBound, false);
         }
 
         // Postprocessing
@@ -215,10 +220,28 @@ export class MainSceneManager {
         });
 
         if (this.isChangingMode === false) {
-            this.cameraTermPos.x += (((this.mousePos.x - this.windowHalfX) / 800) - this.cameraTermPos.x) * 0.003;
-            this.cameraTermPos.y += (-((this.mousePos.y - this.windowHalfY) / 200) - this.cameraTermPos.y) * 0.003;
+            // Smoothly interpolate the UI hover intensity
+            if (this.uiHoverIntensity === undefined) this.uiHoverIntensity = 1;
+            if (this.targetUIHoverIntensity === undefined) this.targetUIHoverIntensity = 1;
+            this.uiHoverIntensity += (this.targetUIHoverIntensity - this.uiHoverIntensity) * 0.05;
+
+            const k = this.uiHoverIntensity;
+            
+            // Limit target horizontal offset to prevent excessive rotation
+            let targetXOffset = ((this.mousePos.x - this.windowHalfX) / 1200) * k;
+            const maxHorizontalOffset = 0.35; // Maximum horizontal camera offset (limits rotation angle)
+            targetXOffset = Math.max(-maxHorizontalOffset, Math.min(maxHorizontalOffset, targetXOffset));
+
+            // Limit target vertical offset to prevent excessive tilt
+            let targetYOffset = -(((this.mousePos.y - this.windowHalfY) / 800) * k);
+            const maxVerticalOffset = 0.25; // Maximum vertical camera offset (limits tilt angle)
+            targetYOffset = Math.max(-maxVerticalOffset, Math.min(maxVerticalOffset, targetYOffset));
+
+            this.cameraTermPos.x += (targetXOffset - this.cameraTermPos.x) * 0.01;
+            this.cameraTermPos.y += (targetYOffset - this.cameraTermPos.y) * 0.01;
             this.cameraTermPos.z = this._camera.position.z;
-            this._camera.position.lerp(this.cameraTermPos, 0.005);
+            
+            this._camera.position.lerp(this.cameraTermPos, 0.01);
             if (this._camera.position.y < 0.6) {
                 this._camera.position.y = 0.6;
             }
@@ -228,10 +251,12 @@ export class MainSceneManager {
 
             this.cameraTermRot.copy(this._camera.quaternion);
             this._camera.quaternion.copy(this.cameraOldRot);
-            this._camera.quaternion.slerp(this.cameraTermRot, 0.005);
+            this._camera.quaternion.slerp(this.cameraTermRot, 0.01);
 
             this.raycaster.setFromCamera(this.rayMousePos, this._camera);
-            const intersects = this.raycaster.intersectObject(this._scene, true);
+            const intersects = (this.uiHoverIntensity > 0.1)
+                ? this.raycaster.intersectObject(this._scene, true)
+                : [];
             if (intersects.length > 0) {
                 const selectedObject = intersects[0].object;
                 if (selectedObject.parent.name === "BookOpen" || selectedObject.parent.name === "BookStand") {
@@ -264,6 +289,10 @@ export class MainSceneManager {
 
     onTouchStart(event) {
         this.ismouseDown = true;
+        if (event.touches && event.touches.length > 0) {
+            this.mousePos.x = event.touches[0].clientX;
+            this.mousePos.y = event.touches[0].clientY;
+        }
     }
 
     onTouchMove(event) {
@@ -279,6 +308,10 @@ export class MainSceneManager {
         this.rayMousePos.x = (event.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
         this.rayMousePos.y = - (event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
         this.checkSelectBook();
+
+        // Return camera to center on touch release
+        this.mousePos.x = this.windowHalfX;
+        this.mousePos.y = this.windowHalfY;
     }
 
     onDocumentMouseMove(event) {
@@ -287,6 +320,23 @@ export class MainSceneManager {
 
         this.rayMousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.rayMousePos.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+        // Check if cursor is over any DOM UI overlay element
+        const isOverUI = event.target !== this.canvas;
+        let yIntensity = 1;
+        
+        // Smoothly fade out camera movement in the header area
+        if (event.clientY < 150) {
+            yIntensity = Math.max(0, (event.clientY - 50) / 100);
+        }
+        
+        this.targetUIHoverIntensity = isOverUI ? 0 : yIntensity;
+    }
+
+    onDocumentMouseLeave(event) {
+        this.mousePos.x = this.windowHalfX;
+        this.mousePos.y = this.windowHalfY;
+        this.targetUIHoverIntensity = 1;
     }
 
     onDocumentMouseDown(event) {
@@ -475,9 +525,12 @@ export class MainSceneManager {
             this.canvas.removeEventListener('touchmove', this.onTouchMoveBound);
             this.canvas.removeEventListener('touchend', this.onTouchEndBound);
         } else {
-            this.canvas.removeEventListener('pointermove', this.onDocumentMouseMoveBound);
+            window.removeEventListener('pointermove', this.onDocumentMouseMoveBound);
             this.canvas.removeEventListener('pointerdown', this.onDocumentMouseDownBound);
             this.canvas.removeEventListener('pointerup', this.onDocumentMouseUpBound);
+            if (this.onDocumentMouseLeaveBound) {
+                document.removeEventListener('pointerleave', this.onDocumentMouseLeaveBound);
+            }
         }
 
         // Clean up geometries, materials, textures, renderer

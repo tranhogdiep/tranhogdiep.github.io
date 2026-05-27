@@ -45,6 +45,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<Blog />} />
           <Route path="/chicken-ar" element={<ChickenAR />} />
           <Route path="/dragon-ar" element={<DragonAR />} />
           <Route path="/panorama" element={<Panorama />} />

@@ -1,0 +1,292 @@
+.viewer-3d-wrapper {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background: #18181c;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    margin-bottom: 35px;
+    margin-top: 20px;
+    user-select: none;
+}
+
+.viewer-3d-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    outline: none;
+}
+
+/* Glassmorphism Overlays */
+.viewer-3d-overlay {
+    position: absolute;
+    z-index: 5;
+    pointer-events: auto;
+    font-family: 'Quicksand', sans-serif;
+    color: #f5f5f7;
+}
+
+/* Stats Panel */
+.stats-panel {
+    top: 20px;
+    left: 20px;
+    background: rgba(20, 20, 24, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 15px;
+    min-width: 220px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.stats-header {
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #f1c40f;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+}
+
+.stats-row:last-child {
+    margin-bottom: 0;
+}
+
+.stats-label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.stats-value {
+    font-weight: 600;
+    color: #fff;
+}
+
+.size-badge {
+    background: rgba(241, 196, 15, 0.15);
+    color: #f1c40f;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: 1px solid rgba(241, 196, 15, 0.25);
+}
+
+/* Controls Panel */
+.controls-panel {
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none; /* Let clicks pass through except on children */
+}
+
+.control-btn {
+    pointer-events: auto;
+    background: rgba(20, 20, 24, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    align-self: flex-start;
+}
+
+.control-btn:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    background: rgba(40, 40, 48, 0.8);
+}
+
+.control-btn.active {
+    background: rgba(241, 196, 15, 0.2);
+    border-color: #f1c40f;
+    color: #f1c40f;
+}
+
+.interaction-tips {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.45);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-self: flex-start;
+}
+
+/* Model Selector Bar */
+.model-selector {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    background: rgba(20, 20, 24, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 5px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    gap: 5px;
+}
+
+.selector-tab {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+}
+
+.selector-tab:hover {
+    color: #fff;
+}
+
+.selector-tab.active {
+    background: #f1c40f;
+    color: #141414;
+    box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3);
+}
+
+.selector-tab:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Screens: Loading / Error */
+.viewer-loading-screen,
+.viewer-error-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #18181c;
+}
+
+.viewer-loader {
+    width: 45px;
+    height: 45px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: #f1c40f;
+    animation: viewer-spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+.viewer-loading-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.05em;
+}
+
+.viewer-error-screen {
+    background: rgba(24, 24, 28, 0.95);
+    padding: 20px;
+    text-align: center;
+}
+
+.error-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.error-msg {
+    color: #ff4a5a;
+    font-size: 0.9rem;
+    font-weight: 500;
+    max-width: 320px;
+    line-height: 1.5;
+}
+
+@keyframes viewer-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .viewer-3d-wrapper {
+        height: 380px;
+    }
+    
+    .stats-panel {
+        top: 10px;
+        left: 10px;
+        padding: 10px;
+        min-width: auto;
+        width: calc(100% - 20px);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .stats-header {
+        width: 100%;
+        margin-bottom: 0px;
+        padding-bottom: 3px;
+        text-align: center;
+    }
+    
+    .stats-row {
+        margin-bottom: 0;
+        gap: 5px;
+    }
+    
+    .controls-panel {
+        bottom: 75px;
+        left: 10px;
+    }
+    
+    .model-selector {
+        width: calc(100% - 20px);
+        justify-content: center;
+        bottom: 10px;
+        padding: 3px;
+    }
+    
+    .selector-tab {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        flex: 1;
+        text-align: center;
+    }
+}

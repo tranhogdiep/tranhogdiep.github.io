@@ -25,7 +25,7 @@ export default function Header() {
 
     const activeTab = searchParams.get('tab');
     const artwork = searchParams.get('artwork');
-    const isBlogPage = location.pathname === '/blog';
+    const isBlogPage = location.pathname.startsWith('/blog');
 
     // Hide header on standalone blog page or when portfolio (slideshow) is active on homepage
     if (isBlogPage || activeTab === 'portfolio' || !!artwork) {
@@ -55,34 +55,11 @@ export default function Header() {
                 {/* Center Brand Identity (Logo + Name) */}
                 <div className="brand-center" onClick={handleHomeClick}>
                     <div className="brand-logo-container">
-                        {/* Custom SVG Line-Art Astronaut Helmet Logo */}
-                        <svg 
-                            className="brand-logo-svg" 
-                            viewBox="0 0 100 100" 
-                            width="50" 
-                            height="50" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            strokeWidth="2.5" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round"
-                        >
-                            {/* Helmet Outer Dome */}
-                            <path d="M25 45 C25 22, 75 22, 75 45 C75 58, 70 70, 50 72 C30 70, 25 58, 25 45 Z" />
-                            {/* Visor Outer */}
-                            <path d="M32 40 C32 30, 68 30, 68 40 C68 52, 60 58, 50 58 C40 58, 32 52, 32 40 Z" fill="rgba(255,255,255,0.05)" />
-                            {/* Visor Glare Lines */}
-                            <path d="M38 38 Q50 35 62 38" strokeWidth="1.5" opacity="0.6" />
-                            <path d="M36 43 C42 45, 58 45, 64 43" strokeWidth="1.5" opacity="0.4" />
-                            {/* Neck Ring / Base collar */}
-                            <path d="M30 72 L30 78 C30 81, 70 81, 70 78 L70 72" />
-                            <path d="M35 78 L35 84 C35 86, 65 86, 65 84 L65 78" />
-                            {/* Little Crest Star on Top */}
-                            <polygon points="50,14 52,19 57,19 53,22 55,27 50,24 45,27 47,22 43,19 48,19" fill="#f1c40f" stroke="none" />
-                            {/* Side canisters/dials */}
-                            <rect x="20" y="42" width="5" height="12" rx="2" />
-                            <rect x="75" y="42" width="5" height="12" rx="2" />
-                        </svg>
+                        <img 
+                            src="/assets/only_logo.ico" 
+                            alt="Logo" 
+                            className="brand-logo-img" 
+                        />
                     </div>
                     <h1 className="brand-name">Tran Hong Diep</h1>
                     <div className="brand-underline"></div>
