@@ -10,6 +10,11 @@
   --glass-border: rgba(255, 255, 255, 0.08);
 }
 
+.portfolio,
+.portfolio * {
+  box-sizing: border-box;
+}
+
 .portfolio {
   z-index: 99;
   position: fixed;
@@ -538,6 +543,7 @@
     padding: 10px;
     overflow-x: auto;
     overflow-y: hidden;
+    flex-shrink: 0;
   }
   .button-list {
     display: flex;
@@ -565,10 +571,10 @@
   }
   .portfolio .main-content {
     width: 100%;
-    height: calc(100vh - 90px);
+    height: calc(100% - 90px);
   }
   .slideshow {
-    height: calc(100vh - 90px);
+    height: 100%;
   }
   .portfolio-title {
     left: 0;
