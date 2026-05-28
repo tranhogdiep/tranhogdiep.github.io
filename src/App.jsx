@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Header from './components/Header';
+import { LanguageProvider } from './config/LanguageContext';
 
 // Lazy load larger components to optimize initial bundle size
 const ChickenAR = lazy(() => import('./pages/ChickenAR'));
@@ -39,19 +40,21 @@ const LoadingFallback = () => (
 
 export default function App() {
   return (
-    <HashRouter>
-      <Header />
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<Blog />} />
-          <Route path="/chicken-ar" element={<ChickenAR />} />
-          <Route path="/dragon-ar" element={<DragonAR />} />
-          <Route path="/panorama" element={<Panorama />} />
-          <Route path="/map-demo" element={<MapDemo />} />
-        </Routes>
-      </Suspense>
-    </HashRouter>
+    <LanguageProvider>
+      <HashRouter>
+        <Header />
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<Blog />} />
+            <Route path="/chicken-ar" element={<ChickenAR />} />
+            <Route path="/dragon-ar" element={<DragonAR />} />
+            <Route path="/panorama" element={<Panorama />} />
+            <Route path="/map-demo" element={<MapDemo />} />
+          </Routes>
+        </Suspense>
+      </HashRouter>
+    </LanguageProvider>
   );
 }

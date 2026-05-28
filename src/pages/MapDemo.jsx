@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../config/LanguageContext';
 import { MapDemoSceneManager } from '../three/mapDemoScene';
 
 export default function MapDemo() {
     const navigate = useNavigate();
     const canvasRef = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { t } = useLanguage();
 
     useEffect(() => {
         if (!canvasRef.current) return;
@@ -46,8 +48,8 @@ export default function MapDemo() {
                 textAlign: 'right',
                 textShadow: '0 2px 5px rgba(0,0,0,0.8)'
             }}>
-                <h3 style={{ margin: '0 0 5px 0' }}>Demo Web3D</h3>
-                <span style={{ fontSize: '12px', opacity: 0.8 }}>drag to rotate | scroll to zoom</span>
+                <h3 style={{ margin: '0 0 5px 0' }}>{t('mapDemo.title')}</h3>
+                <span style={{ fontSize: '12px', opacity: 0.8 }}>{t('mapDemo.tips')}</span>
             </div>
 
             {/* Back Button */}
@@ -70,8 +72,9 @@ export default function MapDemo() {
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#ff2846'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.6)'}
             >
-                ← Back
+                ← {t('common.back')}
             </button>
+
 
             {isLoading && (
                 <div style={{

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../config/LanguageContext';
 
 export default function ChickenAR() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
+    const { t } = useLanguage();
 
     useEffect(() => {
         // Load model-viewer script
@@ -52,8 +54,9 @@ export default function ChickenAR() {
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#ff2846'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.6)'}
             >
-                ← Back
+                ← {t('common.back')}
             </button>
+
 
             {isLoading && (
                 <div style={{

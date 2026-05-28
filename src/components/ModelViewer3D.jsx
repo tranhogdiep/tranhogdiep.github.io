@@ -3,10 +3,12 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { useLanguage } from '../config/LanguageContext';
 import * as THREE from 'three';
 import './ModelViewer3D.css';
 
 export default function ModelViewer3D() {
+    const { t } = useLanguage();
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
     
@@ -194,7 +196,7 @@ export default function ModelViewer3D() {
             },
             (err) => {
                 console.error("Error loading model", err);
-                setError("Error loading 3D asset model. Check the Draco decoder or the file path.");
+                setError(t('modelViewer.error'));
                 setLoading(false);
             }
         );
@@ -276,17 +278,17 @@ export default function ModelViewer3D() {
 
             {/* Model stats overlay (glassmorphism) */}
             <div className="viewer-3d-overlay stats-panel">
-                <div className="stats-header">Model Details</div>
+                <div className="stats-header">{t('modelViewer.details')}</div>
                 <div className="stats-row">
-                    <span className="stats-label">Vertices:</span>
-                    <span className="stats-value">{loading ? 'Counting...' : stats.vertices.toLocaleString()}</span>
+                    <span className="stats-label">{t('modelViewer.vertices')}:</span>
+                    <span className="stats-value">{loading ? t('modelViewer.counting') : stats.vertices.toLocaleString()}</span>
                 </div>
                 <div className="stats-row">
-                    <span className="stats-label">Triangles:</span>
-                    <span className="stats-value">{loading ? 'Counting...' : stats.triangles.toLocaleString()}</span>
+                    <span className="stats-label">{t('modelViewer.triangles')}:</span>
+                    <span className="stats-value">{loading ? t('modelViewer.counting') : stats.triangles.toLocaleString()}</span>
                 </div>
                 <div className="stats-row">
-                    <span className="stats-label">File size:</span>
+                    <span className="stats-label">{t('modelViewer.fileSize')}:</span>
                     <span className="stats-value size-badge">
                         {isOptimized ? '4.82 MB (Optimized)' : '46.62 MB (Blender)'}
                     </span>
@@ -303,13 +305,13 @@ export default function ModelViewer3D() {
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                         <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" />
                     </svg>
-                    <span>Auto Rotate</span>
+                    <span>{t('modelViewer.autoRotate')}</span>
                 </button>
                 <div className="interaction-tips">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
                         <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
                     </svg>
-                    Drag to rotate • Pinch/Scroll to zoom
+                    {t('modelViewer.tips')}
                 </div>
             </div>
 
@@ -336,7 +338,7 @@ export default function ModelViewer3D() {
                 <div className="viewer-loading-screen">
                     <div className="viewer-loader"></div>
                     <div className="viewer-loading-text">
-                        Loading Asset: {Math.round(progress)}%
+                        {t('modelViewer.loading')}: {Math.round(progress)}%
                     </div>
                 </div>
             )}

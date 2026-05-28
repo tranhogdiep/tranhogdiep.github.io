@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+import { useLanguage } from '../config/LanguageContext';
 import './Header.css';
 
 export default function Header() {
@@ -7,6 +8,7 @@ export default function Header() {
     const location = useLocation();
     const [searchParams] = useSearchParams();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { language, setLanguage, t } = useLanguage();
 
     // Helper to change search param tab or navigate to Blog page
     const handleNavClick = (tabName) => {
@@ -41,14 +43,14 @@ export default function Header() {
                         className={`nav-link ${activeTab === 'about' ? 'active' : ''}`}
                         onClick={() => handleNavClick('about')}
                     >
-                        About me
+                        {t('header.about')}
                     </button>
                     <span className="nav-separator">•</span>
                     <button 
                         className={`nav-link ${activeTab === 'portfolio' ? 'active' : ''}`}
                         onClick={() => handleNavClick('portfolio')}
                     >
-                        Portfolio
+                        {t('header.portfolio')}
                     </button>
                 </nav>
 
@@ -71,15 +73,33 @@ export default function Header() {
                         className={`nav-link ${isBlogPage ? 'active' : ''}`}
                         onClick={() => handleNavClick('blog')}
                     >
-                        Blog
+                        {t('header.blog')}
                     </button>
                     <span className="nav-separator">•</span>
                     <button 
                         className={`nav-link ${activeTab === 'contact' ? 'active' : ''}`}
                         onClick={() => handleNavClick('contact')}
                     >
-                        Contact
+                        {t('header.contact')}
                     </button>
+                    <span className="nav-separator">•</span>
+                    <div className="nav-lang-container">
+                        <button 
+                            className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+                            onClick={() => setLanguage('en')}
+                            aria-label="Set language to English"
+                        >
+                            EN
+                        </button>
+                        <span className="lang-slash">/</span>
+                        <button 
+                            className={`lang-btn ${language === 'vi' ? 'active' : ''}`}
+                            onClick={() => setLanguage('vi')}
+                            aria-label="Set language to Vietnamese"
+                        >
+                            VI
+                        </button>
+                    </div>
                 </nav>
 
                 {/* Mobile Menu Toggle Button */}
@@ -101,26 +121,50 @@ export default function Header() {
                         className={`mobile-nav-link ${activeTab === 'about' ? 'active' : ''}`}
                         onClick={() => handleNavClick('about')}
                     >
-                        About me
+                        {t('header.about')}
                     </button>
                     <button 
                         className={`mobile-nav-link ${activeTab === 'portfolio' ? 'active' : ''}`}
                         onClick={() => handleNavClick('portfolio')}
                     >
-                        Portfolio
+                        {t('header.portfolio')}
                     </button>
                     <button 
                         className={`mobile-nav-link ${isBlogPage ? 'active' : ''}`}
                         onClick={() => handleNavClick('blog')}
                     >
-                        Blog
+                        {t('header.blog')}
                     </button>
                     <button 
                         className={`mobile-nav-link ${activeTab === 'contact' ? 'active' : ''}`}
                         onClick={() => handleNavClick('contact')}
                     >
-                        Contact
+                        {t('header.contact')}
                     </button>
+                    
+                    <div className="mobile-lang-container">
+                        <button 
+                            className={`mobile-lang-btn ${language === 'en' ? 'active' : ''}`}
+                            onClick={() => {
+                                setLanguage('en');
+                                setMobileMenuOpen(false);
+                            }}
+                            aria-label="Set language to English"
+                        >
+                            EN
+                        </button>
+                        <span className="mobile-lang-slash">/</span>
+                        <button 
+                            className={`mobile-lang-btn ${language === 'vi' ? 'active' : ''}`}
+                            onClick={() => {
+                                setLanguage('vi');
+                                setMobileMenuOpen(false);
+                            }}
+                            aria-label="Set language to Vietnamese"
+                        >
+                            VI
+                        </button>
+                    </div>
                 </nav>
             </div>
         </header>

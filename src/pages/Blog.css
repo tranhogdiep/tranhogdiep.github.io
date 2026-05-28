@@ -43,7 +43,14 @@
     padding: 60px 40px;
 }
 
-/* Navigation Buttons */
+/* Navigation Buttons & Top Bar */
+.blog-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
 .blog-home-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -55,7 +62,7 @@
     font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    margin-bottom: 50px;
+    margin-bottom: 0;
 }
 
 .blog-home-btn:hover {
@@ -64,6 +71,40 @@
     background: rgba(241, 196, 15, 0.08);
     transform: translateX(-3px);
 }
+
+.blog-lang-container {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.blog-lang-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 6px 10px;
+    transition: color 0.3s, text-shadow 0.3s;
+    outline: none;
+}
+
+.blog-lang-btn:hover,
+.blog-lang-btn.active {
+    color: #f1c40f;
+    text-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+}
+
+.blog-lang-slash {
+    color: rgba(255, 255, 255, 0.2);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    user-select: none;
+}
+
 
 .blog-inner-back-btn {
     background: transparent;
@@ -270,6 +311,36 @@
 
 .blog-detail-body strong {
     color: #f1c40f;
+}
+
+.blog-post-image-container {
+    margin: 35px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.blog-post-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.blog-post-image-container img:hover {
+    transform: scale(1.015);
+    border-color: rgba(241, 196, 15, 0.5);
+}
+
+.blog-post-image-container .image-caption {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-style: italic;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
 }
 
 /* Animations */

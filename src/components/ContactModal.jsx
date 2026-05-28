@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../config/LanguageContext';
 import './ContactModal.css';
 
 export default function ContactModal({ onClose }) {
+    const { t } = useLanguage();
     const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -39,30 +41,30 @@ export default function ContactModal({ onClose }) {
                 <div className="contact-grid">
                     {/* Left Panel: Details & Socials */}
                     <div className="contact-info-panel">
-                        <h2 className="contact-title">Get In Touch</h2>
+                        <h2 className="contact-title">{t('contact.title')}</h2>
                         <p className="contact-desc">
-                            Have an exciting project, job opening, or just want to say hi? Fill out the form or reach out directly.
+                            {t('contact.description')}
                         </p>
 
                         <div className="contact-details-list">
                             <div className="contact-detail-item">
                                 <span className="contact-detail-icon">📍</span>
                                 <div>
-                                    <h4>Location</h4>
+                                    <h4>{t('contact.location')}</h4>
                                     <p>Da Nang City, Viet Nam</p>
                                 </div>
                             </div>
                             <div className="contact-detail-item">
                                 <span className="contact-detail-icon">✉️</span>
                                 <div>
-                                    <h4>Email</h4>
+                                    <h4>{t('contact.email')}</h4>
                                     <p><a href="mailto:diepth.dd@gmail.com">diepth.dd@gmail.com</a></p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="contact-socials-wrapper">
-                            <h4>Find me on</h4>
+                            <h4>{t('contact.findMe')}</h4>
                             <div className="contact-social-icons">
                                 <a href="https://www.facebook.com/THDPA" target="_blank" rel="noreferrer" className="contact-social-btn fb" title="Facebook">
                                     <svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor">
@@ -98,16 +100,16 @@ export default function ContactModal({ onClose }) {
                                         <path fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" className="checkmark-check" />
                                     </svg>
                                 </div>
-                                <h3>Message Sent!</h3>
-                                <p>Thank you for reaching out. I'll get back to you as soon as possible.</p>
+                                <h3>{t('contact.successTitle')}</h3>
+                                <p>{t('contact.successDesc')}</p>
                                 <button className="contact-reset-btn" onClick={() => setIsSuccess(false)}>
-                                    Send another message
+                                    {t('contact.btnReset')}
                                 </button>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="contact-form">
                                 <div className="form-group">
-                                    <label htmlFor="name">Your Name</label>
+                                    <label htmlFor="name">{t('contact.labelName')}</label>
                                     <input 
                                         type="text" 
                                         id="name" 
@@ -115,11 +117,11 @@ export default function ContactModal({ onClose }) {
                                         value={formData.name} 
                                         onChange={handleChange} 
                                         required 
-                                        placeholder="John Doe"
+                                        placeholder={t('contact.placeholderName')}
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="email">Your Email</label>
+                                    <label htmlFor="email">{t('contact.labelEmail')}</label>
                                     <input 
                                         type="email" 
                                         id="email" 
@@ -127,11 +129,11 @@ export default function ContactModal({ onClose }) {
                                         value={formData.email} 
                                         onChange={handleChange} 
                                         required 
-                                        placeholder="john@example.com"
+                                        placeholder={t('contact.placeholderEmail')}
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="subject">Subject</label>
+                                    <label htmlFor="subject">{t('contact.labelSubject')}</label>
                                     <input 
                                         type="text" 
                                         id="subject" 
@@ -139,11 +141,11 @@ export default function ContactModal({ onClose }) {
                                         value={formData.subject} 
                                         onChange={handleChange} 
                                         required 
-                                        placeholder="Project Collaboration"
+                                        placeholder={t('contact.placeholderSubject')}
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="message">Message</label>
+                                    <label htmlFor="message">{t('contact.labelMessage')}</label>
                                     <textarea 
                                         id="message" 
                                         name="message" 
@@ -151,14 +153,16 @@ export default function ContactModal({ onClose }) {
                                         onChange={handleChange} 
                                         required 
                                         rows="4"
-                                        placeholder="Tell me about your project..."
+                                        placeholder={t('contact.placeholderMessage')}
                                     />
                                 </div>
                                 <button type="submit" className={`contact-submit-btn ${isSubmitting ? 'submitting' : ''}`} disabled={isSubmitting}>
                                     {isSubmitting ? (
-                                        <span className="form-spinner"></span>
+                                        <>
+                                            <span className="form-spinner"></span> {t('contact.btnSending')}
+                                        </>
                                     ) : (
-                                        "Send Message"
+                                        t('contact.btnSend')
                                     )}
                                 </button>
                             </form>

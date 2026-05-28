@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../config/LanguageContext';
 import { Viewer } from '@photo-sphere-viewer/core';
 import '@photo-sphere-viewer/core/index.css';
 
 export default function Panorama() {
     const navigate = useNavigate();
     const containerRef = useRef(null);
+    const { t } = useLanguage();
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -46,8 +48,9 @@ export default function Panorama() {
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#ff2846'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.6)'}
             >
-                ← Back
+                ← {t('common.back')}
             </button>
+
 
             {/* Photo Sphere Container */}
             <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
