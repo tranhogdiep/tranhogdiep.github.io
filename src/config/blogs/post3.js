@@ -105,7 +105,7 @@ export default {
                         <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); color: #2ecc71; font-weight: bold;">gltf-transform (WebP + 1024px)</td>
                         <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; color: #2ecc71;">4.82 MB</td>
                         <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); color: #2ecc71; font-weight: bold;">Compressed ~99.0%</td>
-                        <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); color: #2ecc71;">Very lightweight for web! Fast loading even on mobile networks.</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); color: #2ecc71;">495.38 MB lighter than original (99.0% reduction).</td>
                     </tr>
                 </tbody>
             </table>
@@ -165,7 +165,7 @@ export default {
             <ul>
                 <li><code>optimize</code>: Lệnh gộp chạy chuỗi tối ưu hóa tự động của glTF Transform.</li>
                 <li><code>--compress draco</code>: Nén hình học lưới bằng Draco.</li>
-                <li><code>--texture-compress webp</code>: Tự động chuyển đổi và nén toàn bộ texture PNG/JPG sang định dạng WebP siêu nhẹ.</li>
+                <li><code>--texture-compress webp</code>: Tự động chuyển đổi và nén toàn bộ texture PNG/JPG sang định dạng WebP.</li>
                 <li><code>--texture-size 1024</code>: Tự động scale down các texture lớn vượt quá 1024px về độ phân giải tối đa 1024x1024px.</li>
             </ul>
 
@@ -216,7 +216,7 @@ export default {
                         <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); color: #2ecc71; font-weight: bold;">gltf-transform (WebP + 1024px)</td>
                         <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; color: #2ecc71;">4.82 MB</td>
                         <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); color: #2ecc71; font-weight: bold;">Nén ~99.0%</td>
-                        <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); color: #2ecc71;">Rất nhẹ cho web! Tải cực nhanh trên cả mạng di động.</td>
+                        <td style="padding: 12px; border: 1px solid rgba(255,255,255,0.1); color: #2ecc71;">Nhẹ hơn bản gốc 495.38 MB (giảm 99.0%).</td>
                     </tr>
                 </tbody>
             </table>
