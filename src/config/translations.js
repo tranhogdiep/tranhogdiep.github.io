@@ -38,7 +38,7 @@ export const translations = {
             readArticle: "Read Article",
             devlogNotes: "Devlog & Notes",
             devBlog: "Developer Blog",
-            subtitle: "Insights, tutorials, and behind-the-scenes logs on WebGL, Three.js, and Game Development.",
+            subtitle: "Insights, tutorials, and behind-the-scenes logs on WebGL, Three.js, 3D, and Game Development.",
             backToBlog: "Back to Blog",
             insightsSubtitle: "Insights on 3D Web, Game Development & Interactive Design",
             readMore: "Read More"
