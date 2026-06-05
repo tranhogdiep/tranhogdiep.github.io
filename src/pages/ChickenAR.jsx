@@ -170,7 +170,7 @@ export default function ChickenAR({ embedded = false }) {
             <model-viewer
                 style={{ width: '100%', height: '100%' }}
                 id="model-viewer"
-                src="https://cdn.glitch.global/957d4555-fa6b-4e6b-84c4-f90af449280c/fire.glb?v=1727795292339"
+                src="/assets/demo/fire.glb"
                 ar
                 ar-modes="scene-viewer quick-look webxr"
                 camera-controls

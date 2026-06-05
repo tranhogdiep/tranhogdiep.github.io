@@ -57,6 +57,8 @@ export class DragonARSceneManager {
 
         this.controls = new OrbitControls(this._camera, this._renderer.domElement);
         this.controls.enableDamping = true;
+        this.controls.minDistance = 1;
+        this.controls.maxDistance = 2;
 
         this.onWindowResizeBound = this.onWindowResize.bind(this);
         window.addEventListener('resize', this.onWindowResizeBound, false);
@@ -73,12 +75,12 @@ export class DragonARSceneManager {
         light.castShadow = true;
         light.shadow.mapSize.width = 2048;
         light.shadow.mapSize.height = 2048;
-        light.shadow.camera.near = 0.0001;
+        light.shadow.camera.near = 0.01;
         light.shadow.camera.far = 20;
-        light.shadow.camera.top = 3;
-        light.shadow.camera.bottom = -3;
-        light.shadow.camera.left = -3;
-        light.shadow.camera.right = 3;
+        light.shadow.camera.top = 5;
+        light.shadow.camera.bottom = -5;
+        light.shadow.camera.left = -5;
+        light.shadow.camera.right = 5;
         this._scene.add(light);
 
         // Load HDR Env
@@ -107,7 +109,7 @@ export class DragonARSceneManager {
             }
 
             this._scene.add(gltf.scene);
-            gltf.scene.scale.set(0.01, 0.01, 0.01);
+            gltf.scene.scale.set(0.1, 0.1, 0.1);
             this.dragonMesh = gltf.scene;
 
             gltf.scene.traverse((child) => {
