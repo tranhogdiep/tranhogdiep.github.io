@@ -99,7 +99,7 @@ export class DragonARSceneManager {
         const loader = new GLTFLoader();
         loader.setDRACOLoader(dracoLoader);
 
-        loader.load('/assets/demo/icy_dragon.glb', (gltf) => {
+        loader.load('/assets/demo/dragon.glb', (gltf) => {
             gltf.scene.name = "dragon";
             
             // Adjust materials & shadows
