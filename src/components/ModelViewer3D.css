@@ -47,7 +47,7 @@
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #f1c40f;
+    color: #38bdf8;
     margin-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 5px;
@@ -75,13 +75,13 @@
 }
 
 .size-badge {
-    background: rgba(241, 196, 15, 0.15);
-    color: #f1c40f;
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: bold;
-    border: 1px solid rgba(241, 196, 15, 0.25);
+    border: 1px solid rgba(56, 189, 248, 0.25);
 }
 
 /* Controls Panel */
@@ -122,9 +122,9 @@
 }
 
 .control-btn.active {
-    background: rgba(241, 196, 15, 0.2);
-    border-color: #f1c40f;
-    color: #f1c40f;
+    background: rgba(56, 189, 248, 0.2);
+    border-color: #38bdf8;
+    color: #38bdf8;
 }
 
 .interaction-tips {
@@ -177,9 +177,9 @@
 }
 
 .selector-tab.active {
-    background: #f1c40f;
+    background: #38bdf8;
     color: #141414;
-    box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3);
+    box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
 }
 
 .selector-tab:disabled {
@@ -205,7 +205,7 @@
     height: 45px;
     border: 3px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    border-top-color: #f1c40f;
+    border-top-color: #38bdf8;
     animation: viewer-spin 1s linear infinite;
     margin-bottom: 15px;
 }

@@ -45,7 +45,7 @@
 }
 
 .profile-card-close:hover {
-  color: #f1c40f;
+  color: #38bdf8;
   transform: scale(1.1);
 }
 
@@ -65,7 +65,7 @@
 }
 
 .profile-card:hover .profile-card__img {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(241, 196, 15, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(56, 189, 248, 0.4);
 }
 
 @media screen and (max-width: 576px) {
@@ -103,7 +103,7 @@
 }
 
 .profile-card:hover .profile-card__name {
-  color: #f1c40f;
+  color: #38bdf8;
 }
 
 .profile-card__txt {
@@ -115,7 +115,7 @@
 
 .profile-card__txt strong {
   font-weight: 700;
-  color: #f1c40f;
+  color: #38bdf8;
 }
 
 .profile-card-loc {
@@ -132,7 +132,7 @@
   display: inline-flex;
   font-size: 1.1rem;
   margin-right: 10px;
-  color: #f1c40f;
+  color: #38bdf8;
 }
 
 .profile-card-loc__txt {

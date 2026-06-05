@@ -1,71 +1,129 @@
 .loading-progress {
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background-image: linear-gradient(-20deg, #ff2846 0%, #6944ff 100%);
+  background: radial-gradient(circle at center, #1b2028 0%, #0d1013 100%);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  opacity: 1;
+}
+
+.loading-progress.fade-out {
+  opacity: 0;
+}
+
+/* HUD corner brackets */
+.loading-corner {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-color: rgba(56, 189, 248, 0.3);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.loading-corner.top-left {
+  top: 40px;
+  left: 40px;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.loading-corner.bottom-right {
+  bottom: 40px;
+  right: 40px;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+/* Loader Container */
+.loader-container {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.loader {
-  width: 65px;
-  aspect-ratio: 1;
-  position: relative;
-}
-
-.loader:before,
-.loader:after {
-  content: "";
+.loader-svg {
   position: absolute;
-  border-radius: 50px;
-  box-shadow: 0 0 0 3px inset #fff;
-  animation: l4 2.5s infinite;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.loader:after {
-  animation-delay: -1.25s;
+/* Concentric rings */
+.loader-ring-outer {
+  fill: none;
+  stroke: rgba(56, 189, 248, 0.05);
+  stroke-width: 1px;
+}
+
+.loader-ring-inner {
+  fill: none;
+  stroke: rgba(56, 189, 248, 0.03);
+  stroke-width: 1px;
+}
+
+/* Progress background track */
+.loader-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.04);
+  stroke-width: 4px;
+}
+
+/* Active progress arc */
+.loader-progress {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 5.5px;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.15s ease-out;
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.6));
+}
+
+/* Leading edge white dot */
+.loader-dot {
+  fill: #ffffff;
+  filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 8px #38bdf8);
+}
+
+/* Text elements */
+.loader-text-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
 }
 
 .progress-text {
-  color: #fff;
-  font-family: 'Quicksand', sans-serif;
-  font-weight: bold;
-  font-size: 18px;
-  margin-top: 20px;
-  letter-spacing: 0.1em;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 3.5rem;
+  line-height: 1;
+  margin: 0;
+  letter-spacing: -0.03em;
 }
 
-@keyframes l4 {
-  0% {
-    inset: 0 35px 35px 0;
-  }
-  12.5% {
-    inset: 0 35px 0 0;
-  }
-  25% {
-    inset: 35px 35px 0 0;
-  }
-  37.5% {
-    inset: 35px 0 0 0;
-  }
-  50% {
-    inset: 35px 0 0 35px;
-  }
-  62.5% {
-    inset: 0 0 0 35px;
-  }
-  75% {
-    inset: 0 0 35px 35px;
-  }
-  87.5% {
-    inset: 0 0 35px 0;
-  }
-  100% {
-    inset: 0 35px 35px 0;
-  }
+.loader-subtitle {
+  color: rgba(255, 255, 255, 0.35);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  margin-top: 8px;
 }
+

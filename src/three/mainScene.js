@@ -116,9 +116,9 @@ export class MainSceneManager {
         this._bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.05, 0.3, 0.9);
 
         this._outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this._scene, this._camera);
-        this._outlinePass.hiddenEdgeColor.set('#1aff47');
+        this._outlinePass.hiddenEdgeColor.set('#38bdf8');
         this._outlinePass.edgeStrength = 8;
-        this._outlinePass.visibleEdgeColor.set('#1aff47');
+        this._outlinePass.visibleEdgeColor.set('#38bdf8');
 
         this._outputPass = new OutputPass();
 

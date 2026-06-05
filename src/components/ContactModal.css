@@ -44,7 +44,7 @@
 }
 
 .contact-modal-close:hover {
-    color: #f1c40f;
+    color: #38bdf8;
     transform: scale(1.1);
 }
 
@@ -99,16 +99,16 @@
 
 .contact-detail-icon {
     font-size: 1.4rem;
-    background: rgba(241, 196, 15, 0.1);
+    background: rgba(56, 189, 248, 0.1);
     width: 44px;
     height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    color: #f1c40f;
+    color: #38bdf8;
     flex-shrink: 0;
-    border: 1px solid rgba(241, 196, 15, 0.2);
+    border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 .contact-detail-item h4 {
@@ -132,7 +132,7 @@
 }
 
 .contact-detail-item p a:hover {
-    color: #f1c40f;
+    color: #38bdf8;
 }
 
 .contact-socials-wrapper h4 {
@@ -164,11 +164,11 @@
 }
 
 .contact-social-btn:hover {
-    background: #f1c40f;
+    background: #38bdf8;
     color: #141414;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
-    border-color: #f1c40f;
+    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+    border-color: #38bdf8;
 }
 
 /* Right Panel - Form */
@@ -216,13 +216,13 @@
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #f1c40f;
+    border-color: #38bdf8;
     background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 0 10px rgba(241, 196, 15, 0.15);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
 }
 
 .contact-submit-btn {
-    background: #f1c40f;
+    background: #38bdf8;
     border: none;
     color: #141414;
     padding: 14px;
@@ -280,9 +280,9 @@
     border-radius: 50%;
     display: block;
     stroke-width: 2;
-    stroke: #f1c40f;
+    stroke: #38bdf8;
     stroke-miterlimit: 10;
-    box-shadow: inset 0px 0px 0px #f1c40f;
+    box-shadow: inset 0px 0px 0px #38bdf8;
     animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
 }
 
@@ -291,7 +291,7 @@
     stroke-dashoffset: 166;
     stroke-width: 2;
     stroke-miterlimit: 10;
-    stroke: #f1c40f;
+    stroke: #38bdf8;
     fill: none;
     animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
@@ -332,9 +332,9 @@
 }
 
 .contact-reset-btn:hover {
-    border-color: #f1c40f;
-    color: #f1c40f;
-    background: rgba(241, 196, 15, 0.05);
+    border-color: #38bdf8;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.05);
 }
 
 @keyframes spin {
@@ -351,7 +351,7 @@
 }
 
 @keyframes fill {
-    100% { box-shadow: inset 0px 0px 0px 40px rgba(241, 196, 15, 0.05); }
+    100% { box-shadow: inset 0px 0px 0px 40px rgba(56, 189, 248, 0.05); }
 }
 
 /* Responsive */

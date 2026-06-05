@@ -42,9 +42,9 @@ export default {
             <h3>4. Harness the Power of glTF Transform CLI</h3>
             <p>To automate all of the above steps and perform deeper optimizations beyond what Blender can do, the <strong>glTF Transform CLI</strong> command-line tool (developed by Don McCurdy) is a top-tier choice.</p>
             <p><strong>Installation:</strong></p>
-            <pre style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; overflow-x: auto; color: #f1c40f; font-family: monospace; margin-bottom: 20px;">npm install --global @gltf-transform/cli</pre>
+            <pre style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; overflow-x: auto; color: #38bdf8; font-family: monospace; margin-bottom: 20px;">npm install --global @gltf-transform/cli</pre>
             <p>Or run quickly without installing via npx:</p>
-            <pre style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; overflow-x: auto; color: #f1c40f; font-family: monospace; margin-bottom: 20px;">npx @gltf-transform/cli --help</pre>
+            <pre style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; overflow-x: auto; color: #38bdf8; font-family: monospace; margin-bottom: 20px;">npx @gltf-transform/cli --help</pre>
 
             <p><strong>Command to optimize CSCDVN_Draco.glb model:</strong></p>
             <p>We ran the following command line to compress our model deeply:</p>
@@ -69,7 +69,7 @@ export default {
             <h3>5. Comparison Table of Real-world Results</h3>
             <table style="width: 100%; border-collapse: collapse; margin: 25px 0; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem;">
                 <thead>
-                    <tr style="background: rgba(241,196,15,0.1); border-bottom: 2px solid #f1c40f;">
+                    <tr style="background: rgba(56, 189, 248, 0.1); border-bottom: 2px solid #38bdf8;">
                         <th style="padding: 12px; text-align: left; border: 1px solid rgba(255,255,255,0.1);">Model Version</th>
                         <th style="padding: 12px; text-align: left; border: 1px solid rgba(255,255,255,0.1);">File Size</th>
                         <th style="padding: 12px; text-align: left; border: 1px solid rgba(255,255,255,0.1);">Compression Ratio</th>
@@ -153,9 +153,9 @@ export default {
             <h3>4. Tận dụng sức mạnh của glTF Transform CLI</h3>
             <p>Để tự động hóa tất cả các bước trên và thực hiện tối ưu hóa sâu hơn những gì Blender có thể làm, công cụ dòng lệnh <strong>glTF Transform CLI</strong> (phát triển bởi Don McCurdy) là lựa chọn tối tân hàng đầu.</p>
             <p><strong>Cài đặt:</strong></p>
-            <pre style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; overflow-x: auto; color: #f1c40f; font-family: monospace; margin-bottom: 20px;">npm install --global @gltf-transform/cli</pre>
+            <pre style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; overflow-x: auto; color: #38bdf8; font-family: monospace; margin-bottom: 20px;">npm install --global @gltf-transform/cli</pre>
             <p>Hoặc chạy nhanh không cần cài đặt qua npx:</p>
-            <pre style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; overflow-x: auto; color: #f1c40f; font-family: monospace; margin-bottom: 20px;">npx @gltf-transform/cli --help</pre>
+            <pre style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; overflow-x: auto; color: #38bdf8; font-family: monospace; margin-bottom: 20px;">npx @gltf-transform/cli --help</pre>
 
             <p><strong>Lệnh tối ưu hóa model CSCDVN_Draco.glb:</strong></p>
             <p>Chúng tôi đã chạy dòng lệnh sau để nén sâu model của chúng ta:</p>
@@ -180,7 +180,7 @@ export default {
             <h3>5. Bảng đối chiếu kết quả thực tế</h3>
             <table style="width: 100%; border-collapse: collapse; margin: 25px 0; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem;">
                 <thead>
-                    <tr style="background: rgba(241,196,15,0.1); border-bottom: 2px solid #f1c40f;">
+                    <tr style="background: rgba(56, 189, 248, 0.1); border-bottom: 2px solid #38bdf8;">
                         <th style="padding: 12px; text-align: left; border: 1px solid rgba(255,255,255,0.1);">Phiên bản Model</th>
                         <th style="padding: 12px; text-align: left; border: 1px solid rgba(255,255,255,0.1);">Dung lượng file</th>
                         <th style="padding: 12px; text-align: left; border: 1px solid rgba(255,255,255,0.1);">Tỷ lệ nén</th>

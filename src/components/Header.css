@@ -58,7 +58,7 @@
 
 .nav-link:hover, 
 .nav-link.active {
-    color: #f1c40f;
+    color: #38bdf8;
     transform: scale(1.05);
 }
 
@@ -96,8 +96,8 @@
 }
 
 .brand-center:hover .brand-logo-container {
-    color: #f1c40f;
-    filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.5));
+    color: #38bdf8;
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
 }
 
 .brand-logo-img {
@@ -119,15 +119,15 @@
 }
 
 .brand-center:hover .brand-name {
-    color: #f1c40f;
+    color: #38bdf8;
 }
 
 /* Brand Underline gold bar */
 .brand-underline {
     width: 65px;
     height: 2px;
-    background: #f1c40f;
-    box-shadow: 0 0 8px rgba(241, 196, 15, 0.7);
+    background: #38bdf8;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
     transition: width 0.3s ease;
 }
 
@@ -160,7 +160,7 @@
 
 .mobile-menu-toggle.open .hamburger-bar:nth-child(1) {
     transform: translateY(9.5px) rotate(45deg);
-    background-color: #f1c40f;
+    background-color: #38bdf8;
 }
 
 .mobile-menu-toggle.open .hamburger-bar:nth-child(2) {
@@ -169,7 +169,7 @@
 
 .mobile-menu-toggle.open .hamburger-bar:nth-child(3) {
     transform: translateY(-9.5px) rotate(-45deg);
-    background-color: #f1c40f;
+    background-color: #38bdf8;
 }
 
 /* Mobile Dropdown Overlay */
@@ -219,7 +219,7 @@
 
 .mobile-nav-link:hover,
 .mobile-nav-link.active {
-    color: #f1c40f;
+    color: #38bdf8;
     transform: scale(1.1);
 }
 
@@ -272,8 +272,8 @@
 
 .lang-btn:hover,
 .lang-btn.active {
-    color: #f1c40f;
-    text-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+    color: #38bdf8;
+    text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
 }
 
 .lang-slash {
@@ -307,9 +307,9 @@
 
 .mobile-lang-btn:hover,
 .mobile-lang-btn.active {
-    color: #f1c40f;
+    color: #38bdf8;
     transform: scale(1.1);
-    text-shadow: 0 0 10px rgba(241, 196, 15, 0.6);
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
 }
 
 .mobile-lang-slash {
