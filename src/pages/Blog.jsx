@@ -1,8 +1,24 @@
+import React, { Suspense, lazy } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLanguage } from '../config/LanguageContext';
 import './Blog.css';
 import ModelViewer3D from '../components/ModelViewer3D';
 import { BLOG_POSTS } from '../config/blogConfig';
+
+const Post1 = lazy(() => import('./blogs/Post1'));
+const Post2 = lazy(() => import('./blogs/Post2'));
+const Post3 = lazy(() => import('./blogs/Post3'));
+const Post4 = lazy(() => import('./blogs/Post4'));
+const Post5 = lazy(() => import('./blogs/Post5'));
+
+const POST_CONTENT_COMPONENTS = {
+    'creating-3d-webgl-portfolio-with-threejs': Post1,
+    'unlocking-ar-on-web-browsers': Post2,
+    'optimizing-3d-assets-for-web': Post3,
+    'virtual-production-with-aximmetry-ue4-blender': Post4,
+    'threejs-car-showroom-galaxy': Post5,
+};
+
 
 export default function Blog() {
     const navigate = useNavigate();
@@ -73,10 +89,14 @@ export default function Blog() {
                         <h1 className="blog-detail-title">{translatedSelectedPost.title}</h1>
                         <div className="blog-detail-divider"></div>
                         {translatedSelectedPost.show3DModel && <ModelViewer3D />}
-                        <div 
-                            className="blog-detail-body" 
-                            dangerouslySetInnerHTML={{ __html: translatedSelectedPost.content }} 
-                        />
+                        <div className="blog-detail-body">
+                            <Suspense fallback={<div className="blog-ar-loading">{language === 'vi' ? 'Đang tải nội dung bài viết...' : 'Loading article content...'}</div>}>
+                                {(() => {
+                                    const PostComponent = POST_CONTENT_COMPONENTS[translatedSelectedPost.slug];
+                                    return PostComponent ? <PostComponent /> : null;
+                                })()}
+                            </Suspense>
+                        </div>
                     </div>
                 ) : (
                     <div className="blog-list-container animate-slide-up">

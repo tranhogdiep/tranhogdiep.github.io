@@ -35,7 +35,10 @@ export class DragonARSceneManager {
         this._scene = new THREE.Scene();
         this._scene.background = null;
 
-        this._camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 10000);
+        const width = this.canvas.parentElement ? this.canvas.parentElement.clientWidth : window.innerWidth;
+        const height = this.canvas.parentElement ? this.canvas.parentElement.clientHeight : window.innerHeight;
+
+        this._camera = new THREE.PerspectiveCamera(30, width / height, 0.1, 10000);
         this._camera.rotation.set(-0.27, 0, 0);
         this._camera.position.set(3, 3, 5);
         this._camera.lookAt(this._scene.position);
@@ -44,7 +47,7 @@ export class DragonARSceneManager {
         this._renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
         this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
         this._renderer.toneMappingExposure = 1;
-        this._renderer.setSize(window.innerWidth, window.innerHeight);
+        this._renderer.setSize(width, height);
         this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this._renderer.shadowMap.enabled = true;
         this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -135,7 +138,11 @@ export class DragonARSceneManager {
 
             // WebXR Setup
             this.arButtonElement = ARButton.createButton(this._renderer, { requiredFeatures: ['hit-test'] });
-            document.body.appendChild(this.arButtonElement);
+            if (this.canvas.parentElement) {
+                this.canvas.parentElement.appendChild(this.arButtonElement);
+            } else {
+                document.body.appendChild(this.arButtonElement);
+            }
 
             this.controller = this._renderer.xr.getController(0);
             this.controller.addEventListener('select', () => this.onSelect());
@@ -240,9 +247,11 @@ export class DragonARSceneManager {
     }
 
     onWindowResize() {
-        this._camera.aspect = window.innerWidth / window.innerHeight;
+        const width = this.canvas.parentElement ? this.canvas.parentElement.clientWidth : window.innerWidth;
+        const height = this.canvas.parentElement ? this.canvas.parentElement.clientHeight : window.innerHeight;
+        this._camera.aspect = width / height;
         this._camera.updateProjectionMatrix();
-        this._renderer.setSize(window.innerWidth, window.innerHeight);
+        this._renderer.setSize(width, height);
     }
 
     destroy() {

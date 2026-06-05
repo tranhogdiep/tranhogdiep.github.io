@@ -405,3 +405,109 @@
         font-size: 2rem;
     }
 }
+
+/* Interactive AR Showcase styles */
+.blog-ar-showcase-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.blog-ar-showcase-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.blog-ar-showcase-subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.blog-ar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.blog-ar-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.blog-ar-card:hover {
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 15px 35px rgba(56, 189, 248, 0.1);
+    transform: translateY(-2px);
+}
+
+.blog-ar-card-header {
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.blog-ar-card-header h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.blog-ar-tech-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.blog-ar-viewer-container {
+    width: 100%;
+    height: 420px;
+    position: relative;
+    background: #242424;
+}
+
+.blog-ar-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #38bdf8;
+    background: #242424;
+    font-size: 1rem;
+    font-family: 'Quicksand', sans-serif;
+}
+
+@media (max-width: 768px) {
+    .blog-ar-viewer-container {
+        height: 340px;
+    }
+    .blog-ar-showcase-section {
+        margin-top: 40px;
+        padding-top: 30px;
+    }
+    .blog-ar-showcase-title {
+        font-size: 1.6rem;
+    }
+}
+
