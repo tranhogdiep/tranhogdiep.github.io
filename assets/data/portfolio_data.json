@@ -31,6 +31,14 @@
         ]
     },
     {
+        "name": "UnderSea",
+        "thumbnail": "assets/images/portfolios/UnderSea/1_t.jpg",
+        "contents": [
+            "assets/images/portfolios/UnderSea/1.jpg",
+            "assets/images/portfolios/UnderSea/2.jpg"
+        ]
+    },
+    {
         "name": "Magic World",
         "thumbnail": "assets/images/portfolios/MagicWorld/1_t.png",
         "contents": [
