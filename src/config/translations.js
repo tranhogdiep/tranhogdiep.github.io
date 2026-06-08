@@ -55,8 +55,8 @@ export const translations = {
             error: "Error loading 3D asset model. Check the Draco decoder or the file path."
         },
         mapDemo: {
-            title: "Demo Web3D",
-            tips: "drag to rotate | scroll to zoom"
+            title: "",
+            tips: ""
         },
         common: {
             back: "Back"
