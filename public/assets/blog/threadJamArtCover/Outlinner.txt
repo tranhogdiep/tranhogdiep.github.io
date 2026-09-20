@@ -1,0 +1,61 @@
+Chuẩn bị assets:
+1. Skein full and half:
+	1. Modle and sclupt high poly model, sẽ không đi sâu trong bài viết này
+	2. Tạo lowpoly meshs và Cage meshs
+		- Low poly rất dễ dàng, không có gì đáng nói
+		- Tạo Cage mesh: Cage đề bake- nêu định nghĩa cage. lưu ý cage cần có số polycount  bằng với lowpoly mesh
+			+ Dublicate lowpoly mesh bằng cách nhấn Shift D
+			+ Vào edit, hấm ctrl A để chọn tất cả lưới
+			+ Bấm Alt S và di chuyển chuột để fatten mesh ra một chút sao cho che được tất cả high model
+	3. Bake
+		- Chọn render engine là Cycles
+		- Setup material cho Skein_High: Đơn giản là chọn màu cho cuộn chỉ
+		- Setup material cho Skein_Low: Tạo một Image Texture, đặt tên và chọn resolution cho Node Image TExutre. Lưu ý quan trọng là phải chọn(active) vào Node Image texture này
+		- Chọn high poly trước rồi chọn low poly sau(Active object là lowpoly)
+		- Vào phần Bake ở tab Render, setting như sau:
+		   + Bake type: Combined
+		   + Check Selected To Active
+		   + Check Cage và select Skein_Cage
+		- Bấm Bake, sau khi bake thì lưu texture vừa bake được để sử dụng trong Unity,
+	Làm tương tự với các cuộn chỉ màu khác và half Skein
+2. Walls:
+	Vì phần wall ở trong map có thể thay đổi, nên tôi sẽ tạo các element block và sử dụng script để generattion map
+3. Các element khác:
+	Modelling setup texture như bình thường,
+	Trong dụ án này sử dụng Color Gradient Pelette như dưới.
+
+Unity Setup
+1. Tạo và setup URP project như bình thường
+2. Tạo scene mới và setup camera, tôi sử dụng Orthographic, 
+3. Setup vật liệu Sử dụng Toony Colors Pro 2:
+   - Skein: Sử dụng texture combiend và normal đã bake ở bước chuẩn bị assets assinge vào material như hình ảnh dưới
+   - Tương tự cho các element khác
+   - Shadow: Tôi đã thử realtime Shadows nhưng không hài lòng với nó, nên lần này tôi sẽ sử dụng fake texture shader
+       + Tạo một alpha texture trong photoshop hoặc phần mềm 2D editor của bạn
+	   + Tạo một plane 3D object, có thể sử dụng custom plane nếu bạn muốn
+	   + Setup vật liệu như hình dưới: Chọn Surface Type là Transparent, Blending Mode: Alpha, 
+4. Dùng AI để tạo một script generation map:
+   - Sử dụng các wall element đã tạo trong blender
+   - Đây chỉ là một script đơn giản, cần nhiều logic hơn để tạo một map generation hoàn chỉnh
+   
+   
+ PixelFollow
+ 
+ Chuẩn bị assets:
+ Phần chuẩn bị assets có gì đặt biệt, chỉ sử dụng các skill modeling bình thường,
+ Chỉ lưu ý là UV của của phần trược cần phải được làm phẳng để áp dụng shader move bằng osset sau này. Bạn có thể dễ dàng làm phẳng bằng chức năng Recttify của Textools hoặc Gridify của Mio3
+ 
+ Unity Setup
+ 1. ConveyorBelt Shader: Chỉ cần setup một số node đơn giản như dưới để làm cho UV move theo trục
+ 2. Pig Material: Tiếp tục sử dụng Toony Colors Pro 2 để setup material cho pig như hình
+ 3. Light Layer: Rất khó để có thể tả được ánh sáng giống như Fixel Follow mà không sử dụng Light Layer.
+	 Light layer trong Unity là ....
+	 Trong scene này, tôi sẽ setup 2 nhóm layer, bao gồm:
+		+ Ray Conveyor: Layer 1
+		+ Pig và Pixel: Layer 6
+		
+	Để setup layer cho từng nhóm object vào Mesh Renderer Component và thay đổi Rendering Layer Mask
+4. Setup lights: Như ở trên đã chia từng nhóm light rồi, nên giờ chúng ta sẽ setup light chung và light riêng cho từng nhóm
+	- Light chung: Ở đây tôi sẽ sử dụng 1 Directional Light và sẽ ảnh hưởng lên tất cả các nhóm mesh, nên để nguyên Render Layers. Ví dụ như Ground mesh, tôi không muốn các light dưới đây tác động lên Ground
+	- Light cho nhóm Pig và Pixel(Layer 6): Tôi tạo 1 Area Light có setting như hình để chỉ ảnh hưởng lên Pig và Pixel, mục đích của light này là tạo các tần outline cứng trên mesh. Xem hình bên dưới để so sánh
+	- Light cho nhóm Ray Conveycor(Layer 1): Tôi tạo thêm các point light đặt gần Conveyor mesh để tăng hiệu ứng kim loại, Xem ảnh dưới để hình dung

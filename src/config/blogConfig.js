@@ -4,8 +4,10 @@ import post3 from './blogs/post3';
 import post4 from './blogs/post4';
 import post5 from './blogs/post5';
 import post6 from './blogs/post6';
+import post7 from './blogs/post7';
 
 export const BLOG_POSTS = [
+    post7,
     post6,
     post5,
     post4,
