@@ -1,6 +1,7 @@
 export default {
     id: 7,
     slug: "thread-jam-art-cover",
+    thumbnail: "/assets/blog/threadJamArtCover/Compare_Cover.png",
     show3DModel: false,
     en: {
         title: "Thread Jam Art Cover - Stylized 3D Assets, Blender Baking & Unity URP Setup",

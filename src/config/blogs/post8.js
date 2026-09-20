@@ -1,6 +1,7 @@
 export default {
     id: 8,
     slug: "fixel-follow-art-cover",
+    thumbnail: "/assets/blog/fixelFollowArtCover/fixelFollowCover.png",
     show3DModel: false,
     en: {
         title: "Fixel Follow Art Cover - Stylized Modeling, Flattened UV, Conveyor Belt Shader & Unity Light Layers",

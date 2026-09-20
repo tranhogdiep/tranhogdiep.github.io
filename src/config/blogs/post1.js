@@ -1,6 +1,7 @@
 export default {
     id: 1,
     slug: "creating-3d-webgl-portfolio-with-threejs",
+    thumbnail: "/assets/images/portfolios/3d-web-showcase/thumbnail.png",
     show3DModel: false,
     en: {
         title: "Creating a 3D WebGL Portfolio with Three.js",

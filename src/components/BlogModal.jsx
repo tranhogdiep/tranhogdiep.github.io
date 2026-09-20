@@ -16,7 +16,8 @@ export default function BlogModal({ onClose }) {
             excerpt: localized.excerpt || post.excerpt,
             content: localized.content || post.content,
             date: localized.date || post.date,
-            category: localized.category || post.category
+            category: localized.category || post.category,
+            thumbnail: localized.thumbnail || post.thumbnail
         };
     };
 
@@ -64,13 +65,25 @@ export default function BlogModal({ onClose }) {
                                         className="blog-card"
                                         onClick={() => setSelectedPost(post)}
                                     >
-                                        <div className="blog-card-header">
-                                            <span className="blog-category">{p.category}</span>
-                                            <span className="blog-date">{p.date}</span>
+                                        {p.thumbnail && (
+                                            <div className="blog-card-thumb-container">
+                                                <img 
+                                                    src={p.thumbnail} 
+                                                    alt={p.title} 
+                                                    className="blog-card-thumb" 
+                                                    loading="lazy" 
+                                                />
+                                            </div>
+                                        )}
+                                        <div className="blog-card-inner">
+                                            <div className="blog-card-header">
+                                                <span className="blog-category">{p.category}</span>
+                                                <span className="blog-date">{p.date}</span>
+                                            </div>
+                                            <h3 className="blog-card-title">{p.title}</h3>
+                                            <p className="blog-card-excerpt">{p.excerpt}</p>
+                                            <span className="blog-card-more">{t('blog.readMore')} &rarr;</span>
                                         </div>
-                                        <h3 className="blog-card-title">{p.title}</h3>
-                                        <p className="blog-card-excerpt">{p.excerpt}</p>
-                                        <span className="blog-card-more">{t('blog.readMore')} &rarr;</span>
                                     </div>
                                 );
                             })}

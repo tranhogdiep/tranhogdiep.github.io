@@ -1,6 +1,7 @@
 export default {
     id: 2,
     slug: "unlocking-ar-on-web-browsers",
+    thumbnail: "/assets/images/portfolios/3d-web-showcase/thumbnail.png",
     show3DModel: false,
     en: {
         title: "Unlocking AR on Web Browsers",

@@ -1,6 +1,7 @@
 export default {
     id: 6,
     slug: "google-maps-3d-renderdoc-threejs",
+    thumbnail: "/assets/blog/demoMap/demoMap_thumbnail.png",
     show3DModel: false,
     en: {
         title: "3D Google Earth Capture, Blender Integration, Custom UV VFX & Bloom in Three.js",

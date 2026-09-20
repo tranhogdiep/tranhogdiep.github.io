@@ -1,6 +1,7 @@
 export default {
     id: 5,
     slug: "threejs-car-showroom-galaxy",
+    thumbnail: "https://img.youtube.com/vi/wZf3bH_ilh4/hqdefault.jpg",
     show3DModel: false,
     en: {
         title: "[Demo] 3D Showroom for Web",

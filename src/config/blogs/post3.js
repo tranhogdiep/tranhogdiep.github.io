@@ -1,6 +1,7 @@
 export default {
     id: 3,
     slug: "optimizing-3d-assets-for-web",
+    thumbnail: "/assets/images/portfolios/CSCD/1.jpg",
     show3DModel: true,
     en: {
         title: "Optimizing 3D Assets for Web",

@@ -1,6 +1,7 @@
 export default {
     id: 4,
     slug: "virtual-production-with-aximmetry-ue4-blender",
+    thumbnail: "https://img.youtube.com/vi/z7jjlB_QI1g/hqdefault.jpg",
     show3DModel: false,
     en: {
         title: "Virtual Production Pipeline: Technical Integration of Aximmetry, UE4 & Blender",

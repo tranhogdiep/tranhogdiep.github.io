@@ -40,7 +40,8 @@ export default function Blog() {
             excerpt: localized.excerpt || post.excerpt,
             content: localized.content || post.content,
             date: localized.date || post.date,
-            category: localized.category || post.category
+            category: localized.category || post.category,
+            thumbnail: localized.thumbnail || post.thumbnail
         };
     };
 
@@ -123,13 +124,26 @@ export default function Blog() {
                                         className="blog-page-card"
                                         onClick={() => navigate(`/blog/${p.slug}`)}
                                     >
-                                        <div className="blog-card-meta">
-                                            <span className="blog-card-cat">{p.category}</span>
-                                            <span className="blog-card-date">{p.date}</span>
+                                        {p.thumbnail && (
+                                            <div className="blog-card-thumb-container">
+                                                <img 
+                                                    src={p.thumbnail} 
+                                                    alt={p.title} 
+                                                    className="blog-card-thumb" 
+                                                    loading="lazy" 
+                                                />
+                                                <div className="blog-card-thumb-overlay"></div>
+                                            </div>
+                                        )}
+                                        <div className="blog-card-content">
+                                            <div className="blog-card-meta">
+                                                <span className="blog-card-cat">{p.category}</span>
+                                                <span className="blog-card-date">{p.date}</span>
+                                            </div>
+                                            <h2 className="blog-card-title">{p.title}</h2>
+                                            <p className="blog-card-excerpt">{p.excerpt}</p>
+                                            <span className="blog-card-link">{t('blog.readArticle')} &rarr;</span>
                                         </div>
-                                        <h2 className="blog-card-title">{p.title}</h2>
-                                        <p className="blog-card-excerpt">{p.excerpt}</p>
-                                        <span className="blog-card-link">{t('blog.readArticle')} &rarr;</span>
                                     </article>
                                 );
                             })}
