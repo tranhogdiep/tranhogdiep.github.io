@@ -1,6 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import portfolioData from '../../public/assets/data/portfolio_data.json';
 import './SlideShow.css';
+
+const ChickenAR = lazy(() => import('../pages/ChickenAR'));
+const DragonAR = lazy(() => import('../pages/DragonAR'));
+const Panorama = lazy(() => import('../pages/Panorama'));
+const MapDemo = lazy(() => import('../pages/MapDemo'));
+
 
 function ImageWithLoader({ src, alt, className, ...props }) {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -33,11 +39,13 @@ export default function SlideShow({ onClose }) {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [videoPlaying, setVideoPlaying] = useState(false);
+    const [demoPlaying, setDemoPlaying] = useState(false);
 
-    // Reset video playing state when switching slides
+    // Reset video and demo playing state when switching slides or project
     useEffect(() => {
         setVideoPlaying(false);
-    }, [currentSlideIndex]);
+        setDemoPlaying(false);
+    }, [currentSlideIndex, currentProject]);
 
     const slidesContainerRef = useRef(null);
     const paginationRef = useRef(null);
@@ -281,6 +289,96 @@ export default function SlideShow({ onClose }) {
                                                              </div>
                                                          </div>
                                                      )
+                                                 ) : content.startsWith('react:') ? (
+                                                     (isActive && demoPlaying) ? (
+                                                         <div className="react-demo-container">
+                                                             <Suspense fallback={<div className="demo-loading-spinner"><div className="image-spinner" /></div>}>
+                                                                 {(() => {
+                                                                     const componentName = content.substring(6);
+                                                                     if (componentName === 'MapDemo') return <MapDemo embedded={true} />;
+                                                                     if (componentName === 'ChickenAR') return <ChickenAR embedded={true} />;
+                                                                     if (componentName === 'DragonAR') return <DragonAR embedded={true} />;
+                                                                     if (componentName === 'Panorama') return <Panorama embedded={true} />;
+                                                                     return null;
+                                                                 })()}
+                                                             </Suspense>
+                                                         </div>
+                                                     ) : (
+                                                         <div
+                                                             className="demo-placeholder"
+                                                             onClick={(e) => {
+                                                                 const totalDrag = Math.abs(dragStartX.current - dragEndX.current);
+                                                                 if (totalDrag < 10 && isActive) {
+                                                                     e.stopPropagation();
+                                                                     setDemoPlaying(true);
+                                                                 }
+                                                             }}
+                                                         >
+                                                             <div className="launcher-card">
+                                                                 <div className="launcher-icon">
+                                                                     {(() => {
+                                                                         const componentName = content.substring(6);
+                                                                         if (componentName === 'MapDemo') {
+                                                                             return (
+                                                                                 <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                                                                     <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                                                                                     <line x1="8" y1="2" x2="8" y2="18"></line>
+                                                                                     <line x1="16" y1="6" x2="16" y2="22"></line>
+                                                                                 </svg>
+                                                                             );
+                                                                         }
+                                                                         if (componentName === 'ChickenAR') {
+                                                                             return (
+                                                                                 <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                                                                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                                                                     <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                                                                     <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                                                                 </svg>
+                                                                             );
+                                                                         }
+                                                                         if (componentName === 'DragonAR') {
+                                                                             return (
+                                                                                 <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                                                                     <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                                                                     <polyline points="2 17 12 22 22 17"></polyline>
+                                                                                     <polyline points="2 12 12 17 22 12"></polyline>
+                                                                                 </svg>
+                                                                             );
+                                                                         }
+                                                                         if (componentName === 'Panorama') {
+                                                                             return (
+                                                                                 <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                                                                     <circle cx="12" cy="12" r="10"></circle>
+                                                                                     <line x1="22" y1="12" x2="18" y2="12"></line>
+                                                                                     <line x1="6" y1="12" x2="2" y2="12"></line>
+                                                                                     <line x1="12" y1="6" x2="12" y2="2"></line>
+                                                                                     <line x1="12" y1="22" x2="12" y2="18"></line>
+                                                                                 </svg>
+                                                                             );
+                                                                         }
+                                                                         return null;
+                                                                     })()}
+                                                                 </div>
+                                                                 <h3 className="launcher-title">
+                                                                     {(() => {
+                                                                         const componentName = content.substring(6);
+                                                                         if (componentName === 'MapDemo') return '3D City Map Routing';
+                                                                         if (componentName === 'ChickenAR') return 'Chicken AR Viewer';
+                                                                         if (componentName === 'DragonAR') return 'Dragon AR Viewer';
+                                                                         if (componentName === 'Panorama') return '360° Panorama Viewer';
+                                                                         return 'Interactive 3D Demo';
+                                                                     })()}
+                                                                 </h3>
+                                                                 <span className="launcher-subtitle">Interactive WebGL Experience</span>
+                                                                 <button className="launcher-button">
+                                                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style={{ marginRight: '8px', display: 'inline-block', verticalAlign: 'middle' }}>
+                                                                         <polygon points="5 3 19 12 5 21 5 3" />
+                                                                     </svg>
+                                                                     Run Interactive Demo
+                                                                 </button>
+                                                             </div>
+                                                         </div>
+                                                     )
                                                  ) : (
                                                     <ImageWithLoader
                                                         key={content}
@@ -289,7 +387,7 @@ export default function SlideShow({ onClose }) {
                                                         alt=""
                                                         draggable="false"
                                                     />
-                                                )}
+                                                 )}
                                             </div>
                                         </div>
                                     </div>

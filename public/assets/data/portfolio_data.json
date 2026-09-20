@@ -14,6 +14,15 @@
         ]
     },
     {
+        "name": "3D Web Showcase",
+        "thumbnail": "assets/images/portfolios/3d-web-showcase/thumbnail.png",
+        "contents": [
+            "react:MapDemo",
+            "react:ChickenAR",
+            "react:DragonAR"
+        ]
+    },
+    {
         "name": "CSCĐ",
         "thumbnail": "assets/images/portfolios/CSCD/1.jpg",
         "contents": [
