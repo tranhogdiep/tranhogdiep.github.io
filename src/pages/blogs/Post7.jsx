@@ -10,11 +10,11 @@ export default function Post7() {
                 {/* Hero / Cover image */}
                 <div className="blog-post-image-container">
                     <img 
-                        src="/assets/blog/threadJamArtCover/PhoneAspectRatioCover.png" 
+                        src="/assets/blog/threadJamArtCover/Compare_Cover.png" 
                         alt="Thread Jam Game Art Cover" 
-                        style={{ maxWidth: '420px', width: '100%', borderRadius: '16px' }}
+                        style={{ maxWidth: '650px', width: '100%', borderRadius: '16px' }}
                     />
-                    <span className="image-caption">Thread Jam - Cover Art & In-game Visual trên tỷ lệ màn hình di động</span>
+                    <span className="image-caption">Thread Jam - Cover Art & Visual Comparison</span>
                 </div>
 
                 <p>
@@ -226,11 +226,11 @@ export default function Post7() {
             {/* Hero / Cover image */}
             <div className="blog-post-image-container">
                 <img 
-                    src="/assets/blog/threadJamArtCover/PhoneAspectRatioCover.png" 
+                    src="/assets/blog/threadJamArtCover/Compare_Cover.png" 
                     alt="Thread Jam Game Art Cover" 
-                    style={{ maxWidth: '420px', width: '100%', borderRadius: '16px' }}
+                    style={{ maxWidth: '650px', width: '100%', borderRadius: '16px' }}
                 />
-                <span className="image-caption">Thread Jam - Cover Art & In-game Visual on Mobile Aspect Ratio</span>
+                <span className="image-caption">Thread Jam - Cover Art & Visual Comparison</span>
             </div>
 
             <p>

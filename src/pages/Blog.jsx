@@ -12,6 +12,7 @@ const Post4 = lazy(() => import('./blogs/Post4'));
 const Post5 = lazy(() => import('./blogs/Post5'));
 const Post6 = lazy(() => import('./blogs/Post6'));
 const Post7 = lazy(() => import('./blogs/Post7'));
+const Post8 = lazy(() => import('./blogs/Post8'));
 
 const POST_CONTENT_COMPONENTS = {
     'creating-3d-webgl-portfolio-with-threejs': Post1,
@@ -21,6 +22,7 @@ const POST_CONTENT_COMPONENTS = {
     'threejs-car-showroom-galaxy': Post5,
     'google-maps-3d-renderdoc-threejs': Post6,
     'thread-jam-art-cover': Post7,
+    'fixel-follow-art-cover': Post8,
 };
 
 
